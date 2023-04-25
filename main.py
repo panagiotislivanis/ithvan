@@ -16,13 +16,14 @@ class App(customtkinter.CTk):
         self.title("ITHVAN")
         self.geometry(f"{800}x{580}")
 
-        # Crate a layout
+        # Create a layout
         self.grid_columnconfigure(0, weight=1)
+        self.grid_columnconfigure(1, weight=2)
         self.grid_rowconfigure(0, weight=1)
 
         # Create tabview
         self.tabview = customtkinter.CTkTabview(self)
-        self.tabview.grid(row=0, column=0, sticky="nsew")
+        self.tabview.grid(row=0, column=0, columnspan=2, sticky="nsew")
         self.tabview.add("Homepage")
         self.tabview.add("Tab 2")
         # self.tabview.add("Tab 3")
@@ -30,32 +31,33 @@ class App(customtkinter.CTk):
         self.homepage_frame = self.tabview.tab("Homepage")
 
         self.homepage_frame.columnconfigure(0, weight=1)
-        self.homepage_frame.columnconfigure(1, weight=1)
-        self.homepage_frame.columnconfigure(2, weight=1)
+        self.homepage_frame.columnconfigure(1, weight=2)
         self.homepage_frame.rowconfigure(0, weight=1)
         self.homepage_frame.rowconfigure(1, weight=2)
+        self.homepage_frame.rowconfigure(2, weight=2)
+        self.homepage_frame.rowconfigure(3, weight=2)
+        self.homepage_frame.rowconfigure(4, weight=2)
+        self.homepage_frame.rowconfigure(5, weight=2)
+
         # Widgets for homepage tab
+        # Left upper / Music
         self.left_upper = customtkinter.CTkLabel(
-            self.homepage_frame, text="Left Upper Widget", fg_color='pink')
-        self.left_upper.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
-
+            self.homepage_frame, text="Music", fg_color='pink')
+        self.left_upper.grid(row=0, column=0, rowspan=2,
+                             padx=10, pady=10, sticky="nsew")
+        # Left lower / Weather and traffic
         self.left_lower = customtkinter.CTkLabel(
-            self.homepage_frame, text="Left Lower Widget", fg_color='red')
-        self.left_lower.grid(row=1, column=0, padx=10, pady=10, sticky="nsew")
-
-        self.right_upper_left = customtkinter.CTkLabel(
-            self.homepage_frame, text="Right Upper Left Widget", fg_color='orange')
-        self.right_upper_left.grid(
-            row=0, column=1, padx=10, pady=10, sticky="nsew")
-
-        self.right_upper_right = customtkinter.CTkLabel(
-            self.homepage_frame, text="Right Upper Right Widget", fg_color='blue')
-        self.right_upper_right.grid(
-            row=0, column=2, padx=10, pady=10, sticky="nsew")
-
+            self.homepage_frame, text="Weather traffic", fg_color='red')
+        self.left_lower.grid(row=2, column=0, rowspan=4,
+                             padx=10, pady=10, sticky="nsew")
+        # Right upper / Google search bar
+        self.right_upper = customtkinter.CTkLabel(
+            self.homepage_frame, text="Google search bar", fg_color='orange')
+        self.right_upper.grid(row=0, column=1, padx=10, pady=10, sticky="nsew")
+        # Right lower / News exc
         self.right_lower = customtkinter.CTkLabel(
-            self.homepage_frame, text="Right Lower Widget", fg_color='green')
-        self.right_lower.grid(row=1, column=1, columnspan=2,
+            self.homepage_frame, text="News", fg_color='green')
+        self.right_lower.grid(row=1, column=1, rowspan=5,
                               padx=10, pady=10, sticky="nsew")
 
         # Tab2
