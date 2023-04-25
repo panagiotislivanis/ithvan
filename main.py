@@ -1,6 +1,9 @@
+from PIL import Image
+import os
 import tkinter
 import tkinter.messagebox
 import customtkinter
+from Widgets.Search_bar import SearchBar
 
 # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_appearance_mode("dark")
@@ -38,6 +41,11 @@ class App(customtkinter.CTk):
         self.homepage_frame.rowconfigure(3, weight=2)
         self.homepage_frame.rowconfigure(4, weight=2)
         self.homepage_frame.rowconfigure(5, weight=2)
+        self.homepage_frame.rowconfigure(6, weight=2)
+        self.homepage_frame.rowconfigure(7, weight=2)
+        self.homepage_frame.rowconfigure(8, weight=2)
+        self.homepage_frame.rowconfigure(9, weight=2)
+        self.homepage_frame.rowconfigure(10, weight=2)
 
         # Widgets for homepage tab
         # Left upper / Music
@@ -45,19 +53,38 @@ class App(customtkinter.CTk):
             self.homepage_frame, text="Music", fg_color='pink')
         self.left_upper.grid(row=0, column=0, rowspan=2,
                              padx=10, pady=10, sticky="nsew")
+
         # Left lower / Weather and traffic
         self.left_lower = customtkinter.CTkLabel(
             self.homepage_frame, text="Weather traffic", fg_color='red')
-        self.left_lower.grid(row=2, column=0, rowspan=4,
+        self.left_lower.grid(row=2, column=0, rowspan=9,
                              padx=10, pady=10, sticky="nsew")
+
         # Right upper / Google search bar
         self.right_upper = customtkinter.CTkLabel(
-            self.homepage_frame, text="Google search bar", fg_color='orange')
+            self.homepage_frame, text="Google search bar", fg_color='transparent')
         self.right_upper.grid(row=0, column=1, padx=10, pady=10, sticky="nsew")
+        # Add search bar
+        # Load images with light and dark mode
+        image_path = os.path.join(os.path.dirname(
+            os.path.abspath(__file__)), "Resources-img")
+        # Search icon Dark/Light versions
+        self.searchimage = customtkinter.CTkImage(
+            dark_image=Image.open(os.path.join(image_path, "search-dark.png")), light_image=Image.open(os.path.join(image_path, "search-light.png")))
+        # Create search bar widget
+        entry = customtkinter.CTkEntry(
+            self.right_upper, placeholder_text="Search...")
+        # Search button
+        search_button = customtkinter.CTkButton(
+            self, text="", image=self.searchimage, width=entry.cget("width")/3, corner_radius=0)
+        search_button.place(in_=entry, relx=1.0, rely=0.0, relheight=1,
+                            anchor=customtkinter.NE)
+        entry.place(relwidth=1, relheight=1.0)
+
         # Right lower / News exc
         self.right_lower = customtkinter.CTkLabel(
             self.homepage_frame, text="News", fg_color='green')
-        self.right_lower.grid(row=1, column=1, rowspan=5,
+        self.right_lower.grid(row=1, column=1, rowspan=10,
                               padx=10, pady=10, sticky="nsew")
 
         # Tab2
