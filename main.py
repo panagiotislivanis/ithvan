@@ -29,7 +29,9 @@ class App(customtkinter.CTk):
         self.tabview.grid(row=0, column=0, columnspan=2, sticky="nsew")
         self.tabview.add("Homepage")
         self.tabview.add("Tab 2")
-        # self.tabview.add("Tab 3")
+        self.tabview.add("Daily Manager")
+        
+        #-----------------------------------------------------------#
         # Create custom grid for homepage tab
         self.homepage_frame = self.tabview.tab("Homepage")
 
@@ -86,14 +88,66 @@ class App(customtkinter.CTk):
             self.homepage_frame, text="News", fg_color='green')
         self.right_lower.grid(row=1, column=1, rowspan=10,
                               padx=10, pady=10, sticky="nsew")
-
+        
+        #-----------------------------------------------------------#
         # Tab2
         self.tabview.tab("Tab 2").grid_columnconfigure(0, weight=1)
         self.label_tab_2 = customtkinter.CTkLabel(
             self.tabview.tab("Tab 2"), text="CTkLabel on Tab 2")
         self.label_tab_2.grid(row=0, column=0, padx=20, pady=20)
+        
+        #-----------------------------------------------------------#
+        #Daily Manager
+        self.dManager_frame = self.tabview.tab("Daily Manager")
+        self.dManager_frame.columnconfigure(0, weight=1)
+        self.dManager_frame.columnconfigure(1, weight=2)
+        self.dManager_frame.columnconfigure(2, weight=2)
+        self.dManager_frame.columnconfigure(3, weight=2)
+        self.dManager_frame.columnconfigure(4, weight=2)
+        self.dManager_frame.rowconfigure(0, weight=1)
+        self.dManager_frame.rowconfigure(1, weight=2)
+        self.dManager_frame.rowconfigure(2, weight=2)
+        self.dManager_frame.rowconfigure(3, weight=2)
+        self.dManager_frame.rowconfigure(4, weight=2)
+        self.dManager_frame.rowconfigure(5, weight=2)
+        self.dManager_frame.rowconfigure(6, weight=2)
+        self.dManager_frame.rowconfigure(7, weight=2)
+        self.dManager_frame.rowconfigure(8, weight=2)
+        self.dManager_frame.rowconfigure(9, weight=2)
+        self.dManager_frame.rowconfigure(10, weight=2)
 
-
+        # Widgets for Daily Manager tab
+        # Left upper / Task Manager
+        self.left_upper = customtkinter.CTkButton(
+            self.dManager_frame, text="Task Manager", fg_color='dark red', cursor="hand2")
+        self.left_upper.grid(row=0, column=0, rowspan=3, columnspan=3,
+                             padx=10, pady=10, sticky="nsew")
+        
+        # Left center / Navigator
+        self.left_center = customtkinter.CTkButton(
+            self.dManager_frame, text="Navigator", fg_color='green', cursor="hand2")
+        self.left_center.grid(row=3, column=0, rowspan=3, columnspan=2,
+                             padx=10, pady=10, sticky="nsew")
+        
+        # Left lower / Device controler
+        self.left_lower = customtkinter.CTkButton(
+            self.dManager_frame, text="Device Controler", fg_color='blue', cursor="hand2")
+        self.left_lower.grid(row=6, column=0, rowspan=5, columnspan=2,
+                             padx=10, pady=10, sticky="nsew")
+        
+        # Right upper / Reminder
+        self.right_upper = customtkinter.CTkButton(
+            self.dManager_frame, text="Reminders & Alarms", fg_color='coral', cursor="hand2")
+        self.right_upper.grid(row=0, column=3, rowspan=3, columnspan=2,
+                              padx=10, pady=10, sticky="nsew")
+        
+         # Right lower / E-shop
+        self.right_lower = customtkinter.CTkButton(
+            self.dManager_frame, text="Your shop", fg_color='light green', cursor="hand2")
+        self.right_lower.grid(row=3, column=2, rowspan=8, columnspan=3,
+                              padx=10, pady=10, sticky="nsew")
+        #-----------------------------------------------------------#
+        
 if __name__ == "__main__":
     app = App()
     app.mainloop()
