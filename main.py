@@ -11,7 +11,7 @@ customtkinter.set_appearance_mode("dark")
 # Themes: "blue" (standard), "green", "dark-blue"
 customtkinter.set_default_color_theme("blue")
 
-#TEST HERE
+
 class App(customtkinter.CTk):
     def __init__(self):
         super().__init__()
@@ -29,7 +29,7 @@ class App(customtkinter.CTk):
         self.tabview = customtkinter.CTkTabview(self)
         self.tabview.grid(row=0, column=0, columnspan=2, sticky="nsew")
         self.tabview.add("Homepage")
-        self.tabview.add("Tab 2")
+        self.tabview.add("Timetable")
         self.tabview.add("Daily Manager")
         
         #-----------------------------------------------------------#
@@ -91,11 +91,22 @@ class App(customtkinter.CTk):
                               padx=10, pady=10, sticky="nsew")
         
         #-----------------------------------------------------------#
-        # Tab2
-        self.tabview.tab("Tab 2").grid_columnconfigure(0, weight=1)
-        self.label_tab_2 = customtkinter.CTkLabel(
-            self.tabview.tab("Tab 2"), text="CTkLabel on Tab 2")
-        self.label_tab_2.grid(row=0, column=0, padx=20, pady=20)
+        # Timetable Tab
+        self.homepage_frame = self.tabview.tab("Timetable")
+        self.homepage_frame.columnconfigure(0, weight=1)
+        self.homepage_frame.columnconfigure(1, weight=2)
+        self.homepage_frame.rowconfigure(0, weight=1)
+        self.homepage_frame.rowconfigure(1, weight=2)
+        self.homepage_frame.rowconfigure(2, weight=2)
+        self.homepage_frame.rowconfigure(3, weight=2)
+        self.homepage_frame.rowconfigure(4, weight=2)
+        self.homepage_frame.rowconfigure(5, weight=2)
+        self.homepage_frame.rowconfigure(6, weight=2)
+        self.homepage_frame.rowconfigure(7, weight=2)
+        self.homepage_frame.rowconfigure(8, weight=2)
+        self.homepage_frame.rowconfigure(9, weight=2)
+        self.homepage_frame.rowconfigure(10, weight=2)
+        
         
         #-----------------------------------------------------------#
         #Daily Manager
