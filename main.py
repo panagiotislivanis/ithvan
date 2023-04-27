@@ -92,20 +92,39 @@ class App(customtkinter.CTk):
         
         #-----------------------------------------------------------#
         # Timetable Tab
-        self.homepage_frame = self.tabview.tab("Timetable")
-        self.homepage_frame.columnconfigure(0, weight=1)
-        self.homepage_frame.columnconfigure(1, weight=2)
-        self.homepage_frame.rowconfigure(0, weight=1)
-        self.homepage_frame.rowconfigure(1, weight=2)
-        self.homepage_frame.rowconfigure(2, weight=2)
-        self.homepage_frame.rowconfigure(3, weight=2)
-        self.homepage_frame.rowconfigure(4, weight=2)
-        self.homepage_frame.rowconfigure(5, weight=2)
-        self.homepage_frame.rowconfigure(6, weight=2)
-        self.homepage_frame.rowconfigure(7, weight=2)
-        self.homepage_frame.rowconfigure(8, weight=2)
-        self.homepage_frame.rowconfigure(9, weight=2)
-        self.homepage_frame.rowconfigure(10, weight=2)
+        self.Timetable_frame = self.tabview.tab("Timetable")
+        self.Timetable_frame.columnconfigure(0, weight=1)
+        self.Timetable_frame.columnconfigure(1, weight=2)
+        self.Timetable_frame.rowconfigure(0, weight=1)
+        self.Timetable_frame.rowconfigure(1, weight=2)
+        self.Timetable_frame.rowconfigure(2, weight=2)
+        self.Timetable_frame.rowconfigure(3, weight=2)
+        self.Timetable_frame.rowconfigure(4, weight=2)
+        self.Timetable_frame.rowconfigure(5, weight=2)
+        self.Timetable_frame.rowconfigure(6, weight=2)
+        self.Timetable_frame.rowconfigure(7, weight=2)
+        self.Timetable_frame.rowconfigure(8, weight=2)
+        self.Timetable_frame.rowconfigure(9, weight=2)
+        self.Timetable_frame.rowconfigure(10, weight=2)
+        
+        # Widgets for Timetable tab
+        # Top / Scheduling and management of meetings
+        self.left_upper = customtkinter.CTkButton(
+            self.Timetable_frame, text="Scheduling and management of meetings", fg_color='#4F02FF', cursor="hand2")
+        self.left_upper.grid(row=0, column=0, rowspan=3, columnspan=3,
+                             padx=10, pady=10, sticky="nsew")
+        
+        # Center / Calls and send text messages SMS
+        self.left_center = customtkinter.CTkButton(
+            self.Timetable_frame, text="Calls and send text messages SMS", fg_color='green', cursor="hand2")
+        self.left_center.grid(row=3, column=0, rowspan=3, columnspan=2,
+                             padx=10, pady=10, sticky="nsew")
+        
+        # Bottom / Organise and manage contacts
+        self.left_lower = customtkinter.CTkButton(
+            self.Timetable_frame, text="Organise and manage contacts", fg_color='#72BFF4', cursor="hand2")
+        self.left_lower.grid(row=6, column=0, rowspan=5, columnspan=2,
+                             padx=10, pady=10, sticky="nsew")
         
         
         #-----------------------------------------------------------#
