@@ -3,6 +3,7 @@ import os
 import tkinter
 import tkinter.messagebox
 import customtkinter
+from customtkinter import *
 from Widgets.Search_bar import SearchBar
 
 # Modes: "System" (standard), "Dark", "Light"
