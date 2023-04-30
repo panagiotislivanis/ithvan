@@ -1,4 +1,4 @@
-from PIL import Imagen ImageTk
+from PIL import Image, ImageTk
 import os
 import tkinter
 import tkinter.messagebox
