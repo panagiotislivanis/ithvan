@@ -2,23 +2,37 @@ from tkinter import *
 import sqlite3
 import tkinter.ttk as ttk
 import tkinter.messagebox as tkMessageBox
+import customtkinter
+from customtkinter import *
+
+# Modes: "System" (standard), "Dark", "Light"
+customtkinter.set_appearance_mode("dark")
+# Themes: "blue" (standard), "green", "dark-blue"
+customtkinter.set_default_color_theme("blue")
 
 root = Tk()
 root.title("Contacts")
-width = 300
-height = 600
+p1 = PhotoImage(file = 'Resources-img\contacts.png')
+root.iconphoto(False, p1)
+width = 490
+height = 400
 screen_width = root.winfo_screenwidth()
 screen_height = root.winfo_screenheight()
 x = (screen_width/2) - (width/2)
 y = (screen_height/2) - (height/2)
 root.geometry("%dx%d+%d+%d" % (width, height, x, y))
 root.resizable(0, 0)
-root.config(bg="#FFFFFF")
+root.config(bg="#242424")
 
+#============================VARIABLES===================================
 FIRSTNAME = StringVar()
 LASTNAME = StringVar()
 TELEPHONE = StringVar()
 ADDRESS = StringVar()
+
+
+
+#============================METHODS=====================================
 
 def Database():
     conn = sqlite3.connect("contacts.db")
@@ -30,8 +44,7 @@ def Database():
         tree.insert('', 'end', values=(data))
     cursor.close()
     conn.close()
- 
-#Submitting data
+
 def SubmitData():
     if  FIRSTNAME.get() == "" or LASTNAME.get() == "" or TELEPHONE.get() == "" or ADDRESS.get() == "":
         result = tkMessageBox.showwarning('', 'Please Complete The Required Field', icon="warning")
@@ -71,7 +84,8 @@ def UpdateData():
         LASTNAME.set("")
         TELEPHONE.set("")
         ADDRESS.set("")
-
+        
+    
 def OnSelected(event):
     global mem_id, UpdateWindow
     curItem = tree.focus()
@@ -87,9 +101,9 @@ def OnSelected(event):
     TELEPHONE.set(selecteditem[3])
     ADDRESS.set(selecteditem[4])
     UpdateWindow = Toplevel()
-    UpdateWindow.title("Contact Management System")
-    width = 300
-    height = 600
+    UpdateWindow.title("Contacts")
+    width = 400
+    height = 300
     screen_width = root.winfo_screenwidth()
     screen_height = root.winfo_screenheight()
     x = ((screen_width/2) + 450) - (width/2)
@@ -99,7 +113,7 @@ def OnSelected(event):
     if 'NewWindow' in globals():
         NewWindow.destroy()
 
- #===================FRAMES==============================
+    #===================FRAMES==============================
     FormTitle = Frame(UpdateWindow)
     FormTitle.pack(side=TOP)
     ContactForm = Frame(UpdateWindow)
@@ -107,15 +121,15 @@ def OnSelected(event):
     RadioGroup = Frame(ContactForm)
     
     #===================LABELS==============================
-    lbl_title = Label(FormTitle, text="Updating Contacts", font=('calibri', 16), bg="orange",  width = 300)
+    lbl_title = Label(FormTitle, text="Updating Contacts", font=('arial', 16), bg="orange",  width = 300)
     lbl_title.pack(fill=X)
-    lbl_firstname = Label(ContactForm, text="Firstname", font=('calibri', 14), bd=5)
+    lbl_firstname = Label(ContactForm, text="Firstname", font=('arial', 14), bd=5)
     lbl_firstname.grid(row=0, sticky=W)
-    lbl_lastname = Label(ContactForm, text="Lastname", font=('calibri', 14), bd=5)
+    lbl_lastname = Label(ContactForm, text="Lastname", font=('arial', 14), bd=5)
     lbl_lastname.grid(row=1, sticky=W)
-    lbl_age = Label(ContactForm, text="Telephone", font=('calibri', 14), bd=5)
-    lbl_age.grid(row=3, sticky=W)
-    lbl_address = Label(ContactForm, text="Address", font=('calibri', 14), bd=5)
+    lbl_telephone = Label(ContactForm, text="Telephone", font=('arial', 14), bd=5)
+    lbl_telephone.grid(row=3, sticky=W)
+    lbl_address = Label(ContactForm, text="Address", font=('arial', 14), bd=5)
     lbl_address.grid(row=4, sticky=W)
 
     #===================ENTRY===============================
@@ -134,9 +148,11 @@ def OnSelected(event):
     btn_updatecon = Button(ContactForm, text="Update", width=50, command=UpdateData)
     btn_updatecon.grid(row=6, columnspan=2, pady=10)
 
+
+#fn1353p    
 def DeleteData():
     if not tree.selection():
-       result = tkMessageBox.showwarning('', 'Please Select Something First!', icon="warning")
+       result = tkMessageBox.showwarning('', 'Please first select a contact to delete!', icon="warning")
     else:
         result = tkMessageBox.askquestion('', 'Are you sure you want to delete this record?', icon="warning")
         if result == 'yes':
@@ -150,7 +166,7 @@ def DeleteData():
             conn.commit()
             cursor.close()
             conn.close()
-
+    
 def AddNewWindow():
     global NewWindow
     FIRSTNAME.set("")
@@ -158,7 +174,7 @@ def AddNewWindow():
     TELEPHONE.set("")
     ADDRESS.set("")
     NewWindow = Toplevel()
-    NewWindow.title("Contact Management System")
+    NewWindow.title("Contacts")
     width = 400
     height = 300
     screen_width = root.winfo_screenwidth()
@@ -169,24 +185,24 @@ def AddNewWindow():
     NewWindow.geometry("%dx%d+%d+%d" % (width, height, x, y))
     if 'UpdateWindow' in globals():
         UpdateWindow.destroy()
-    
+   
     #===================FRAMES==============================
     FormTitle = Frame(NewWindow)
     FormTitle.pack(side=TOP)
     ContactForm = Frame(NewWindow)
     ContactForm.pack(side=TOP, pady=10)
     RadioGroup = Frame(ContactForm)
-
+    
     #===================LABELS==============================
-    lbl_title = Label(FormTitle, text="Adding New Contacts", font=('calibri', 16), bg="#B9B2C5",  width = 300)
+    lbl_title = Label(FormTitle, text="Adding New Contacts", font=('arial', 16), bg="#B9B2C5",  width = 300)
     lbl_title.pack(fill=X)
-    lbl_firstname = Label(ContactForm, text="Firstname", font=('calibri', 14), bd=5)
+    lbl_firstname = Label(ContactForm, text="Firstname", font=('arial', 14), bd=5)
     lbl_firstname.grid(row=0, sticky=W)
-    lbl_lastname = Label(ContactForm, text="Lastname", font=('calibri', 14), bd=5)
+    lbl_lastname = Label(ContactForm, text="Lastname", font=('arial', 14), bd=5)
     lbl_lastname.grid(row=1, sticky=W)
-    lbl_tel = Label(ContactForm, text="Telephone", font=('calibri', 14), bd=5)
+    lbl_tel = Label(ContactForm, text="Telephone", font=('arial', 14), bd=5)
     lbl_tel.grid(row=3, sticky=W)
-    lbl_address = Label(ContactForm, text="Address", font=('calibri', 14), bd=5)
+    lbl_address = Label(ContactForm, text="Address", font=('arial', 14), bd=5)
     lbl_address.grid(row=4, sticky=W)
 
     #===================ENTRY===============================
@@ -205,6 +221,10 @@ def AddNewWindow():
     btn_addcon = Button(ContactForm, text="Save", width=50, command=SubmitData)
     btn_addcon.grid(row=6, columnspan=2, pady=10)
 
+
+
+
+    
 #============================FRAMES======================================
 Top = Frame(root, width=500, bd=1, relief=SOLID)
 Top.pack(side=TOP)
@@ -219,13 +239,13 @@ MidRight.pack(side=RIGHT, pady=10)
 TableMargin = Frame(root, width=500)
 TableMargin.pack(side=TOP)
 #============================LABELS======================================
-lbl_title = Label(Top, text="Contacts", font=('calibri', 16), width=500)
+lbl_title = Label(Top, text="Contacts", font=('arial', 16), width=500)
 lbl_title.pack(fill=X)
 
 #============================ENTRY=======================================
 
 #============================BUTTONS=====================================
-btn_add = Button(MidLeft, text="+ ADD NEW", bg="#C4C4C4", command=AddNewWindow)
+btn_add = Button(MidLeft, text="+ ADD NEW", bg="#66ff66", command=AddNewWindow)
 btn_add.pack()
 btn_delete = Button(MidRight, text="DELETE", bg="red", command=DeleteData)
 btn_delete.pack(side=RIGHT)
@@ -241,7 +261,7 @@ scrollbarx.pack(side=BOTTOM, fill=X)
 tree.heading('MemberID', text="MemberID", anchor=W)
 tree.heading('Firstname', text="Firstname", anchor=W)
 tree.heading('Lastname', text="Lastname", anchor=W)
-tree.heading('Telephone', text="Age", anchor=W)
+tree.heading('Telephone', text="Telephone", anchor=W)
 tree.heading('Address', text="Address", anchor=W)
 tree.column('#0', stretch=NO, minwidth=0, width=0)
 tree.column('#1', stretch=NO, minwidth=0, width=0)
@@ -256,3 +276,4 @@ tree.bind('<Double-Button-1>', OnSelected)
 if __name__ == '__main__':
     Database()
     root.mainloop()
+    
