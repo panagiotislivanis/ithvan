@@ -1,10 +1,11 @@
+import json
+import sqlite3
 from tkinter import *
 import tkinter
-from tkinter import ttk 
 import customtkinter
-from customtkinter import * 
-import datetime as dt  
-import time
+from customtkinter import *
+from PIL import Image, ImageTk
+
 
 # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_appearance_mode("dark")
@@ -21,6 +22,15 @@ class Alarm(customtkinter.CTk):
         
          # Create a layout
         self.grid_columnconfigure(0, weight=1)
+        self.grid_columnconfigure(1, weight=1)
+        self.grid_columnconfigure(2, weight=1)
+        self.grid_columnconfigure(3, weight=1)
+        self.grid_columnconfigure(4, weight=1)
+        self.grid_columnconfigure(5, weight=1)
+        self.grid_columnconfigure(6, weight=1)
+        self.grid_columnconfigure(7, weight=1)
+        self.grid_columnconfigure(8, weight=1)
+        self.grid_columnconfigure(9, weight=1)
         self.grid_rowconfigure(0, weight=1)
         self.grid_rowconfigure(1, weight=1)
         self.grid_rowconfigure(2, weight=1)
@@ -44,8 +54,17 @@ class Alarm(customtkinter.CTk):
             popup.grid_columnconfigure(1, weight=1)
             popup.grid_columnconfigure(2, weight=1)
             
+            def createDB():
+                conn = sqlite3.connect('alarm.db')
+                crs = conn.cursor()
+                crs.execute("CREATE TABLE IF NOT EXISTS alarms(id integer primary key, days TEXT, hour INT, min INT)")
+                conn.commit()
+                conn.close()
+            createDB()
+                
             #get data
             def set_alarm():
+                alarm_id = customtkinter.IntVar()
                 days.clear()
                 if day1.get() == 1:
                     days.append("Monday")
@@ -60,15 +79,32 @@ class Alarm(customtkinter.CTk):
                 if day6.get() == 1:
                     days.append("Saturday")
                 if day7.get() == 1:
-                    days.append("sunday")
+                    days.append("Sunday")
                 if day8.get() == 1:
                     days.append("Tomorrow")
                 if day9.get() == 1:
                     days.append("Every Day")
-                days.append(hour.get())
-                days.append(minute.get())
-                print(days, "  ", hour.get(), ":", minute.get())  #delete  
-            
+                conn = sqlite3.connect('alarm.db')
+                crs = conn.cursor()
+                crs.execute('SELECT id FROM alarms ORDER BY id DESC LIMIT 1;')
+                lastalarm_row = crs.fetchone()
+                alarm_id = int(lastalarm_row[0] + 1)
+                crs.execute('INSERT INTO alarms(id, days, hour, min) VALUES (?,?,?,?);', (alarm_id, json.dumps(days), hour.get(), minute.get()))
+                crs.execute('SELECT * FROM alarms ORDER BY id DESC LIMIT 1;')
+                lastlabel_row = crs.fetchone()
+                alarm_label = str(lastlabel_row[1]) + '                                ' + str(lastlabel_row[2]) + ":" + str(lastlabel_row[3])
+                self.new_alarm = customtkinter.CTkLabel(self, text=alarm_label, fg_color='midnight blue', font=("Arial", 16))
+                self.new_alarm.grid(row=alarm_id, column=0, rowspan=1, columnspan=9, padx=5, pady=5, sticky="nsew")
+                trashcan = Image.open("Images\Trashcan-gray.png")
+                trashcan_size = (200, 200)  # resize the image if necessary
+                trashcan_resized = trashcan.resize(trashcan_size, Image.LANCZOS)
+                # Convert the image to a PhotoImage object
+                photo_image = CTkImage(trashcan_resized)
+                self.delete_button = customtkinter.CTkButton(self, text="", image=photo_image, fg_color='gray15', cursor='hand2')
+                self.delete_button.grid(row=alarm_id, column=9, rowspan=1, columnspan=1, padx=5, pady=5, sticky="nsew")
+                conn.commit()
+                conn.close()
+                
             #variables to store data
             hour = customtkinter.StringVar(value="00")
             minute = customtkinter.StringVar(value="00")
@@ -84,23 +120,23 @@ class Alarm(customtkinter.CTk):
             day9 = customtkinter.IntVar()
             
             #day picker
-            popup.monday = customtkinter.CTkCheckBox(popup, text="Monday", variable=day1, onvalue="1", offvalue="")
+            popup.monday = customtkinter.CTkCheckBox(popup, text="Monday", variable=day1, onvalue=1, offvalue=0)
             popup.monday.place(relx=0.15, rely=0.04, anchor=tkinter.CENTER)
-            popup.checkbox = customtkinter.CTkCheckBox(popup, text="Tuesday", variable=day2, onvalue="1", offvalue="")
+            popup.checkbox = customtkinter.CTkCheckBox(popup, text="Tuesday", variable=day2, onvalue=1, offvalue=0)
             popup.checkbox.place(relx=0.375, rely=0.04, anchor=tkinter.CENTER)
-            popup.checkbox = customtkinter.CTkCheckBox(popup, text="Wednesday", variable=day3, onvalue="1", offvalue="")
+            popup.checkbox = customtkinter.CTkCheckBox(popup, text="Wednesday", variable=day3, onvalue=1, offvalue=0)
             popup.checkbox.place(relx=0.625, rely=0.04, anchor=tkinter.CENTER)
-            popup.checkbox = customtkinter.CTkCheckBox(popup, text="Thursday", variable=day4, onvalue="1", offvalue="")
+            popup.checkbox = customtkinter.CTkCheckBox(popup, text="Thursday", variable=day4, onvalue=1, offvalue=0)
             popup.checkbox.place(relx=0.90, rely=0.04, anchor=tkinter.CENTER)
-            popup.checkbox = customtkinter.CTkCheckBox(popup, text="Friday", variable=day5, onvalue="1", offvalue="")
+            popup.checkbox = customtkinter.CTkCheckBox(popup, text="Friday", variable=day5, onvalue=1, offvalue=0)
             popup.checkbox.place(relx=0.275, rely=0.135, anchor=tkinter.CENTER)
-            popup.checkbox = customtkinter.CTkCheckBox(popup, text="Saturday", variable=day6, onvalue="1", offvalue="")
+            popup.checkbox = customtkinter.CTkCheckBox(popup, text="Saturday", variable=day6, onvalue=1, offvalue=0)
             popup.checkbox.place(relx=0.52, rely=0.135, anchor=tkinter.CENTER)
-            popup.checkbox = customtkinter.CTkCheckBox(popup, text="Sunday", variable=day7, onvalue="1", offvalue="")
+            popup.checkbox = customtkinter.CTkCheckBox(popup, text="Sunday", variable=day7, onvalue=1, offvalue=0)
             popup.checkbox.place(relx=0.76, rely=0.135, anchor=tkinter.CENTER)
-            popup.checkbox = customtkinter.CTkCheckBox(popup, text="Tomorrow", variable=day8, onvalue="1", offvalue="")
+            popup.checkbox = customtkinter.CTkCheckBox(popup, text="Tomorrow", variable=day8, onvalue=1, offvalue=0)
             popup.checkbox.place(relx=0.375, rely=0.235, anchor=tkinter.CENTER)
-            popup.checkbox = customtkinter.CTkCheckBox(popup, text="Every Day", variable=day9, onvalue="1", offvalue="")
+            popup.checkbox = customtkinter.CTkCheckBox(popup, text="Every Day", variable=day9, onvalue=1, offvalue=0)
             popup.checkbox.place(relx=0.64, rely=0.235, anchor=tkinter.CENTER)
             
             #hour picker
@@ -118,11 +154,10 @@ class Alarm(customtkinter.CTk):
             popup.set_button.place(relx=0.5, rely=0.85, anchor=tkinter.CENTER)
             
             popup.mainloop()
-                            
-                 
+                                     
         self.main_button = customtkinter.CTkButton(self, text="Add reminder", fg_color='midnight blue', cursor="hand2", command=alarm_popup)
-        self.main_button.grid(row=0, column=0, rowspan=1, columnspan=1, padx=10, pady=10, sticky="nsew")
-        
+        self.main_button.grid(row=0, column=0, rowspan=1, columnspan=10, padx=10, pady=10, sticky="nsew")
+          
 
 
 if __name__ == "__main__":
