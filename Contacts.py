@@ -239,16 +239,19 @@ MidRight.pack(side=RIGHT, pady=10)
 TableMargin = Frame(root, width=500)
 TableMargin.pack(side=TOP)
 #============================LABELS======================================
-lbl_title = Label(Top, text="Contacts", font=('arial', 16), width=500)
+lbl_title = Label(Top, text="Contacts", font=('arial', 16), width=500,bg="#242424", fg="#72BFF4")
 lbl_title.pack(fill=X)
 
 #============================ENTRY=======================================
 
 #============================BUTTONS=====================================
 btn_add = Button(MidLeft, text="+ ADD NEW", bg="#66ff66", command=AddNewWindow)
-btn_add.pack()
+btn_add.pack(side=LEFT)
 btn_delete = Button(MidRight, text="DELETE", bg="red", command=DeleteData)
 btn_delete.pack(side=RIGHT)
+
+
+            
 
 #============================TABLES======================================
 scrollbarx = Scrollbar(TableMargin, orient=HORIZONTAL)

@@ -1,4 +1,4 @@
-from PIL import Image
+from PIL import Image, ImageTk
 import os
 import tkinter
 import tkinter.messagebox
@@ -121,8 +121,12 @@ class App(customtkinter.CTk):
                               padx=10, pady=10, sticky="nsew")
 
         # Bottom / Organise and manage contacts
+        def open_contacts():
+            os.system('Contacts.py')
+        Contacts_image = ImageTk.PhotoImage(Image.open(
+            "Resources-img\contacts.png").resize((25, 25), Image.ANTIALIAS))
         self.left_lower = customtkinter.CTkButton(
-            self.Timetable_frame, text="Organise and manage contacts", fg_color='#72BFF4', cursor="hand2")
+            self.Timetable_frame, text="Organise and manage contacts", fg_color='#72BFF4', cursor="hand2", image=Contacts_image, command=open_contacts)
         self.left_lower.grid(row=6, column=0, rowspan=5, columnspan=2,
                              padx=10, pady=10, sticky="nsew")
 
