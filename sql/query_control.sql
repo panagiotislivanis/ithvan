@@ -1,0 +1,1 @@
+--DELETE FROM alarms WHERE id != 0;

@@ -42,6 +42,8 @@ class Alarm(customtkinter.CTk):
         self.grid_rowconfigure(8, weight=1)
         self.grid_rowconfigure(9, weight=1)
         
+        
+        
         def alarm_popup():
             popup = CTkToplevel()
             popup.title("Alarm")
@@ -95,15 +97,17 @@ class Alarm(customtkinter.CTk):
                 alarm_label = str(lastlabel_row[1]) + '                                ' + str(lastlabel_row[2]) + ":" + str(lastlabel_row[3])
                 self.new_alarm = customtkinter.CTkLabel(self, text=alarm_label, fg_color='midnight blue', font=("Arial", 16))
                 self.new_alarm.grid(row=alarm_id, column=0, rowspan=1, columnspan=9, padx=5, pady=5, sticky="nsew")
+                # open trashcan image
                 trashcan = Image.open("Images\Trashcan-gray.png")
                 trashcan_size = (200, 200)  # resize the image if necessary
                 trashcan_resized = trashcan.resize(trashcan_size, Image.LANCZOS)
                 # Convert the image to a PhotoImage object
                 photo_image = CTkImage(trashcan_resized)
+                # delete button
                 self.delete_button = customtkinter.CTkButton(self, text="", image=photo_image, fg_color='gray15', cursor='hand2')
                 self.delete_button.grid(row=alarm_id, column=9, rowspan=1, columnspan=1, padx=5, pady=5, sticky="nsew")
                 conn.commit()
-                conn.close()
+                crs.close()
                 
             #variables to store data
             hour = customtkinter.StringVar(value="00")
@@ -157,7 +161,33 @@ class Alarm(customtkinter.CTk):
                                      
         self.main_button = customtkinter.CTkButton(self, text="Add reminder", fg_color='midnight blue', cursor="hand2", command=alarm_popup)
         self.main_button.grid(row=0, column=0, rowspan=1, columnspan=10, padx=10, pady=10, sticky="nsew")
-          
+        
+        conn = sqlite3.connect('alarm.db')
+        crs = conn.cursor()
+        cur_alarm = crs.execute('SELECT days, hour, min FROM alarms WHERE id > 0;')
+        #lastalarm_row = crs.fetchone()
+        #al_row = 1
+        i = 1
+        for alarms in cur_alarm:
+            #crs.execute('SELECT days, hour, min FROM alarms WHERE id = %d;' % int(al_row))
+            #alarms_num = crs.fetchone()
+            for j in range(len(alarms)):
+                alarm_label = str(alarms[0]) + '                                ' + str(alarms[1]) + ":" + str(alarms[2])
+                self.new_alarm = customtkinter.CTkLabel(self, text=alarm_label, fg_color='midnight blue', font=("Arial", 16))
+                self.new_alarm.grid(row=i, column=0, rowspan=1, columnspan=9, padx=5, pady=5, sticky="nsew")
+                # open trashcan image
+                trashcan = Image.open("Images\Trashcan-gray.png")
+                trashcan_size = (200, 200)  # resize the image if necessary
+                trashcan_resized = trashcan.resize(trashcan_size, Image.LANCZOS)
+                # Convert the image to a PhotoImage object
+                photo_image = CTkImage(trashcan_resized)
+                # delete button
+                self.delete_button = customtkinter.CTkButton(self, text="", image=photo_image, fg_color='gray15', cursor='hand2')
+                self.delete_button.grid(row=i, column=9, rowspan=1, columnspan=1, padx=5, pady=5, sticky="nsew")
+            i = i + 1
+
+        conn.commit()
+        crs.close()
 
 
 if __name__ == "__main__":

@@ -1,3 +1,4 @@
+import sqlite3
 from PIL import Image, ImageTk
 import os
 import tkinter
@@ -5,6 +6,8 @@ import tkinter.messagebox
 import customtkinter
 from customtkinter import *
 from Widgets.Search_bar import SearchBar
+
+from Alarm import Alarm
 
 # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_appearance_mode("dark")
@@ -153,10 +156,9 @@ class App(customtkinter.CTk):
 
         # Widgets for Daily Manager tab
         # Left upper / Task Manager
-        self.left_upper = customtkinter.CTkButton(
-            self.dManager_frame, text="Task Manager", fg_color='dark red', cursor="hand2")
-        self.left_upper.grid(row=0, column=0, rowspan=3, columnspan=3,
-                             padx=10, pady=10, sticky="nsew")
+
+        self.left_upper = customtkinter.CTkButton(self.dManager_frame, text="Task Manager", fg_color='dark red', cursor="hand2")
+        self.left_upper.grid(row=0, column=0, rowspan=3, columnspan=3, padx=10, pady=10, sticky="nsew")
         
         # Left center / Navigator
         self.left_center = customtkinter.CTkButton(
@@ -171,12 +173,14 @@ class App(customtkinter.CTk):
                              padx=10, pady=10, sticky="nsew")
         
         # Right upper / Reminder
-        self.right_upper = customtkinter.CTkButton(
-            self.dManager_frame, text="Reminders & Alarms", fg_color='coral', cursor="hand2")
-        self.right_upper.grid(row=0, column=3, rowspan=3, columnspan=2,
-                              padx=10, pady=10, sticky="nsew")
+        #def open_alarm():
+        #    widget = Alarm()
+        #    widget.mainloop()
+            
+        self.right_upper = customtkinter.CTkButton(self.dManager_frame, text="Reminders & Alarms", fg_color='coral', cursor="hand2")#, command=open_alarm)
+        self.right_upper.grid(row=0, column=3, rowspan=3, columnspan=2, padx=10, pady=10, sticky="nsew")
         
-         # Right lower / E-shop
+        # Right lower / E-shop
         self.right_lower = customtkinter.CTkButton(
             self.dManager_frame, text="Your shop", fg_color='light green', cursor="hand2")
         self.right_lower.grid(row=3, column=2, rowspan=8, columnspan=3,
