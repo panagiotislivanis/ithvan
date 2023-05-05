@@ -159,7 +159,7 @@ class App(customtkinter.CTk):
             self.dManager_frame, text="Task Manager", fg_color='dark red', cursor="hand2")
         self.left_upper.grid(row=0, column=0, rowspan=3, columnspan=3,
                              padx=10, pady=10, sticky="nsew")
-        
+
         # Left center / Navigator
         self.left_center = customtkinter.CTkButton(
             self.dManager_frame, text="Navigator", fg_color='green', cursor="hand2")
@@ -177,8 +177,8 @@ class App(customtkinter.CTk):
             self.dManager_frame, text="Reminders & Alarms", fg_color='coral', cursor="hand2")
         self.right_upper.grid(row=0, column=3, rowspan=3, columnspan=2,
                               padx=10, pady=10, sticky="nsew")
-        
-         # Right lower / E-shop
+
+        # Right lower / E-shop
         self.right_lower = customtkinter.CTkButton(
             self.dManager_frame, text="Your shop", fg_color='light green', cursor="hand2")
         self.right_lower.grid(row=3, column=2, rowspan=8, columnspan=3,
