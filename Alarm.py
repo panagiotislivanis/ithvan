@@ -12,7 +12,7 @@ customtkinter.set_appearance_mode("dark")
 # Themes: "blue" (standard), "green", "dark-blue"
 customtkinter.set_default_color_theme("blue")
 
-class Alarm(customtkinter.CTk):
+class Alarm(customtkinter.CTk):    
     def __init__(self):
         super().__init__()
         
@@ -42,6 +42,24 @@ class Alarm(customtkinter.CTk):
         self.grid_rowconfigure(8, weight=1)
         self.grid_rowconfigure(9, weight=1)
         
+        def delete_alarm(cursor, id, alarm_label):
+    
+            conn = sqlite3.connect('alarm.db')
+            # create a cursor object
+            cursor = conn.cursor()
+            # execute a SELECT statement to fetch a row to delete
+            cursor.execute('SELECT * FROM alarms WHERE id=%d' % id)
+            # fetch the row to delete
+            row = cursor.fetchone()
+            # execute a DELETE statement to delete the row
+            cursor.execute('DELETE FROM alarms WHERE id=%d' % id)
+            # commit the changes to the database
+            conn.commit()
+            # close the cursor and the connection
+            cursor.close()
+            conn.close()
+            # Destroy the label widget
+            alarm_label.destroy()
         
         
         def alarm_popup():
@@ -63,7 +81,7 @@ class Alarm(customtkinter.CTk):
                 conn.commit()
                 conn.close()
             createDB()
-                
+            
             #get data
             def set_alarm():
                 alarm_id = customtkinter.IntVar()
@@ -104,7 +122,7 @@ class Alarm(customtkinter.CTk):
                 # Convert the image to a PhotoImage object
                 photo_image = CTkImage(trashcan_resized)
                 # delete button
-                self.delete_button = customtkinter.CTkButton(self, text="", image=photo_image, fg_color='gray15', cursor='hand2')
+                self.delete_button = customtkinter.CTkButton(self, text="", image=photo_image, fg_color='gray15', cursor='hand2', command=lambda:delete_alarm(crs, alarm_id, self.new_alarm))
                 self.delete_button.grid(row=alarm_id, column=9, rowspan=1, columnspan=1, padx=5, pady=5, sticky="nsew")
                 conn.commit()
                 crs.close()
@@ -165,16 +183,18 @@ class Alarm(customtkinter.CTk):
         conn = sqlite3.connect('alarm.db')
         crs = conn.cursor()
         cur_alarm = crs.execute('SELECT days, hour, min FROM alarms WHERE id > 0;')
-        #lastalarm_row = crs.fetchone()
-        #al_row = 1
         i = 1
         for alarms in cur_alarm:
-            #crs.execute('SELECT days, hour, min FROM alarms WHERE id = %d;' % int(al_row))
-            #alarms_num = crs.fetchone()
             for j in range(len(alarms)):
                 alarm_label = str(alarms[0]) + '                                ' + str(alarms[1]) + ":" + str(alarms[2])
                 self.new_alarm = customtkinter.CTkLabel(self, text=alarm_label, fg_color='midnight blue', font=("Arial", 16))
-                self.new_alarm.grid(row=i, column=0, rowspan=1, columnspan=9, padx=5, pady=5, sticky="nsew")
+                self.new_alarm.grid(row=i, column=0, rowspan=1, columnspan=9, padx=5, pady=5, sticky="nsew")      
+            i = i + 1
+        #last_alarmid = crs.execute('SELECT id FROM alarms ORDER BY id DESC LIMIT 1;')
+        cur_alarm = crs.execute('SELECT days, hour, min FROM alarms WHERE id > 0;')
+        i = 1
+        for alarms in cur_alarm:
+            for j in range(len(alarms)):
                 # open trashcan image
                 trashcan = Image.open("Images\Trashcan-gray.png")
                 trashcan_size = (200, 200)  # resize the image if necessary
@@ -182,12 +202,14 @@ class Alarm(customtkinter.CTk):
                 # Convert the image to a PhotoImage object
                 photo_image = CTkImage(trashcan_resized)
                 # delete button
-                self.delete_button = customtkinter.CTkButton(self, text="", image=photo_image, fg_color='gray15', cursor='hand2')
+                self.delete_button = customtkinter.CTkButton(self, text="", image=photo_image, fg_color='gray15', cursor='hand2', command=lambda:delete_alarm(crs, i, self.new_alarm))
                 self.delete_button.grid(row=i, column=9, rowspan=1, columnspan=1, padx=5, pady=5, sticky="nsew")
             i = i + 1
 
         conn.commit()
         crs.close()
+        
+                
 
 
 if __name__ == "__main__":
