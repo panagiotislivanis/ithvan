@@ -110,6 +110,8 @@ class App(customtkinter.CTk):
         self.Timetable_frame = self.tabview.tab("Timetable")
         self.Timetable_frame.columnconfigure(0, weight=1)
         self.Timetable_frame.columnconfigure(1, weight=2)
+        self.Timetable_frame.columnconfigure(2, weight=2)
+        self.Timetable_frame.columnconfigure(3, weight=2)
         self.Timetable_frame.rowconfigure(0, weight=1)
         self.Timetable_frame.rowconfigure(1, weight=2)
         self.Timetable_frame.rowconfigure(2, weight=2)
@@ -129,21 +131,30 @@ class App(customtkinter.CTk):
         self.left_upper.grid(row=0, column=0, rowspan=3, columnspan=3,
                              padx=10, pady=10, sticky="nsew")
 
-        # Center / Calls and send text messages SMS
+        # Bottom 
+        # Calls
+        Calls_image = ImageTk.PhotoImage(Image.open("Resources-img\Calls.png").resize((25, 25), Image.ANTIALIAS))
         self.left_center = customtkinter.CTkButton(
-            self.Timetable_frame, text="Calls and send text messages SMS", fg_color='green', cursor="hand2")
-        self.left_center.grid(row=3, column=0, rowspan=3, columnspan=2,
+            self.Timetable_frame, text="Calls", fg_color='#49393B', cursor="hand2", image=Calls_image)
+        self.left_center.grid(row=10, column=0, rowspan=2, columnspan=2,
                               padx=10, pady=10, sticky="nsew")
 
-        # Bottom / Organise and manage contacts
-        # def open_contacts():
-        #    os.system('Contacts.py')
-        # Contacts_image = ImageTk.PhotoImage(Image.open(
-        #    "Resources-img\contacts.png").resize((25, 25), Image.ANTIALIAS))
-        # self.left_lower = customtkinter.CTkButton(
-        #    self.Timetable_frame, text="Organise and manage contacts", fg_color='#72BFF4', cursor="hand2", image=Contacts_image, command=open_contacts)
-        # self.left_lower.grid(row=6, column=0, rowspan=5, columnspan=2,
-        #                     padx=10, pady=10, sticky="nsew")
+        #SMS
+        SMS_image = ImageTk.PhotoImage(Image.open("Resources-img\Messages.png").resize((25, 25), Image.ANTIALIAS))
+        
+        self.right_center = customtkinter.CTkButton(
+            self.Timetable_frame, text="SMS", fg_color='#996888', cursor="hand2", image=SMS_image)
+        self.right_center.grid(row=10, column=2, rowspan=2, columnspan=2,
+                              padx=10, pady=10, sticky="nsew")
+
+        # Organise and manage contacts
+        def open_contacts():
+            os.system('Contacts.py')
+        Contacts_image = ImageTk.PhotoImage(Image.open("Resources-img\contacts.png").resize((25, 25), Image.ANTIALIAS))
+        self.left_lower = customtkinter.CTkButton(
+            self.Timetable_frame, text="Manage contacts", fg_color='#3F826D', cursor="hand2", image=Contacts_image, command=open_contacts)
+        self.left_lower.grid(row=10, column=4, rowspan=2, columnspan=2,
+                             padx=10, pady=10, sticky="nsew")
 
         # -----------------------------------------------------------#
         # Daily Manager
