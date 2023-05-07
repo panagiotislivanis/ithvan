@@ -7,6 +7,8 @@ import customtkinter
 from customtkinter import *
 # from Widgets.Search_bar import SearchBar
 # Importing the news widget we made.
+
+from Search import search_query
 from News import NewsWidget
 
 import Alarm
@@ -34,7 +36,7 @@ class App(customtkinter.CTk):
         super().__init__()
         # Configure window
         self.title("ITHVAN")
-        self.geometry(f"{900}x{700}")
+        self.geometry(f"{1000}x{750}")
         self.is_fullscreen = False
         # Create a layout
         self.grid_columnconfigure(0, weight=1)
@@ -86,9 +88,12 @@ class App(customtkinter.CTk):
         # Create search bar widget
         entry = customtkinter.CTkEntry(
             self.right_upper, placeholder_text="Search...")
+        entry.bind('<Return>', lambda event: search_query(entry.get()))
         # Search button
         search_button = customtkinter.CTkButton(
-            self, text="", image=self.searchimage, width=entry.cget("width")/3, corner_radius=0)
+            self, text="", image=self.searchimage, width=entry.cget("width")/3, corner_radius=0,
+            command=lambda: search_query(entry.get())
+        )
         search_button.place(in_=entry, relx=1.0, rely=0.0, relheight=1,
                             anchor=customtkinter.NE)
         entry.place(relwidth=1, relheight=1.0)
@@ -97,7 +102,7 @@ class App(customtkinter.CTk):
         # Replace this with your actual API key
         API_KEY = "46f1942a35684436a2eaa05b27fd06d8"
         self.right_lower = NewsWidget(self.homepage_frame, API_KEY)
-        self.right_lower.grid(row=1, column=14, rowspan=2, columnspan=1,
+        self.right_lower.grid(row=1, column=14, rowspan=14, columnspan=1,
                               padx=10, pady=10, sticky="nsew")
 
         # -----------------------------------------------------------#
@@ -131,14 +136,14 @@ class App(customtkinter.CTk):
                               padx=10, pady=10, sticky="nsew")
 
         # Bottom / Organise and manage contacts
-        def open_contacts():
-            os.system('Contacts.py')
-        Contacts_image = ImageTk.PhotoImage(Image.open(
-            "Resources-img\contacts.png").resize((25, 25), Image.ANTIALIAS))
-        self.left_lower = customtkinter.CTkButton(
-            self.Timetable_frame, text="Organise and manage contacts", fg_color='#72BFF4', cursor="hand2", image=Contacts_image, command=open_contacts)
-        self.left_lower.grid(row=6, column=0, rowspan=5, columnspan=2,
-                             padx=10, pady=10, sticky="nsew")
+        # def open_contacts():
+        #    os.system('Contacts.py')
+        # Contacts_image = ImageTk.PhotoImage(Image.open(
+        #    "Resources-img\contacts.png").resize((25, 25), Image.ANTIALIAS))
+        # self.left_lower = customtkinter.CTkButton(
+        #    self.Timetable_frame, text="Organise and manage contacts", fg_color='#72BFF4', cursor="hand2", image=Contacts_image, command=open_contacts)
+        # self.left_lower.grid(row=6, column=0, rowspan=5, columnspan=2,
+        #                     padx=10, pady=10, sticky="nsew")
 
         # -----------------------------------------------------------#
         # Daily Manager
@@ -178,10 +183,12 @@ class App(customtkinter.CTk):
             self.dManager_frame, text="Device Controler", fg_color='blue', cursor="hand2")
         self.left_lower.grid(row=6, column=0, rowspan=5, columnspan=2,
                              padx=10, pady=10, sticky="nsew")
-        
+
         # Right upper / Reminder
-        self.right_upper = customtkinter.CTkButton(self.dManager_frame, text="Reminders & Alarms", fg_color='coral', cursor="hand2")
-        self.right_upper.grid(row=0, column=3, rowspan=3, columnspan=2, padx=10, pady=10, sticky="nsew")
+        self.right_upper = customtkinter.CTkButton(
+            self.dManager_frame, text="Reminders & Alarms", fg_color='coral', cursor="hand2")
+        self.right_upper.grid(row=0, column=3, rowspan=3,
+                              columnspan=2, padx=10, pady=10, sticky="nsew")
 
         # Right lower / E-shop
         self.right_lower = customtkinter.CTkButton(

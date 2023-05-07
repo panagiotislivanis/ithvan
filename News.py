@@ -23,7 +23,7 @@ class NewsWidget(ctk.CTkFrame):
 
     def create_widgets(self):
         # Add Next and Previous buttons
-        self.button_frame = ctk.CTkFrame(self)
+        self.button_frame = ctk.CTkFrame(self, fg_color='#4c4c4c')
         self.button_frame.pack(side="bottom", pady=0, fill="both")
         prev_button = ctk.CTkButton(self.button_frame, text="Previous",
                                     command=self.previous_article, width=80)
@@ -34,7 +34,7 @@ class NewsWidget(ctk.CTkFrame):
 
         # Add hyperlink to original article
         link_label = ctk.CTkLabel(
-            self.button_frame, text="Read More...", cursor="hand2", font=("Arial bold", 14), text_color="#6da1ca")
+            self.button_frame, text="Read More...", cursor="hand2", font=("Arial bold", 14), text_color="#6da1ca",)
         link_label.bind(
             "<Button-1>", lambda e: webbrowser.open_new(self.articles[self.current_article_index]["url"]))
         link_label.pack(side="bottom", pady=0, anchor="s")
@@ -49,25 +49,28 @@ class NewsWidget(ctk.CTkFrame):
         image_url = article["urlToImage"]
         image_data = requests.get(image_url).content
         image = Image.open(BytesIO(image_data))
-        image = image.resize((400, 400), Image.ANTIALIAS)
+        image = image.resize((500, 400), Image.ANTIALIAS)
         photo = ImageTk.PhotoImage(image)
         image_label = ctk.CTkLabel(self, text='', image=photo)
         image_label.image = photo  # Keep a reference to the image to prevent garbage collection
         image_label.pack(side="top", pady=(0, 0))
 
-        # Display article text
+        # Display article text.
         text_bg = "#3c3c3c"
-        text_cl = '#6da1ca'
-        text_fg = "#2b2b2b"
+        # Text color.
+        text_cl = '#6da1ca'  # 6da1ca
+        # Text background.
+        text_fg = "#333333"  # 2b2b2b
         text_font = ("Arial", 18)
         title = article["title"]
-        # Getting only the first 2 lines of code to display.
+        # Getting only the first line of code to display, and if the window is fullscreen print the first paragraph.
         content_lines = article["content"].split('\n')
-        first_two_lines = '\n'.join(content_lines[:0])
-        text = title + "\n\n" + first_two_lines
+        first_line = '\n'.join(content_lines[:2])
+        text = title + "\n\n" + first_line
+
         text_label = ctk.CTkLabel(
-            self, text=text, text_color=text_cl, font=text_font, bg_color=text_bg, fg_color=text_fg, justify="left", wraplength=400)
-        text_label.pack(side="bottom", padx=0, pady=(20, 0))
+            self, text=text, text_color=text_cl, font=text_font, bg_color=text_bg, fg_color=text_fg, justify="center", wraplength=400)
+        text_label.pack(side="top", padx=0, pady=(20, 0))
 
     def fetch_news(self):
         url = f"https://newsapi.org/v2/top-headlines?country=us&apiKey={self.api_key}"
@@ -100,7 +103,7 @@ API_KEY = "46f1942a35684436a2eaa05b27fd06d8"
 if __name__ == "__main__":
     app = ctk.CTk()
     app.title("News Widget Example")
-    app.geometry("400x550")
+    app.geometry("400x660")
     news_widget = NewsWidget(app, API_KEY)
     news_widget.pack(fill="both", expand=True)
     app.mainloop()
