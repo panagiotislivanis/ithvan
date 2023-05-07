@@ -4,7 +4,9 @@ import tkinter
 import tkinter.messagebox
 import customtkinter
 from customtkinter import *
-from Widgets.Search_bar import SearchBar
+# from Widgets.Search_bar import SearchBar
+# Importing the news widget we made.
+from News import NewsWidget
 
 # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_appearance_mode("dark")
@@ -12,14 +14,25 @@ customtkinter.set_appearance_mode("dark")
 customtkinter.set_default_color_theme("blue")
 
 
+class CustomCTk(customtkinter.CTk):
+    def WM_Maximize(self):
+        if not self.is_fullscreen:
+            self.original_geometry = self.geometry()
+            self.attributes("-fullscreen", True)
+            self.is_fullscreen = True
+        else:
+            self.attributes("-fullscreen", False)
+            self.geometry(self.original_geometry)
+            self.is_fullscreen = False
+
+
 class App(customtkinter.CTk):
     def __init__(self):
         super().__init__()
-
         # Configure window
         self.title("ITHVAN")
-        self.geometry(f"{800}x{580}")
-
+        self.geometry(f"{900}x{700}")
+        self.is_fullscreen = False
         # Create a layout
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=2)
@@ -34,39 +47,32 @@ class App(customtkinter.CTk):
 
         # -----------------------------------------------------------#
         # Create custom grid for homepage tab
+        # For loop to make 11 columns.
         self.homepage_frame = self.tabview.tab("Homepage")
-
-        self.homepage_frame.columnconfigure(0, weight=1)
-        self.homepage_frame.columnconfigure(1, weight=2)
-        self.homepage_frame.rowconfigure(0, weight=1)
-        self.homepage_frame.rowconfigure(1, weight=2)
-        self.homepage_frame.rowconfigure(2, weight=2)
-        self.homepage_frame.rowconfigure(3, weight=2)
-        self.homepage_frame.rowconfigure(4, weight=2)
-        self.homepage_frame.rowconfigure(5, weight=2)
-        self.homepage_frame.rowconfigure(6, weight=2)
-        self.homepage_frame.rowconfigure(7, weight=2)
-        self.homepage_frame.rowconfigure(8, weight=2)
-        self.homepage_frame.rowconfigure(9, weight=2)
-        self.homepage_frame.rowconfigure(10, weight=2)
+        for i in range(1, 15):
+            self.homepage_frame.columnconfigure(i, weight=1)
+        # For loop to make 11 rows.
+        for i in range(1, 15):
+            self.homepage_frame.rowconfigure(i, weight=1)
 
         # Widgets for homepage tab
         # Left upper / Music
         self.left_upper = customtkinter.CTkLabel(
             self.homepage_frame, text="Music", fg_color='pink')
-        self.left_upper.grid(row=0, column=0, rowspan=2,
+        self.left_upper.grid(row=0, column=0, rowspan=2, columnspan=14,
                              padx=10, pady=10, sticky="nsew")
 
         # Left lower / Weather and traffic
         self.left_lower = customtkinter.CTkLabel(
             self.homepage_frame, text="Weather traffic", fg_color='red')
-        self.left_lower.grid(row=2, column=0, rowspan=9,
+        self.left_lower.grid(row=2, column=0, rowspan=13, columnspan=14,
                              padx=10, pady=10, sticky="nsew")
 
         # Right upper / Google search bar
         self.right_upper = customtkinter.CTkLabel(
             self.homepage_frame, text="Google search bar", fg_color='transparent')
-        self.right_upper.grid(row=0, column=1, padx=10, pady=10, sticky="nsew")
+        self.right_upper.grid(row=0, column=14, columnspan=1,
+                              padx=10, pady=10, sticky="nsew")
         # Add search bar
         # Load images with light and dark mode
         image_path = os.path.join(os.path.dirname(
@@ -85,9 +91,10 @@ class App(customtkinter.CTk):
         entry.place(relwidth=1, relheight=1.0)
 
         # Right lower / News exc
-        self.right_lower = customtkinter.CTkLabel(
-            self.homepage_frame, text="News", fg_color='green')
-        self.right_lower.grid(row=1, column=1, rowspan=10,
+        # Replace this with your actual API key
+        API_KEY = "46f1942a35684436a2eaa05b27fd06d8"
+        self.right_lower = NewsWidget(self.homepage_frame, API_KEY)
+        self.right_lower.grid(row=1, column=14, rowspan=2, columnspan=1,
                               padx=10, pady=10, sticky="nsew")
 
         # -----------------------------------------------------------#
