@@ -126,8 +126,10 @@ class App(customtkinter.CTk):
 
         # Widgets for Timetable tab
         # Top / Scheduling and management of meetings
+        Calendar_image = ImageTk.PhotoImage(Image.open("Resources-img\calendar.png").resize((25, 25), Image.ANTIALIAS))
+
         self.left_upper = customtkinter.CTkButton(
-            self.Timetable_frame, text="Scheduling and management of meetings", fg_color='#4F02FF', cursor="hand2")
+            self.Timetable_frame, text="Scheduling and management of meetings", fg_color='#4F02FF', cursor="hand2",image=Calendar_image)
         self.left_upper.grid(row=0, column=0, rowspan=3, columnspan=3,
                              padx=10, pady=10, sticky="nsew")
 
