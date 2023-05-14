@@ -39,21 +39,29 @@ class NewsWidget(ctk.CTkFrame):
             "<Button-1>", lambda e: webbrowser.open_new(self.articles[self.current_article_index]["url"]))
         link_label.pack(side="bottom", pady=0, anchor="s")
 
-        # Display current article
+        # Display current article.
         self.display_article()
 
     def display_article(self):
         article = self.articles[self.current_article_index]
 
-        # Display article image
+        # Display article image.
         image_url = article["urlToImage"]
-        image_data = requests.get(image_url).content
-        image = Image.open(BytesIO(image_data))
-        image = image.resize((500, 400), Image.ANTIALIAS)
-        photo = ImageTk.PhotoImage(image)
-        image_label = ctk.CTkLabel(self, text='', image=photo)
-        image_label.image = photo  # Keep a reference to the image to prevent garbage collection
-        image_label.pack(side="top", pady=(0, 0))
+        if image_url:   # Check if the URL is not None or empty.
+            try:
+                image_data = requests.get(image_url).content
+                image = Image.open(BytesIO(image_data))
+                image = image.resize((500, 400), Image.ANTIALIAS)
+                photo = ImageTk.PhotoImage(image)
+                image_label = ctk.CTkLabel(self, text='', image=photo)
+                # Keep a reference to the image to prevent garbage collection.
+                image_label.image = photo
+                image_label.pack(side="top", pady=(0, 0))
+            except requests.exceptions.RequestException as e:
+                print(f"Could not download image from URL: {image_url}")
+                print(e)
+        else:
+            print("No image URL provided")
 
         # Display article text.
         text_bg = "#3c3c3c"
@@ -64,7 +72,8 @@ class NewsWidget(ctk.CTkFrame):
         text_font = ("Arial", 18)
         title = article["title"]
         # Getting only the first line of code to display, and if the window is fullscreen print the first paragraph.
-        content_lines = article["content"].split('\n')
+        content_lines = article["content"].split(
+            '\n') if title is not None else ['']
         first_line = '\n'.join(content_lines[:2])
         text = title + "\n\n" + first_line
 
