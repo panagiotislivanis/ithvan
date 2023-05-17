@@ -10,7 +10,7 @@ from customtkinter import *
 
 from Search import search_query
 from News import NewsWidget
-
+from traffic import traffic_widget
 import Alarm
 
 # Modes: "System" (standard), "Dark", "Light"
@@ -68,11 +68,9 @@ class App(customtkinter.CTk):
                              padx=10, pady=10, sticky="nsew")
 
         # Left lower / Weather and traffic
-        self.left_lower = customtkinter.CTkLabel(
-            self.homepage_frame, text="Weather traffic", fg_color='red')
+        self.left_lower = traffic_widget(self.homepage_frame)
         self.left_lower.grid(row=2, column=0, rowspan=13, columnspan=14,
                              padx=10, pady=10, sticky="nsew")
-
         # Right upper / Google search bar
         self.right_upper = customtkinter.CTkLabel(
             self.homepage_frame, text="Google search bar", fg_color='transparent')
@@ -126,33 +124,37 @@ class App(customtkinter.CTk):
 
         # Widgets for Timetable tab
         # Top / Scheduling and management of meetings
-        Calendar_image = ImageTk.PhotoImage(Image.open("Resources-img\calendar.png").resize((25, 25), Image.ANTIALIAS))
+        Calendar_image = ImageTk.PhotoImage(Image.open(
+            "Resources-img\calendar.png").resize((25, 25), Image.ANTIALIAS))
 
         self.left_upper = customtkinter.CTkButton(
-            self.Timetable_frame, text="Scheduling and management of meetings", fg_color='#4F02FF', cursor="hand2",image=Calendar_image)
+            self.Timetable_frame, text="Scheduling and management of meetings", fg_color='#4F02FF', cursor="hand2", image=Calendar_image)
         self.left_upper.grid(row=0, column=0, rowspan=3, columnspan=3,
                              padx=10, pady=10, sticky="nsew")
 
-        # Bottom 
+        # Bottom
         # Calls
-        Calls_image = ImageTk.PhotoImage(Image.open("Resources-img\Calls.png").resize((25, 25), Image.ANTIALIAS))
+        Calls_image = ImageTk.PhotoImage(Image.open(
+            "Resources-img\Calls.png").resize((25, 25), Image.ANTIALIAS))
         self.left_center = customtkinter.CTkButton(
             self.Timetable_frame, text="Calls", fg_color='#49393B', cursor="hand2", image=Calls_image)
         self.left_center.grid(row=10, column=0, rowspan=2, columnspan=2,
                               padx=10, pady=10, sticky="nsew")
 
-        #SMS
-        SMS_image = ImageTk.PhotoImage(Image.open("Resources-img\Messages.png").resize((25, 25), Image.ANTIALIAS))
-        
+        # SMS
+        SMS_image = ImageTk.PhotoImage(Image.open(
+            "Resources-img\Messages.png").resize((25, 25), Image.ANTIALIAS))
+
         self.right_center = customtkinter.CTkButton(
             self.Timetable_frame, text="SMS", fg_color='#996888', cursor="hand2", image=SMS_image)
         self.right_center.grid(row=10, column=2, rowspan=2, columnspan=2,
-                              padx=10, pady=10, sticky="nsew")
+                               padx=10, pady=10, sticky="nsew")
 
         # Organise and manage contacts
         def open_contacts():
             os.system('Contacts.py')
-        Contacts_image = ImageTk.PhotoImage(Image.open("Resources-img\contacts.png").resize((25, 25), Image.ANTIALIAS))
+        Contacts_image = ImageTk.PhotoImage(Image.open(
+            "Resources-img\contacts.png").resize((25, 25), Image.ANTIALIAS))
         self.left_lower = customtkinter.CTkButton(
             self.Timetable_frame, text="Manage contacts", fg_color='#3F826D', cursor="hand2", image=Contacts_image, command=open_contacts)
         self.left_lower.grid(row=10, column=4, rowspan=2, columnspan=2,
