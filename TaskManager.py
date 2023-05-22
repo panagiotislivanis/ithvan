@@ -1,11 +1,8 @@
-import json
-import sqlite3
+
 from tkinter import *
-import tkinter
 from tkinter import messagebox
 import customtkinter
 from customtkinter import *
-from PIL import Image, ImageTk
 
 
 # Modes: "System" (standard), "Dark", "Light"
@@ -59,11 +56,11 @@ class TaskManager(customtkinter.CTk):
                 pass
         
         #window assets
-        title = customtkinter.CTkLabel(self, text='My To-Do List', font=('Arial', 40, 'bold'), bg_color='tomato4', corner_radius=5, height=60, width=260)
+        title = customtkinter.CTkLabel(self, text='My To-Do List', font=('Comic Sans MS', 40, 'bold'), bg_color='tomato4', corner_radius=5, height=60, width=260)
         title.place(x=225, y=15)
-        add_button = customtkinter.CTkButton(self, text='Add task', font=('Arial', 24, 'bold'), fg_color='green4', cursor='hand2', command=add_task, corner_radius=5, width=260)
+        add_button = customtkinter.CTkButton(self, text='Add task', font=('Comic Sans MS', 24, 'bold'), fg_color='green4', cursor='hand2', command=add_task, corner_radius=5, width=260)
         add_button.place(x=50, y=100)
-        remove_button = customtkinter.CTkButton(self, text='Remove task', font=('Arial', 24, 'bold'), fg_color='red4', cursor='hand2', command=remove_task, corner_radius=5, width=260)
+        remove_button = customtkinter.CTkButton(self, text='Remove task', font=('Comic Sans MS', 24, 'bold'), fg_color='red4', cursor='hand2', command=remove_task, corner_radius=5, width=260)
         remove_button.place(x=385, y=100)
         task_entry = customtkinter.CTkEntry(self, font=('Arial', 20), border_color='grey50', width=600)
         task_entry.place(x=50, y=150)
