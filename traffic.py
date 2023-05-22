@@ -1,7 +1,8 @@
 import requests
 import folium
-import webbrowser
-# from tkinter import *
+import requests
+from geopy.geocoders import Nominatim
+from geopy.exc import GeocoderTimedOut, ConfigurationError
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from PIL import Image
@@ -30,28 +31,39 @@ class traffic_widget(ctk.CTkFrame):
         image_label.pack(side="top", pady=(0, 0))
 
 
-def get_traffic_data():
-    response = requests.get(
-        "https://api.tomtom.com/traffic/services/4/flowSegmentData/absolute/10/json",
-        params={
-            "point": "37.989829,23.765133",
-            "unit": "MPH",
-            "key": "eRuAxCtEML4iTUX0urNXWgHOd0hM5CbO"
-        }
-    )
+city = "θεσσαλονικη"
 
-    if response.status_code == 200:
-        data = response.json()
-        return data
+
+def get_traffic_data(city):
+
+    geolocator = Nominatim(user_agent="ithvan")
+    location = geolocator.geocode(city)
+    if location:
+        latitude = location.latitude
+        longitude = location.longitude
+        return latitude, longitude
     else:
-        raise Exception("Failed to get traffic data")
+        print("Δεν βρέθηκαν συντεταγμένες για την πόλη.")
+
+    if location is not None:
+        response = requests.get(
+            "https://api.tomtom.com/traffic/services/4/flowSegmentData/absolute/10/json",
+            params={
+                "point": f"{latitude},{longitude}",
+                "unit": "MPH",
+                "key": "eRuAxCtEML4iTUX0urNXWgHOd0hM5CbO"
+            }
+        )
+    else:
+        print("Δεν ήταν δυνατό να βρεθεί η τοποθεσία σας.")
+    return latitude, longitude
 
 
-def create_traffic_map():
-    m = folium.Map(location=[37.975633, 23.734591],
+def create_traffic_map(latitude, longitude):
+    m = folium.Map(location=[latitude, longitude],
                    zoom_start=12, tiles="OpenStreetMap")
 
-    data = get_traffic_data()
+    data = get_traffic_data(city)
     m.save("images/traffic_map.html")
 
     chrome_options = Options()
@@ -86,7 +98,8 @@ def create_traffic_map_repeat():
     threading.Timer(30, create_traffic_map_repeat).start()
 
 
-create_traffic_map()
+latitude, longitude = get_traffic_data(city)
+create_traffic_map(latitude, longitude)
 if __name__ == "__main__":
     app = ctk.CTk()
     app.title("test")
