@@ -1,12 +1,7 @@
-import itertools
-import json
-import sqlite3
 from tkinter import *
-import tkinter
-from tkinter import messagebox
 import customtkinter
 from customtkinter import *
-from PIL import Image, ImageTk
+from PIL import Image
 
 current_camera = 0
 
@@ -296,13 +291,6 @@ class DeviceController(customtkinter.CTk):
             shutters.configure(image=mpajouria, fg_color="turquoise4", command=closing_shutters)
         
         def open_LR():
-            
-            
-       
-            
-                
-            
-
             
             temperatureL.place_forget()
             scale.place_forget()
