@@ -116,13 +116,9 @@ class Alarm(customtkinter.CTk):
                 self.new_alarm = customtkinter.CTkLabel(self, text=alarm_label, fg_color='midnight blue', font=("Arial", 16))
                 self.new_alarm.grid(row=alarm_id, column=0, rowspan=1, columnspan=9, padx=5, pady=5, sticky="nsew")
                 # open trashcan image
-                trashcan = Image.open("Images\Trashcan-gray.png")
-                trashcan_size = (200, 200)  # resize the image if necessary
-                trashcan_resized = trashcan.resize(trashcan_size, Image.LANCZOS)
-                # Convert the image to a PhotoImage object
-                photo_image = CTkImage(trashcan_resized)
+                trashcan = customtkinter.CTkImage(light_image=Image.open("Images\Trashcan-gray.png"), size=(80, 80))
                 # delete button
-                self.delete_button = customtkinter.CTkButton(self, text="", image=photo_image, fg_color='gray15', cursor='hand2', command=lambda:delete_alarm(crs, alarm_id, self.new_alarm))
+                self.delete_button = customtkinter.CTkButton(self, text="", image=trashcan, fg_color='gray15', cursor='hand2', command=lambda:delete_alarm(crs, alarm_id, self.new_alarm))
                 self.delete_button.grid(row=alarm_id, column=9, rowspan=1, columnspan=1, padx=5, pady=5, sticky="nsew")
                 conn.commit()
                 crs.close()
