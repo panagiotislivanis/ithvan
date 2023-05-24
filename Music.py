@@ -5,7 +5,12 @@ from tkinter import PhotoImage
 from typing import Union
 import customtkinter
 
-config = {"path": "./music", "mode": "System", "theme": "Light"}
+# Modes: "System" (standard), "Dark", "Light"
+customtkinter.set_appearance_mode("dark")
+# Themes: "blue" (standard), "green", "dark-blue"
+customtkinter.set_default_color_theme("blue")
+
+config = {"path": "./music"}
 
 # Initialize pygame mixer
 pygame.mixer.init()
@@ -34,17 +39,31 @@ class MusicPlayer(customtkinter.CTk):
         )
         self.__progress_bar.pack(fill="x", pady=10)
 
+        customtkinter.CTkButton(
+            self, text="", command=self.prev, image=self.__prev_image
+        ).pack(side="left")
+
         self.__play_button = customtkinter.CTkButton(
             self, text="", command=self.play, image=self.__play_image
         )
         self.__play_button.pack(padx=10, side="left")
 
         customtkinter.CTkButton(
-            self, text="", command=self.prev, image=self.__prev_image
-        ).pack(side="left")
-        customtkinter.CTkButton(
             self, text="", command=self.next, image=self.__next_image
         ).pack(side="left")
+
+        # Adding volume slider below the progress bar
+        self.__volume_slider = customtkinter.CTkSlider(
+            self,
+            from_=0,
+            to=1,
+            orientation="vertical",
+            height=100,
+            command=self.change_volume,
+            button_color="#00ffff",
+            progress_color="#00ffbf",
+        )
+        self.__volume_slider.pack(side="left", pady=(00, 16))
 
         self.update_progress()
 
@@ -68,6 +87,9 @@ class MusicPlayer(customtkinter.CTk):
         song = self.music_now(self.__activate_now)
         pygame.mixer.music.load(song)
         pygame.mixer.music.play(start=self.__position)
+
+    def change_volume(self, volume: float):
+        pygame.mixer.music.set_volume(volume)
 
     def update_progress(self) -> None:
         if self.__play_status and not self.__manual_positioning:
