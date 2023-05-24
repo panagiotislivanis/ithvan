@@ -29,13 +29,14 @@ class DeviceController(customtkinter.CTk):
         left_panel.pack(side="left", fill="y", padx=10, pady=10)
         
         # Create the right panel
-        right_panel = customtkinter.CTkFrame(self, bg_color="grey30", width=500, height=400)
+        right_panel = customtkinter.CTkFrame(self, bg_color="grey30", width=500, height=600)
         right_panel.pack(side="right", fill="both", padx=10, pady=10)
-        
+
         #images
         off_lamp = customtkinter.CTkImage(light_image=Image.open("Images\Off-Lamp.png"), size=(120, 120))
         on_lamp = customtkinter.CTkImage(light_image=Image.open("Images\On-Lamp.png"), size=(120, 120))
         ac = customtkinter.CTkImage(light_image=Image.open("Images\AC.png"), size=(120, 120))
+        rgb = customtkinter.CTkImage(light_image=Image.open("Images\RGB.png"), size=(120, 120))
         fridgecat = customtkinter.CTkImage(light_image=Image.open("Images\Fridgecat.png"), size=(120, 120))
         hp = customtkinter.CTkImage(light_image=Image.open("Images\Heat_Pump.png"), size=(120, 120))
         mpajouria = customtkinter.CTkImage(light_image=Image.open("Images\Shutters.png"), size=(120, 120))
@@ -54,290 +55,124 @@ class DeviceController(customtkinter.CTk):
         kitchenCamera = customtkinter.CTkImage(light_image=Image.open("Images\Kitchen.jpg"), size=(780, 465))
         g1 = customtkinter.CTkImage(light_image=Image.open("Images\Garden1.jpg"), size=(780, 465))
         g2 = customtkinter.CTkImage(light_image=Image.open("Images\Garden2.jpg"), size=(780, 465))
+        rabbit = customtkinter.CTkImage(light_image=Image.open("Images\Rabbit.png"), size=(80, 80))
+        turtle = customtkinter.CTkImage(light_image=Image.open("Images\Turtle.png"), size=(80, 80))
         
-        #create a panel on top of another to make the icons dissapear
         #maintain button state = unsolved ???
-                
-        def open_bedroom():
-            def on_lamp_handler():
-                main_on_lamp = customtkinter.CTkButton(right_panel, image=on_lamp, text="", fg_color="turquoise1", cursor="hand2", height=200, width=180, command=off_lamp_handler)
-                main_on_lamp.place(x=25, y=10)  
-             
-            def off_lamp_handler():
-                main_off_lamp = customtkinter.CTkButton(right_panel, image=off_lamp, text="", fg_color="turquoise4", cursor="hand2", height=200, width=180, command=on_lamp_handler)
-                main_off_lamp.place(x=25, y=10)       
-            
-            def on_side_lamps_handler():
-                on_side_lamps = customtkinter.CTkButton(right_panel, image=on_lamp, text="", fg_color="turquoise1", height=200, width=180, command=off_side_lamps_handler)
-                on_side_lamps.place(x=255, y=10)
-            
-            def off_side_lamps_handler():
-                off_side_lamps = customtkinter.CTkButton(right_panel, image=off_lamp, text="", fg_color="turquoise4", height=200, width=180, command=on_side_lamps_handler)
-                off_side_lamps.place(x=255, y=10)
-                
-            def on_AC():
-                on_AC  = customtkinter.CTkButton(right_panel, image=ac, text="", fg_color="turquoise1", height=200, width=180, command=off_AC)
-                on_AC.place(x=25, y=300)
-            
-            def off_AC():
-                off_AC  = customtkinter.CTkButton(right_panel, image=ac, text="", fg_color="turquoise4", height=200, width=180, command=on_AC)
-                off_AC.place(x=25, y=300)
-            
-            def temperature(value):
-                temperature = customtkinter.CTkLabel(right_panel, text="%.1f" % value, fg_color="CadetBlue4", height=10, width=10)
-                temperature.place(x=207, y=555)
-            
-            def closing_shutters():
-                closed_shutters  = customtkinter.CTkButton(right_panel, image=mpajouria, text="", fg_color="turquoise1", height=200, width=180, command=opening_shutters)
-                closed_shutters.place(x=255, y=300)
-                
-                
-            def opening_shutters():
-                opened_shutters  = customtkinter.CTkButton(right_panel, image=mpajouria, text="", fg_color="turquoise4", height=200, width=180, command=closing_shutters)
-                opened_shutters.place(x=255, y=300)
-            
-            
-            main_off_lamp = customtkinter.CTkButton(right_panel, image=off_lamp, text="", fg_color="turquoise4", cursor="hand2", height=200, width=180, command=on_lamp_handler)
-            main_off_lamp.place(x=25, y=10)
-            main_lamp_label = customtkinter.CTkLabel(right_panel, text="Adjust Brightness", fg_color="CadetBlue4", height=30, width=120)
-            main_lamp_label.place(x=55, y=225)
-            main_lamp_slider = customtkinter.CTkSlider(right_panel, from_=0, to=100, bg_color="CadetBlue4")
-            main_lamp_slider.place(x=15, y=265)
-            
-            side_lamps = customtkinter.CTkButton(right_panel, image=off_lamp, text="", fg_color="turquoise4", height=200, width=180, command=on_side_lamps_handler)
-            side_lamps.place(x=255, y=10)
-            side_lamps_label = customtkinter.CTkLabel(right_panel, text="Adjust Brightness", fg_color="CadetBlue4", height=30, width=120)
-            side_lamps_label.place(x=285, y=225)
-            side_lamps_slider = customtkinter.CTkSlider(right_panel, from_=0, to=100, bg_color="CadetBlue4")
-            side_lamps_slider.place(x=245, y=265)
-            
-            aircondition = customtkinter.CTkButton(right_panel, image=ac, text="", fg_color="turquoise4", height=200, width=180, command=on_AC)
-            aircondition.place(x=25, y=300)
-            aircodition_label = customtkinter.CTkLabel(right_panel, text="Temperature", fg_color="CadetBlue4", height=30, width=120)
-            aircodition_label.place(x=55, y=515)
-            aircodition_slider = customtkinter.CTkSlider(right_panel, from_=15, to=28, bg_color="CadetBlue4", command=temperature)
-            aircodition_slider.place(x=5, y=555)
-            
-            shutters = customtkinter.CTkButton(right_panel, image=mpajouria, text="", fg_color="turquoise4", height=200, width=180, command=closing_shutters)
-            shutters.place(x=255, y=300)
+        #1st row 1st column widgets
+        def on_lamp_handler_t():
+            main_lamp.configure(image=on_lamp, fg_color="turquoise1", command=off_lamp_handler_t) 
         
-        def open_LR():
-            def on_lamp1_handler():
-                main_on_lamp = customtkinter.CTkButton(right_panel, image=on_lamp, text="", fg_color="IndianRed1", cursor="hand2", height=200, width=180, command=off_lamp1_handler)
-                main_on_lamp.place(x=25, y=10)  
+        def off_lamp_handler_t():
+            main_lamp.configure(image=off_lamp, fg_color="turquoise4", command=on_lamp_handler_t)
              
-            def off_lamp1_handler():
-                main_off_lamp = customtkinter.CTkButton(right_panel, image=off_lamp, text="", fg_color="IndianRed4", cursor="hand2", height=200, width=180, command=on_lamp1_handler)
-                main_off_lamp.place(x=25, y=10)       
+        def on_lamp_handler_r():
+            main_lamp.configure(image=on_lamp, fg_color="IndianRed1", command=off_lamp_handler_r) 
             
-            def on_lamp2_handler():
-                on_side_lamps = customtkinter.CTkButton(right_panel, image=on_lamp, text="", fg_color="IndianRed1", height=200, width=180, command=off_lamp2_handler)
-                on_side_lamps.place(x=255, y=10)
+        def off_lamp_handler_r():
+            main_lamp.configure(image=off_lamp, fg_color="IndianRed4", command=on_lamp_handler_r)
             
-            def off_lamp2_handler():
-                off_side_lamps = customtkinter.CTkButton(right_panel, image=off_lamp, text="", fg_color="IndianRed4", height=200, width=180, command=on_lamp2_handler)
-                off_side_lamps.place(x=255, y=10)
-                
-            def on_lamp3_handler():
-                on_side_lamps = customtkinter.CTkButton(right_panel, image=on_lamp, text="", fg_color="IndianRed1", height=200, width=180, command=off_lamp3_handler)
-                on_side_lamps.place(x=25, y=300)
+        def on_thermo():
+            main_lamp.configure(fg_color="turquoise1", command=off_thermo)
             
-            def off_lamp3_handler():
-                off_side_lamps = customtkinter.CTkButton(right_panel, image=off_lamp, text="", fg_color="IndianRed4", height=200, width=180, command=on_lamp3_handler)
-                off_side_lamps.place(x=25, y=300)
-                
-            def on_AC():
-                on_AC  = customtkinter.CTkButton(right_panel, image=ac, text="", fg_color="IndianRed1", height=200, width=180, command=off_AC)
-                on_AC.place(x=255, y=300)
+        def off_thermo():
+            main_lamp.configure(fg_color="turquoise4", command=on_thermo)
             
-            def off_AC():
-                off_AC  = customtkinter.CTkButton(right_panel, image=ac, text="", fg_color="IndianRed4", height=200, width=180, command=on_AC)
-                off_AC.place(x=255, y=300)
-            
-            def temperature(value):
-                temperature = customtkinter.CTkLabel(right_panel, text="%.1f" % value, fg_color="RosyBrown4", height=10, width=10)
-                temperature.place(x=433, y=555)
-            
-            main_off_lamp = customtkinter.CTkButton(right_panel, image=off_lamp, text="", fg_color="IndianRed4", cursor="hand2", height=200, width=180, command=on_lamp1_handler)
-            main_off_lamp.place(x=25, y=10)
-            main_lamp_label = customtkinter.CTkLabel(right_panel, text="Adjust Brightness", fg_color="RosyBrown4", height=30, width=120)
-            main_lamp_label.place(x=55, y=225)
-            main_lamp_slider = customtkinter.CTkSlider(right_panel, from_=0, to=100, bg_color="RosyBrown4")
-            main_lamp_slider.place(x=15, y=265)
-            
-            side_lamp = customtkinter.CTkButton(right_panel, image=off_lamp, text="", fg_color="IndianRed4", height=200, width=180, command=on_lamp2_handler)
-            side_lamp.place(x=255, y=10)
-            side_lamp_label = customtkinter.CTkLabel(right_panel, text="Adjust Brightness", fg_color="RosyBrown4", height=30, width=120)
-            side_lamp_label.place(x=285, y=225)
-            side_lamp_slider = customtkinter.CTkSlider(right_panel, from_=0, to=100, bg_color="RosyBrown4")
-            side_lamp_slider.place(x=245, y=265)
-            
-            side_lamp2 = customtkinter.CTkButton(right_panel, image=off_lamp, text="", fg_color="IndianRed4", height=200, width=180, command=on_lamp3_handler)
-            side_lamp2.place(x=25, y=300)
-            side_lamp2_label = customtkinter.CTkLabel(right_panel, text="Adjust Brightness", fg_color="RosyBrown4", height=30, width=120)
-            side_lamp2_label.place(x=55, y=515)
-            side_lamp2_slider = customtkinter.CTkSlider(right_panel, from_=0, to=100, bg_color="RosyBrown4")
-            side_lamp2_slider.place(x=15, y=555)
-            
-            aircondition = customtkinter.CTkButton(right_panel, image=ac, text="", fg_color="IndianRed4", height=200, width=180, command=on_AC)
-            aircondition.place(x=255, y=300)
-            aircodition_label = customtkinter.CTkLabel(right_panel, text="Temperature", fg_color="RosyBrown4", height=30, width=120)
-            aircodition_label.place(x=285, y=515)
-            aircodition_slider = customtkinter.CTkSlider(right_panel, from_=15, to=28, bg_color="RosyBrown4", command=temperature)
-            aircodition_slider.place(x=230, y=555)
-            
-        def open_kitchen():
-            def on_mainlamp_handler():
-                main_on_lamp = customtkinter.CTkButton(right_panel, image=on_lamp, text="", fg_color="turquoise1", cursor="hand2", height=200, width=180, command=off_mainlamp_handler)
-                main_on_lamp.place(x=25, y=10)  
-             
-            def off_mainlamp_handler():
-                main_off_lamp = customtkinter.CTkButton(right_panel, image=off_lamp, text="", fg_color="turquoise4", cursor="hand2", height=200, width=180, command=on_mainlamp_handler)
-                main_off_lamp.place(x=25, y=10)
-            
-            def temperature(value):
-                temperature = customtkinter.CTkLabel(right_panel, text="%.1f" % value, fg_color="CadetBlue4", height=10, width=10)
-                temperature.place(x=433, y=265)
-            
-            main_off_lamp = customtkinter.CTkButton(right_panel, image=off_lamp, text="", fg_color="turquoise4", cursor="hand2", height=200, width=180, command=on_mainlamp_handler)
-            main_off_lamp.place(x=25, y=10)
-            main_lamp_label = customtkinter.CTkLabel(right_panel, text="Adjust Brightness", fg_color="CadetBlue4", height=30, width=120)
-            main_lamp_label.place(x=55, y=225)
-            main_lamp_slider = customtkinter.CTkSlider(right_panel, from_=0, to=100, bg_color="CadetBlue4")
-            main_lamp_slider.place(x=15, y=265)    
-
-            fridge = customtkinter.CTkButton(right_panel, image=fridgecat, text="", fg_color="turquoise1", height=200, width=180)
-            fridge.place(x=255, y=10)
-            fridge_label = customtkinter.CTkLabel(right_panel, text="Temperature", fg_color="CadetBlue4", height=30, width=120)
-            fridge_label.place(x=285, y=225)
-            fridgetmp_slider = customtkinter.CTkSlider(right_panel, from_=2, to=8, bg_color="CadetBlue4", command=temperature)
-            fridgetmp_slider.place(x=230, y=265) 
-
-        def open_bathroom():
-            def on_lamp_handler():
-                main_on_lamp = customtkinter.CTkButton(right_panel, image=on_lamp, text="", fg_color="IndianRed1", cursor="hand2", height=200, width=180, command=off_lamp_handler)
-                main_on_lamp.place(x=25, y=10)  
-             
-            def off_lamp_handler():
-                main_off_lamp = customtkinter.CTkButton(right_panel, image=off_lamp, text="", fg_color="IndianRed4", cursor="hand2", height=200, width=180, command=on_lamp_handler)
-                main_off_lamp.place(x=25, y=10)
-                
-            def on_heat_pump():
-                on_side_lamps = customtkinter.CTkButton(right_panel, image=hp, text="", fg_color="IndianRed1", height=200, width=180, command=off_heat_pump)
-                on_side_lamps.place(x=255, y=10)
-            
-            def off_heat_pump():
-                off_side_lamps = customtkinter.CTkButton(right_panel, image=hp, text="", fg_color="IndianRed4", height=200, width=180, command=on_heat_pump)
-                off_side_lamps.place(x=255, y=10)
-                
-            def heatpump_switch(value):
-                scale = customtkinter.CTkLabel(right_panel, text="%d" % value, fg_color="RosyBrown4", height=10, width=10)
-                scale.place(x=438, y=265)
-            
-            main_off_lamp = customtkinter.CTkButton(right_panel, image=off_lamp, text="", fg_color="IndianRed4", cursor="hand2", height=200, width=180, command=on_lamp_handler)
-            main_off_lamp.place(x=25, y=10)
-            main_lamp_label = customtkinter.CTkLabel(right_panel, text="Adjust Brightness", fg_color="RosyBrown4", height=30, width=120)
-            main_lamp_label.place(x=55, y=225)
-            main_lamp_slider = customtkinter.CTkSlider(right_panel, from_=0, to=100, bg_color="RosyBrown4")
-            main_lamp_slider.place(x=15, y=265)
-            
-            heatpump = customtkinter.CTkButton(right_panel, image=hp, text="", fg_color="IndianRed4", cursor="hand2", height=200, width=180, command=on_heat_pump)
-            heatpump.place(x=255, y=10)
-            heatpump_label = customtkinter.CTkLabel(right_panel, text="Scale", fg_color="RosyBrown4", height=30, width=120)
-            heatpump_label.place(x=285, y=225)
-            heatpump_slider = customtkinter.CTkSlider(right_panel, from_=1, to=5, bg_color="RosyBrown4", command=heatpump_switch)
-            heatpump_slider.place(x=235, y=265) 
-            
-        def open_garage():
-            def on_lamp_handler():
-                main_on_lamp = customtkinter.CTkButton(right_panel, image=on_lamp, text="", fg_color="turquoise1", cursor="hand2", height=200, width=180, command=off_lamp_handler)
-                main_on_lamp.place(x=25, y=10)  
-             
-            def off_lamp_handler():
-                main_off_lamp = customtkinter.CTkButton(right_panel, image=off_lamp, text="", fg_color="turquoise4", cursor="hand2", height=200, width=180, command=on_lamp_handler)
-                main_off_lamp.place(x=25, y=10)
-                
-            def open_garagedoor():
-                on_side_lamps = customtkinter.CTkButton(right_panel, image=opened_garagedoor, text="", fg_color="turquoise1", height=200, width=180, command=close_garagedoor)
-                on_side_lamps.place(x=255, y=10)
-            
-            def close_garagedoor():
-                off_side_lamps = customtkinter.CTkButton(right_panel, image=closed_garagedoor, text="", fg_color="turquoise4", height=200, width=180, command=open_garagedoor)
-                off_side_lamps.place(x=255, y=10)
-            
-            main_off_lamp = customtkinter.CTkButton(right_panel, image=off_lamp, text="", fg_color="turquoise4", cursor="hand2", height=200, width=180, command=on_lamp_handler)
-            main_off_lamp.place(x=25, y=10)
-            main_lamp_label = customtkinter.CTkLabel(right_panel, text="Adjust Brightness", fg_color="CadetBlue4", height=30, width=120)
-            main_lamp_label.place(x=55, y=225)
-            main_lamp_slider = customtkinter.CTkSlider(right_panel, from_=0, to=100, bg_color="CadetBlue4")
-            main_lamp_slider.place(x=15, y=265)
-            
-            garage_door = customtkinter.CTkButton(right_panel, image=closed_garagedoor, text="", fg_color="turquoise4", cursor="hand2", height=200, width=180, command=open_garagedoor)
-            garage_door.place(x=255, y=10)
- 
-        def open_garden():
-            def on_lamp_handler():
-                main_on_lamp = customtkinter.CTkButton(right_panel, image=on_lamp, text="", fg_color="IndianRed1", cursor="hand2", height=200, width=180, command=off_lamp_handler)
-                main_on_lamp.place(x=25, y=10)  
-             
-            def off_lamp_handler():
-                main_off_lamp = customtkinter.CTkButton(right_panel, image=off_lamp, text="", fg_color="IndianRed4", cursor="hand2", height=200, width=180, command=on_lamp_handler)
-                main_off_lamp.place(x=25, y=10)
-                
-            def on_water_sprinkles():
-                on_side_lamps = customtkinter.CTkButton(right_panel, image=water_sprinkles, text="", fg_color="IndianRed1", height=200, width=180, command=off_water_sprinkles)
-                on_side_lamps.place(x=255, y=10)
-            
-            def off_water_sprinkles():
-                off_side_lamps = customtkinter.CTkButton(right_panel, image=water_sprinkles, text="", fg_color="IndianRed4", height=200, width=180, command=on_water_sprinkles)
-                off_side_lamps.place(x=255, y=10)
-                
-            def watering_mode(value):
-                scale = customtkinter.CTkLabel(right_panel, text="%d" % value, fg_color="RosyBrown4", height=10, width=10)
-                scale.place(x=438, y=265)
-                
-            main_off_lamp = customtkinter.CTkButton(right_panel, image=off_lamp, text="", fg_color="IndianRed4", cursor="hand2", height=200, width=180, command=on_lamp_handler)
-            main_off_lamp.place(x=25, y=10)
-            main_lamp_label = customtkinter.CTkLabel(right_panel, text="Adjust Brightness", fg_color="RosyBrown4", height=30, width=120)
-            main_lamp_label.place(x=55, y=225)
-            main_lamp_slider = customtkinter.CTkSlider(right_panel, from_=0, to=100, bg_color="RosyBrown4")
-            main_lamp_slider.place(x=15, y=265)
-            
-            heatpump = customtkinter.CTkButton(right_panel, image=water_sprinkles, text="", fg_color="IndianRed4", cursor="hand2", height=200, width=180, command=on_water_sprinkles)
-            heatpump.place(x=255, y=10)
-            heatpump_label = customtkinter.CTkLabel(right_panel, text="Mode", fg_color="RosyBrown4", height=30, width=120)
-            heatpump_label.place(x=285, y=225)
-            heatpump_slider = customtkinter.CTkSlider(right_panel, from_=1, to=5, bg_color="RosyBrown4", command=watering_mode)
-            heatpump_slider.place(x=235, y=265) 
+        def temperature(value):
+            temperatureL.configure(text="%.1f" % value)
         
-        def open_others():
-            def on_thermo():
-                on_thermostat  = customtkinter.CTkButton(right_panel, image=thermostat, text="", fg_color="turquoise1", height=200, width=180, command=off_thermo)
-                on_thermostat.place(x=25, y=10)
+        #1st row 2nd column widgets
+        def on_side_lamps_handler_t():
+            side_lamps.configure(image=on_lamp, fg_color="turquoise1", command=off_side_lamps_handler_t)
             
-            def off_thermo():
-                off_thermostat = customtkinter.CTkButton(right_panel, image=thermostat, text="", fg_color="turquoise4", height=200, width=180, command=on_thermo)
-                off_thermostat.place(x=25, y=10)
+        def off_side_lamps_handler_t():
+            side_lamps.configure(image=off_lamp, fg_color="turquoise4", command=on_side_lamps_handler_t)
+        
+        def on_side_lamps_handler_r():
+            side_lamps.configure(image=on_lamp, fg_color="IndianRed1", command=off_side_lamps_handler_r)
             
-            def temperatureThermo(value):
-                temperature = customtkinter.CTkLabel(right_panel, text="%.1f" % value, fg_color="CadetBlue4", height=10, width=10)
-                temperature.place(x=207, y=265)
             
-            def on_water_heater():
-                on_wHeater  = customtkinter.CTkButton(right_panel, image=water_heater, text="", fg_color="turquoise1", height=200, width=180, command=off_water_heater)
-                on_wHeater.place(x=255, y=10)
+        def off_side_lamps_handler_r():
+            side_lamps.configure(image=off_lamp, fg_color="IndianRed4", command=on_side_lamps_handler_r)
+        
+        def on_heat_pump():
+            side_lamps.configure(image=hp, fg_color="IndianRed1", command=off_heat_pump)
             
-            def off_water_heater():
-                off_wHeater  = customtkinter.CTkButton(right_panel, image=water_heater, text="", fg_color="turquoise4", height=200, width=180, command=on_water_heater)
-                off_wHeater.place(x=255, y=10)
-                   
-            def temperatureWater(value):
-                temperature = customtkinter.CTkLabel(right_panel, text="%.1f" % value, fg_color="CadetBlue4", height=10, width=10)
-                temperature.place(x=433, y=265)
+        def off_heat_pump():
+            side_lamps(image=hp, fg_color="IndianRed4", command=on_heat_pump)
+
+        def heatpump_switch(value):
+            scale.configure(text="%d" % value)
             
-            def open_camera_controler():
+        def open_garagedoor():
+            side_lamps.configure(image=opened_garagedoor, fg_color="turquoise1", command=close_garagedoor)
+                
+        def close_garagedoor():
+            side_lamps.configure(image=closed_garagedoor, fg_color="turquoise4", command=open_garagedoor)
+            
+        def on_water_sprinkles():
+            side_lamps.configure(fg_color="IndianRed1", command=off_water_sprinkles)
+
+        def off_water_sprinkles():
+            side_lamps.configure(fg_color="IndianRed4", command=on_water_sprinkles)
+            
+        def on_water_heater():
+            side_lamps.configure(fg_color="turquoise1", command=off_water_heater)
+            
+        def off_water_heater():
+            side_lamps.configure(fg_color="turquoise4", command=on_water_heater)
+            
+        #2nd row 1st column widgets
+        def on_AC():
+            aircondition.configure(fg_color="turquoise1", command=off_AC)
+            
+        def off_AC():
+            aircondition.configure(fg_color="turquoise4", command=on_AC)
+            
+        def led_handler():
+            popup = CTkToplevel()
+            popup.title("RGB Controler")
+            popup.geometry('800x600+900+180')
+            popup.resizable(False, False)
+            # Create watch panel
+            rgb_panel = customtkinter.CTkFrame(popup, bg_color="grey30", width=780, height=400)
+            rgb_panel.pack(side="top", fill="y", padx=10, pady=10)
+        
+            # Create swap panel
+            settings_panel = customtkinter.CTkFrame(popup, bg_color="grey30", width=780, height=180)
+            settings_panel.pack(side="bottom", fill="both", padx=10, pady=10)
+            
+            red = customtkinter.CTkButton(rgb_panel, text="", fg_color="red", bg_color="grey30", cursor="hand2", width=170, height=170)
+            red.place(x=5, y=5)
+            yellow = customtkinter.CTkButton(rgb_panel, text="", fg_color="yellow", bg_color="grey30", cursor="hand2", width=170, height=170)
+            yellow.place(x=205, y=5)
+            green = customtkinter.CTkButton(rgb_panel, text="", fg_color="green", bg_color="grey30", cursor="hand2", width=170, height=170)
+            green.place(x=405, y=5)
+            cyan = customtkinter.CTkButton(rgb_panel, text="", fg_color="cyan", bg_color="grey30", cursor="hand2", width=170, height=170)
+            cyan.place(x=605, y=5)
+            navy = customtkinter.CTkButton(rgb_panel, text="", fg_color="navy", bg_color="grey30", cursor="hand2", width=170, height=170)
+            navy.place(x=5, y=205)
+            dark_violet = customtkinter.CTkButton(rgb_panel, text="", fg_color="dark violet", bg_color="grey30", cursor="hand2", width=170, height=170)
+            dark_violet.place(x=205, y=205)
+            deep_pink = customtkinter.CTkButton(rgb_panel, text="", fg_color="deep pink", bg_color="grey30", cursor="hand2", width=170, height=170)
+            deep_pink.place(x=405, y=205)
+            white = customtkinter.CTkButton(rgb_panel, text="", fg_color="white", bg_color="grey30", cursor="hand2", width=170, height=170)
+            white.place(x=605, y=205)
+            
+            mode = customtkinter.CTkComboBox(settings_panel, values=["Rainbow", "Breath", "Flash", "Steady", "Randomize"])
+            mode.place(x=50, y=20)
+            speed_slider = customtkinter.CTkSlider(settings_panel, bg_color="grey40")
+            speed_slider.place(x=400, y=50)
+            slow = customtkinter.CTkLabel(settings_panel, text="", image=turtle, width=100, height=100)
+            slow.place(x=280, y=10)
+            fast = customtkinter.CTkLabel(settings_panel, text="", image=rabbit, width=100, height=100)
+            fast.place(x=600, y=5)
+            speed = customtkinter.CTkLabel(settings_panel, text="Select Speed", font=('Comic Sans MS', 18, 'bold'), fg_color="grey35", width=140, height=35)
+            speed.place(x=435, y=90)
+        
+        def open_camera_controler():
                 popup = CTkToplevel()
-                popup.title("Alarm")
+                popup.title("ITHVAN SECURITY corp.")
                 popup.geometry('800x600+900+180')
                 popup.resizable(False, False)
                 
@@ -397,27 +232,253 @@ class DeviceController(customtkinter.CTk):
                 previous.place(x=24, y=5)
                 cameraLabel = customtkinter.CTkLabel(swap_panel, text=cameraID[current_camera], font=('Comic Sans MS', 27, 'bold'), text_color="black", fg_color="turquoise4", height=80, width=550)
                 cameraLabel.place(x=115, y=5)
-
         
+        #2nd row 2nd column widgets
+        def closing_shutters():
+            shutters.configure(fg_color="turquoise1", command=opening_shutters)
+                
+        def opening_shutters():
+            shutters.configure(fg_color="turquoise4", command=closing_shutters)
             
-            thermostatB = customtkinter.CTkButton(right_panel, image=thermostat, text="", fg_color="turquoise4", height=200, width=180, command=on_thermo)
-            thermostatB.place(x=25, y=10)
-            thermostat_label = customtkinter.CTkLabel(right_panel, text="Temperature", fg_color="CadetBlue4", height=30, width=120)
-            thermostat_label.place(x=55, y=225)
-            thermostat_slider = customtkinter.CTkSlider(right_panel, from_=18, to=30, bg_color="CadetBlue4", command=temperatureThermo)
-            thermostat_slider.place(x=4, y=265)
+        def on_AC2():
+            shutters.configure(fg_color="IndianRed1", command=off_AC2)
             
-            wHeater = customtkinter.CTkButton(right_panel, image=water_heater, text="", fg_color="turquoise4", height=200, width=180, command=on_water_heater)
-            wHeater.place(x=255, y=10)
-            wHeater_label = customtkinter.CTkLabel(right_panel, text="Temperature", fg_color="CadetBlue4", height=30, width=120)
-            wHeater_label.place(x=285, y=225)
-            wHeater_slider = customtkinter.CTkSlider(right_panel, from_=45, to=85, bg_color="CadetBlue4", command=temperatureWater)
-            wHeater_slider.place(x=230, y=265)
+        def off_AC2():
+            shutters.configure(fg_color="IndianRed4", command=on_AC2)
+                            
+        main_lamp = customtkinter.CTkButton(right_panel, text="", cursor="hand2", height=200, width=180)
+        main_lamp_label = customtkinter.CTkLabel(right_panel, height=30, width=120)
+        main_lamp_slider = customtkinter.CTkSlider(right_panel, from_=0, to=100)
+        temperatureL = customtkinter.CTkLabel(right_panel, height=10, width=10)
+        side_lamps = customtkinter.CTkButton(right_panel, text="", cursor="hand2", height=200, width=180)
+        side_lamps_label = customtkinter.CTkLabel(right_panel, height=30, width=120)
+        side_lamps_slider = customtkinter.CTkSlider(right_panel, from_=0, to=100)
+        scale = customtkinter.CTkLabel(right_panel, height=10, width=10)
+        aircondition = customtkinter.CTkButton(right_panel, text="", cursor="hand2", height=200, width=180)
+        aircondition_label = customtkinter.CTkLabel(right_panel, height=30, width=120)
+        aircondition_slider = customtkinter.CTkSlider(right_panel)
+        ithvan_security = customtkinter.CTkLabel(right_panel, text="Ithvan Security", font=('System', 24, 'bold'), fg_color="CadetBlue4", height=60, width=145)
+        shutters = customtkinter.CTkButton(right_panel, text="", cursor="hand2", height=200, width=180, command=closing_shutters)
+        shutters_label = customtkinter.CTkLabel(right_panel, height=30, width=120)
+        shutters_slider = customtkinter.CTkSlider(right_panel)
+                    
+        def open_bedroom():
             
-            camera = customtkinter.CTkButton(right_panel, image=cameraPNG, text="", fg_color="turquoise4", height=200, width=180, command=open_camera_controler)
-            camera.place(x=25, y=300)
-            camera_label = customtkinter.CTkLabel(right_panel, text="Ithvan Security", font=('System', 24, 'bold'), fg_color="CadetBlue4", height=60, width=145)
-            camera_label.place(x=17, y=515)
+            temperatureL.place_forget()
+            scale.place_forget()
+            ithvan_security.place_forget()
+            shutters_label.place_forget()
+            shutters_slider.place_forget()
+            main_lamp.place(x=25, y=10)
+            main_lamp_label.place(x=55, y=225)
+            main_lamp_slider.place(x=15, y=265)
+            main_lamp.configure(image=off_lamp, fg_color="turquoise4", command=on_lamp_handler_t)
+            main_lamp_label.configure(text="Adjust Brightness", fg_color="CadetBlue4")
+            main_lamp_slider.configure(bg_color="CadetBlue4")
+
+            side_lamps.place(x=255, y=10)
+            side_lamps_label.place(x=285, y=225)
+            side_lamps_slider.place(x=245, y=265)
+            side_lamps.configure(image=off_lamp, fg_color="turquoise4", command=on_side_lamps_handler_t)
+            side_lamps_label.configure(text="Adjust Brightness", fg_color="CadetBlue4")
+            side_lamps_slider.configure(bg_color="CadetBlue4")
+
+            aircondition.place(x=25, y=300)
+            aircondition_label.place(x=55, y=515)
+            aircondition_slider.place(x=5, y=555)
+            temperatureL.place(x=207, y=555)
+            aircondition.configure(image=ac, fg_color="turquoise4", command=on_AC)
+            aircondition_label.configure(text="Temperature", fg_color="CadetBlue4")
+            aircondition_slider.configure(from_=15, to=28, bg_color="CadetBlue4", command=temperature)
+            temperatureL.configure(text="22.5", fg_color="CadetBlue4")
+            
+            shutters.place(x=255, y=300)
+            shutters.configure(image=mpajouria, fg_color="turquoise4", command=closing_shutters)
+        
+        def open_LR():
+            
+            
+       
+            
+                
+            
+
+            
+            temperatureL.place_forget()
+            scale.place_forget()
+            ithvan_security.place_forget()
+            main_lamp.place(x=25, y=10)
+            main_lamp_label.place(x=55, y=225)
+            main_lamp_slider.place(x=15, y=265)
+            main_lamp.configure( image=off_lamp, fg_color="IndianRed4", command=on_lamp_handler_r)
+            main_lamp_label.configure( text="Adjust Brightness", fg_color="RosyBrown4")
+            main_lamp_slider.configure(bg_color="RosyBrown4")
+
+            side_lamps.place(x=255, y=10)
+            side_lamps_label.place(x=285, y=225)
+            side_lamps_slider.place(x=245, y=265)
+            side_lamps.configure( image=off_lamp, fg_color="IndianRed4", command=on_side_lamps_handler_r)
+            side_lamps_label.configure( text="Adjust Brightness", fg_color="RosyBrown4")
+            side_lamps_slider.configure(bg_color="RosyBrown4")
+            
+            aircondition.place(x=25, y=300)
+            aircondition_label.place(x=55, y=515)
+            aircondition_slider.place(x=5, y=555)
+            aircondition.configure(image=rgb, fg_color="IndianRed4", command=led_handler)
+            aircondition_label.configure(text="Adjust Brightness", fg_color="RosyBrown4")
+            aircondition_slider.configure(bg_color="RosyBrown4")
+            
+
+            #AC
+            shutters.place(x=255, y=300)
+            shutters_label.place(x=285, y=515)
+            shutters_slider.place(x=230, y=555)
+            temperatureL.place(x=434, y=555)
+            shutters.configure(image=ac, fg_color="IndianRed4", command=on_AC2)
+            shutters_label.configure(text="Temperature", fg_color="RosyBrown4")
+            shutters_slider.configure(from_=15, to=28,bg_color="RosyBrown4", command=temperature)
+            temperatureL.configure(text="22.5", fg_color="RosyBrown4")
+            
+        #smart devide handler for the kitchen
+        def open_kitchen():
+
+            temperatureL.place_forget()
+            scale.place_forget()
+            aircondition.place_forget()
+            aircondition_label.place_forget()
+            aircondition_slider.place_forget()
+            ithvan_security.place_forget()
+            shutters.place_forget()
+            shutters_label.place_forget()
+            shutters_slider.place_forget()
+            main_lamp.place(x=25, y=10)
+            main_lamp_label.place(x=55, y=225)
+            main_lamp_slider.place(x=15, y=265)
+            main_lamp.configure( image=off_lamp, fg_color="turquoise4", command=on_lamp_handler_t)
+            main_lamp_label.configure( text="Adjust Brightness", fg_color="CadetBlue4")
+            main_lamp_slider.configure(bg_color="CadetBlue4")
+            
+            side_lamps.place(x=255, y=10)
+            side_lamps_label.place(x=285, y=225)
+            side_lamps_slider.place(x=230, y=265)
+            temperatureL.place(x=433, y=265)
+            side_lamps.configure( image=fridgecat, fg_color="turquoise1", cursor="", command=None)
+            side_lamps_label.configure( text="Temnperature", fg_color="CadetBlue4")
+            side_lamps_slider.configure(from_=2, to=8, bg_color="CadetBlue4", command=temperature) 
+            temperatureL.configure(text="5", fg_color="CadetBlue4")    
+
+        #smart device handler for the bathroom
+        def open_bathroom():
+            
+            temperatureL.place_forget()
+            scale.place_forget()
+            aircondition.place_forget()
+            aircondition_label.place_forget()
+            aircondition_slider.place_forget()
+            ithvan_security.place_forget()
+            shutters.place_forget()
+            shutters_label.place_forget()
+            shutters_slider.place_forget()
+            main_lamp.place(x=25, y=10)
+            main_lamp_label.place(x=55, y=225)
+            main_lamp_slider.place(x=15, y=265)
+            main_lamp.configure( image=off_lamp, fg_color="IndianRed4", command=on_lamp_handler_r)
+            main_lamp_label.configure( text="Adjust Brightness", fg_color="RosyBrown4")
+            main_lamp_slider.configure(bg_color="RosyBrown4")
+            
+            side_lamps.place(x=255, y=10)
+            side_lamps_label.place(x=285, y=225)
+            side_lamps_slider.place(x=235, y=265)
+            scale.place(x=438, y=265)
+            side_lamps.configure( image=hp, fg_color="IndianRed4", command=on_heat_pump)
+            side_lamps_label.configure( text="Temnperature", fg_color="RosyBrown4")
+            side_lamps_slider.configure(from_=1, to=5, bg_color="RosyBrown4", command=heatpump_switch) 
+            scale.configure(text="3", fg_color="RosyBrown4")
+        
+        #smart device handler for the garage    
+        def open_garage():
+            
+            temperatureL.place_forget()
+            scale.place_forget()
+            aircondition.place_forget()
+            aircondition_label.place_forget()
+            aircondition_slider.place_forget()
+            ithvan_security.place_forget()
+            side_lamps_label.place_forget()
+            side_lamps_slider.place_forget()
+            shutters.place_forget()
+            shutters_label.place_forget()
+            shutters_slider.place_forget()
+            main_lamp.place(x=25, y=10)
+            main_lamp_label.place(x=55, y=225)
+            main_lamp_slider.place(x=15, y=265)
+            main_lamp.configure( image=off_lamp, fg_color="turquoise4", command=on_lamp_handler_t)
+            main_lamp_label.configure( text="Adjust Brightness", fg_color="CadetBlue4")
+            main_lamp_slider.configure(bg_color="CadetBlue4")
+            
+            side_lamps.place(x=255, y=10)
+            side_lamps.configure( image=closed_garagedoor, fg_color="turquoise4", command=open_garagedoor)
+ 
+        #smart device handler for the garden
+        def open_garden():
+            
+            temperatureL.place_forget()
+            scale.place_forget()    
+            aircondition.place_forget()
+            aircondition_label.place_forget()
+            aircondition_slider.place_forget()
+            ithvan_security.place_forget()
+            shutters.place_forget()
+            shutters_label.place_forget()
+            shutters_slider.place_forget()
+            main_lamp.place(x=25, y=10)
+            main_lamp_label.place(x=55, y=225)
+            main_lamp_slider.place(x=15, y=265)
+            main_lamp.configure( image=off_lamp, fg_color="IndianRed4", command=on_lamp_handler_r)
+            main_lamp_label.configure( text="Adjust Brightness", fg_color="RosyBrown4")
+            main_lamp_slider.configure(bg_color="RosyBrown4")
+            
+            side_lamps.place(x=255, y=10)
+            side_lamps_label.place(x=285, y=225)
+            side_lamps_slider.place(x=235, y=265)
+            scale.place(x=438, y=265)
+            side_lamps.configure( image=water_sprinkles, fg_color="IndianRed4", command=on_water_sprinkles)
+            side_lamps_label.configure( text="Mode", fg_color="RosyBrown4")
+            side_lamps_slider.configure(from_=1, to=5, bg_color="RosyBrown4", command=heatpump_switch) 
+            scale.configure(text="3", fg_color="RosyBrown4") 
+        
+        #smart device handler for the rest of the devices
+        def open_others():
+            
+            temperatureL.place_forget()
+            scale.place_forget()
+            aircondition_label.place_forget()
+            aircondition_slider.place_forget()
+            shutters.place_forget()
+            shutters_label.place_forget()
+            shutters_slider.place_forget()
+            main_lamp.place(x=25, y=10)
+            main_lamp_label.place(x=55, y=225)
+            main_lamp_slider.place(x=4, y=265)
+            temperatureL.place(x=208, y=265)
+            main_lamp.configure( image=thermostat, fg_color="turquoise4", command=on_thermo)
+            main_lamp_label.configure(text="Temperature", fg_color="CadetBlue4")
+            main_lamp_slider.configure(from_=18, to=30, bg_color="CadetBlue4", command=temperature)
+            temperatureL.configure(text="24", fg_color="CadetBlue4")
+            
+            side_lamps.place(x=255, y=10)
+            side_lamps_label.place(x=285, y=225)
+            side_lamps_slider.place(x=235, y=265)
+            scale.place(x=438, y=265)
+            side_lamps.configure( image=water_heater, fg_color="turquoise4", command=on_water_heater)
+            side_lamps_label.configure( text="Heating Temperature", fg_color="CadetBlue4")
+            side_lamps_slider.configure(from_=45, to=85, bg_color="CadetBlue4", command=heatpump_switch) 
+            scale.configure(text="65", fg_color="CadetBlue4")
+            
+            aircondition.place(x=25, y=300)
+            ithvan_security.place(x=17, y=515)
+            aircondition.configure(image=cameraPNG, fg_color="turquoise4", command=open_camera_controler)
+
 
         #buttons for different rooms
         bedroom = customtkinter.CTkButton(left_panel, text="Bedroom", font=('Comic Sans MS', 27, 'bold'), fg_color="turquoise4", cursor="hand2", height=60, width=180, command=open_bedroom)
@@ -434,7 +495,6 @@ class DeviceController(customtkinter.CTk):
         garden.place(x=10, y=420)
         other_devices = customtkinter.CTkButton(left_panel, text="Other", font=('Comic Sans MS', 27, 'bold'), fg_color="turquoise4", cursor="hand2", height=60, width=180, command=open_others)
         other_devices.place(x=10, y=500)
-        
         
         
 if __name__ == "__main__":
