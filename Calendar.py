@@ -13,6 +13,7 @@ def Database():
     cursor.close()
     conn.close()
 
+#Function for creating an event
 def add_event():
     selected_date = cal.get_date()
     event = entry.get()
@@ -34,45 +35,89 @@ def add_event():
 
         display_events()
 
+#Function for deleting an event
+def DeleteData():
+    selected_date = cal.get_date()
+    event = entry.get()
+    start_time = entry_start.get()
+    end_time = entry_end.get()
+
+    if event and selected_date and start_time and end_time:
+        conn = sqlite3.connect("calendar.db")
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM events WHERE date=? AND event=? AND startTime=? AND endTime=?", (selected_date, event, start_time, end_time))
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        
+
 def display_events():
     selected_date = cal.get_date()
 
     conn = sqlite3.connect("calendar.db")
     cursor = conn.cursor()
-    cursor.execute("SELECT event, startTime, endTime FROM events WHERE date=?", (selected_date,))
+    cursor.execute("SELECT event, startTime, endTime FROM events WHERE date=? ORDER BY startTime ASC", (selected_date,))
     results = cursor.fetchall()
-    event_text = "\n".join([f"{event}: {start_time} - {end_time}" for event, start_time, end_time in results])
     cursor.close()
     conn.close()
 
-    event_label.config(text=event_text)
+    event_listbox.delete(0, tk.END)  # Clear the listbox
+
+    if results:
+        for event in results:
+            event_listbox.insert(tk.END, f"{event[0]}: {event[1]} - {event[2]}")
 
 
+
+#Function for clearing the entry when user tries to enter something in the textbox
+def clear_entry(event):
+    if entry.get() == "Event name":
+        entry.delete(0, tk.END)
+    elif entry_start.get() == "Event start":
+        entry_start.delete(0, tk.END)
+    elif entry_end.get() == "Event end":
+        entry_end.delete(0, tk.END)
+    
+
+#Window configuration
 root = tk.Tk()
 root.title('Calendar')
-root.geometry("400x500")
+root.geometry("600x600")
 p1 = PhotoImage(file = 'Resources-img\calendar.png')
 root.iconphoto(False, p1)
 root.config(bg="#242424")
 
 
 cal = Calendar(root, selectmode="day", year=2023, month=5, day=26)
-cal.pack(ipadx=20)
+cal.grid(row=0, column=0, padx=20, pady=10, columnspan=2)
 
+#Event name field
 entry = tk.Entry(root, width=30)
-entry.pack(pady=10)
+entry.insert(0,"Event name")
+entry.bind("<FocusIn>", clear_entry) #Clearing the entry when user tries to enter event name
+entry.grid(row=1, column=0, padx=20, pady=10, columnspan=2)
 
+#Event time start field
 entry_start = tk.Entry(root, width=10)
-entry_start.pack(pady=10)
+entry_start.insert(0,"Event start")
+entry_start.bind("<FocusIn>", clear_entry)
+entry_start.grid(row=2, column=0, padx=5, pady=10)
 
+#Event time end field
 entry_end = tk.Entry(root, width=10)
-entry_end.pack(pady=10)
+entry_end.insert(0,"Event end")
+entry_end.bind("<FocusIn>", clear_entry)
+entry_end.grid(row=2, column=1, padx=5, pady=10)
 
 add_button = tk.Button(root, text="Add Event", command=add_event)
-add_button.pack(pady=20)
+add_button.grid(row=3, column=0, columnspan=2, pady=20)
 
-event_label = tk.Label(root, text="")
-event_label.pack(pady=20)
+delete_button = Button(root, text="Delete Event", bg="red", command=DeleteData)
+delete_button.grid(row=3, column=1, columnspan=2, padx=5, pady=10)
+
+event_listbox = tk.Listbox(root, width=30)
+event_listbox.grid(row=4, column=0, columnspan=2, padx=5, pady=10)
 
 Database() 
 
