@@ -1,9 +1,12 @@
 import customtkinter
 import tkinter as tk
+from tkinter import *
+from tkinter import ttk
 import sqlite3
 from customtkinter import *
 from tkinter import *
 from tkcalendar import Calendar
+from datetime import datetime
 
 def Database():
     conn = sqlite3.connect("calendar.db")
@@ -99,14 +102,20 @@ entry.bind("<FocusIn>", clear_entry) #Clearing the entry when user tries to ente
 entry.grid(row=1, column=0, padx=20, pady=10, columnspan=2)
 
 #Event time start field
-entry_start = tk.Entry(root, width=10)
-entry_start.insert(0,"Event start")
+entry_start = Spinbox(root, width=10, values=[str(i).zfill(2) for i in range(24)], wrap=True)
+entry_start.delete(0, tk.END)
+start_time_values = [datetime.strftime(datetime.strptime(str(i), "%H"), "%H:%M") for i in range(24)]
+entry_start = ttk.Combobox(root, values=start_time_values, state="readonly", width=10)
+entry_start.current(0)  # Set the default value to the first item
 entry_start.bind("<FocusIn>", clear_entry)
 entry_start.grid(row=2, column=0, padx=5, pady=10)
 
-#Event time end field
-entry_end = tk.Entry(root, width=10)
-entry_end.insert(0,"Event end")
+# Create a Spinbox widget for selecting the end time
+entry_end = Spinbox(root, width=10, values=[str(i).zfill(2) for i in range(24)], wrap=True)
+entry_end.delete(0, tk.END)
+end_time_values = [datetime.strftime(datetime.strptime(str(i), "%H"), "%H:%M") for i in range(24)]
+entry_end = ttk.Combobox(root, values=end_time_values, state="readonly", width=10)
+entry_end.current(0)  # Set the default value to the first item
 entry_end.bind("<FocusIn>", clear_entry)
 entry_end.grid(row=2, column=1, padx=5, pady=10)
 
@@ -122,3 +131,4 @@ event_listbox.grid(row=4, column=0, columnspan=2, padx=5, pady=10)
 Database() 
 
 root.mainloop()
+
