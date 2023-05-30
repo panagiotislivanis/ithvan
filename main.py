@@ -212,6 +212,14 @@ class App(customtkinter.CTk):
                               padx=10, pady=10, sticky="nsew")
         # -----------------------------------------------------------#
 
+        self.appearance_mode_label = customtkinter.CTkLabel(self.tabview, text="Appearance Mode:", anchor="w")
+        self.appearance_mode_label.grid(row=0, column=0, columnspan=2)
+        self.appearance_mode_optionemenu = customtkinter.CTkOptionMenu(self.tabview, values=["Dark", "Light", "System"],command=self.change_appearance_mode_event)
+        self.appearance_mode_optionemenu.grid(row=0, column=0, columnspan=2)
+    
+    def change_appearance_mode_event(self, new_appearance_mode: str):
+            customtkinter.set_appearance_mode(new_appearance_mode)
+
 
 if __name__ == "__main__":
     app = App()
