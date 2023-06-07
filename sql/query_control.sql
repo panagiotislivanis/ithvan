@@ -1,1 +1,2 @@
 --DELETE FROM alarms WHERE id != 0;
+--INSERT INTO myShop_prof (id, name, email, country, adress, postalcode) VALUES (1, 'ITHVAN', 'ithvan@gmail.com', 'Greece', 'Mykinon 32', 14469)
