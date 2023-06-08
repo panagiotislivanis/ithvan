@@ -6,7 +6,7 @@ import customtkinter
 from customtkinter import *
 from PIL import Image
 
-
+sum = 0
 # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_appearance_mode("dark")
 # Themes: "blue" (standard), "green", "dark-blue"
@@ -63,10 +63,12 @@ class MyShop(customtkinter.CTk):
                 conn = sqlite3.connect('myShop_prof.db')
                 crs = conn.cursor()
                 crs.execute("CREATE TABLE IF NOT EXISTS myShop_prof(id integer primary key, name TEXT, email TEXT, country TEXT, adress TEXT, postalcode INT)")
-                crs.execute("CREATE TABLE IF NOT EXISTS myShop_cards(id INT AUTO_INCREMENT primary key, number INT, owner TEXT, CVV INT, exp_date TEXT)")
+                crs.execute("CREATE TABLE IF NOT EXISTS myShop_cards(id INT AUTO_INCREMENT primary key, number TEXT, owner TEXT, CVV INT, exp_date TEXT)")
+                crs.execute("CREATE TABLE IF NOT EXISTS myShop_orders(id INT AUTO_INCREMENT primary key, status TEXT)")
                 conn.commit()
                 conn.close()
-            
+        
+        createDB()    
         # Create search bar widget
         searchcbar = customtkinter.CTkEntry(search_panel, placeholder_text="Search...", width=410, height=45)
         searchcbar.place(x=5, y=5)
@@ -212,7 +214,16 @@ class MyShop(customtkinter.CTk):
         def discard_changes():
             open_prof()
         
-        # Shop widgets
+        # Shop widgets        
+        def add_prod_to_cart(prod_name, prod_price):
+            global sum
+            product_to_cart = prod_name
+            sum = sum + prod_price
+            if product_to_cart:
+                cart_list.insert(0, product_to_cart)
+            else:
+                messagebox.showerror('Error', 'Enter a task.')
+        
         def recomended_opener1():
             popup = CTkToplevel()
             popup.title("My Shop")
@@ -221,7 +232,7 @@ class MyShop(customtkinter.CTk):
             prod_label = customtkinter.CTkLabel(popup, text="", image=iphone14, height=350, width=200)
             product_info = customtkinter.CTkLabel(popup, text="Iphone 14 Pro", font=('Comic Sans MS', 20, 'bold'), text_color="light green")
             product_price = customtkinter.CTkLabel(popup, text="950€", font=('Comic Sans MS', 20, 'bold'), text_color="light green")
-            add_to_cart = customtkinter.CTkButton(popup, text="", image=shopping_cart, fg_color="light green", cursor="hand2", height=70, width=150)
+            add_to_cart = customtkinter.CTkButton(popup, text="", image=shopping_cart, fg_color="light green", cursor="hand2", height=70, width=150, command=lambda:add_prod_to_cart("Iphone 14 Pro", 950))
             prod_label.place(x=50, y=5)
             product_info.place(x=20, y=370)
             product_price.place(x=300, y=370)
@@ -235,7 +246,7 @@ class MyShop(customtkinter.CTk):
             prod_label = customtkinter.CTkLabel(popup, text="", image=gc, height=350, width=200)
             product_info = customtkinter.CTkLabel(popup, text="NVIDIA Geforce GTX 3060 6GB", font=('Comic Sans MS', 20, 'bold'), text_color="light green")
             product_price = customtkinter.CTkLabel(popup, text="    360€", font=('Comic Sans MS', 20, 'bold'), text_color="light green")
-            add_to_cart = customtkinter.CTkButton(popup, text="", image=shopping_cart, fg_color="light green", cursor="hand2", height=70, width=150)
+            add_to_cart = customtkinter.CTkButton(popup, text="", image=shopping_cart, fg_color="light green", cursor="hand2", height=70, width=150, command=lambda:add_prod_to_cart("NVIDIA Geforce GTX 3060 6GB", 360))
             prod_label.place(x=50, y=5)
             product_info.place(x=20, y=370)
             product_price.place(x=300, y=370)
@@ -249,7 +260,7 @@ class MyShop(customtkinter.CTk):
             prod_label = customtkinter.CTkLabel(popup, text="", image=lm, height=350, width=200)
             product_info = customtkinter.CTkLabel(popup, text="40V 21''Self-Propelled Lawn Mower", font=('Comic Sans MS', 20, 'bold'), text_color="light green")
             product_price = customtkinter.CTkLabel(popup, text="350€", font=('Comic Sans MS', 20, 'bold'), text_color="light green")
-            add_to_cart = customtkinter.CTkButton(popup, text="", image=shopping_cart, fg_color="light green", cursor="hand2", height=70, width=150)
+            add_to_cart = customtkinter.CTkButton(popup, text="", image=shopping_cart, fg_color="light green", cursor="hand2", height=70, width=150, command=lambda:add_prod_to_cart("40V 21''Self-Propelled Lawn Mower", 350))
             prod_label.place(x=50, y=5)
             product_info.place(x=20, y=370)
             product_price.place(x=300, y=400)
@@ -280,7 +291,7 @@ class MyShop(customtkinter.CTk):
                 prod_label = customtkinter.CTkLabel(popup, text="", image=hp, height=350, width=200)
                 product_info = customtkinter.CTkLabel(popup, text="HP 15s-eq2037nv R3-5300U", font=('Comic Sans MS', 20, 'bold'), text_color="light green")
                 product_price = customtkinter.CTkLabel(popup, text="450€", font=('Comic Sans MS', 20, 'bold'), text_color="light green")
-                add_to_cart = customtkinter.CTkButton(popup, text="", image=shopping_cart, fg_color="light green", cursor="hand2", height=70, width=150)
+                add_to_cart = customtkinter.CTkButton(popup, text="", image=shopping_cart, fg_color="light green", cursor="hand2", height=70, width=150, command=lambda:add_prod_to_cart("HP 15s-eq2037nv R3-5300U", 450))
                 prod_label.place(x=50, y=5)
                 product_info.place(x=20, y=370)
                 product_price.place(x=300, y=400)
@@ -294,7 +305,7 @@ class MyShop(customtkinter.CTk):
                 prod_label = customtkinter.CTkLabel(popup, text="", image=lg, height=350, width=200)
                 product_info = customtkinter.CTkLabel(popup, text="Τηλεόραση LG LED 32'' Full HD Smart", font=('Comic Sans MS', 20, 'bold'), text_color="light green")
                 product_price = customtkinter.CTkLabel(popup, text="290€", font=('Comic Sans MS', 20, 'bold'), text_color="light green")
-                add_to_cart = customtkinter.CTkButton(popup, text="", image=shopping_cart, fg_color="light green", cursor="hand2", height=70, width=150)
+                add_to_cart = customtkinter.CTkButton(popup, text="", image=shopping_cart, fg_color="light green", cursor="hand2", height=70, width=150, command=lambda:add_prod_to_cart("Τηλεόραση LG LED 32'' Full HD Smart", 290))
                 prod_label.place(x=50, y=5)
                 product_info.place(x=20, y=370)
                 product_price.place(x=300, y=400)
@@ -308,7 +319,7 @@ class MyShop(customtkinter.CTk):
                 prod_label = customtkinter.CTkLabel(popup, text="", image=rtx, height=350, width=200)
                 product_info = customtkinter.CTkLabel(popup, text="MSI GeForce RTX 4080 16GB GDDR6X", font=('Comic Sans MS', 20, 'bold'), text_color="light green")
                 product_price = customtkinter.CTkLabel(popup, text="1600€", font=('Comic Sans MS', 20, 'bold'), text_color="light green")
-                add_to_cart = customtkinter.CTkButton(popup, text="", image=shopping_cart, fg_color="light green", cursor="hand2", height=70, width=150)
+                add_to_cart = customtkinter.CTkButton(popup, text="", image=shopping_cart, fg_color="light green", cursor="hand2", height=70, width=150, command=lambda:add_prod_to_cart("MSI GeForce RTX 4080 16GB GDDR6X", 1600))
                 prod_label.place(x=50, y=5)
                 product_info.place(x=20, y=370)
                 product_price.place(x=300, y=400)
@@ -322,7 +333,7 @@ class MyShop(customtkinter.CTk):
                 prod_label = customtkinter.CTkLabel(popup, text="", image=redmi, height=350, width=200)
                 product_info = customtkinter.CTkLabel(popup, text="Xiaomi Redmi Note 10", font=('Comic Sans MS', 20, 'bold'), text_color="light green")
                 product_price = customtkinter.CTkLabel(popup, text="150€", font=('Comic Sans MS', 20, 'bold'), text_color="light green")
-                add_to_cart = customtkinter.CTkButton(popup, text="", image=shopping_cart, fg_color="light green", cursor="hand2", height=70, width=150)
+                add_to_cart = customtkinter.CTkButton(popup, text="", image=shopping_cart, fg_color="light green", cursor="hand2", height=70, width=150, command=lambda:add_prod_to_cart("Xiaomi Redmi Note 10", 150))
                 prod_label.place(x=50, y=5)
                 product_info.place(x=20, y=370)
                 product_price.place(x=300, y=370)
@@ -362,7 +373,7 @@ class MyShop(customtkinter.CTk):
                 prod_label = customtkinter.CTkLabel(popup, text="", image=w_dress, height=350, width=200)
                 product_info = customtkinter.CTkLabel(popup, text="Black Dress", font=('Comic Sans MS', 20, 'bold'), text_color="light green")
                 product_price = customtkinter.CTkLabel(popup, text="55€", font=('Comic Sans MS', 20, 'bold'), text_color="light green")
-                add_to_cart = customtkinter.CTkButton(popup, text="", image=shopping_cart, fg_color="light green", cursor="hand2", height=70, width=150)
+                add_to_cart = customtkinter.CTkButton(popup, text="", image=shopping_cart, fg_color="light green", cursor="hand2", height=70, width=150, command=lambda:add_prod_to_cart("Black Dress", 55))
                 prod_label.place(x=50, y=5)
                 product_info.place(x=20, y=370)
                 product_price.place(x=300, y=370)
@@ -376,7 +387,7 @@ class MyShop(customtkinter.CTk):
                 prod_label = customtkinter.CTkLabel(popup, text="", image=m_jeans, height=350, width=200)
                 product_info = customtkinter.CTkLabel(popup, text="Slim Jeans", font=('Comic Sans MS', 20, 'bold'), text_color="light green")
                 product_price = customtkinter.CTkLabel(popup, text="20€", font=('Comic Sans MS', 20, 'bold'), text_color="light green")
-                add_to_cart = customtkinter.CTkButton(popup, text="", image=shopping_cart, fg_color="light green", cursor="hand2", height=70, width=150)
+                add_to_cart = customtkinter.CTkButton(popup, text="", image=shopping_cart, fg_color="light green", cursor="hand2", height=70, width=150, command=lambda:add_prod_to_cart("Slim Jeans", 20))
                 prod_label.place(x=50, y=5)
                 product_info.place(x=20, y=370)
                 product_price.place(x=300, y=370)
@@ -390,7 +401,7 @@ class MyShop(customtkinter.CTk):
                 prod_label = customtkinter.CTkLabel(popup, text="", image=polo_tshirt, height=350, width=200)
                 product_info = customtkinter.CTkLabel(popup, text="Purple Polo T-Shirt", font=('Comic Sans MS', 20, 'bold'), text_color="light green")
                 product_price = customtkinter.CTkLabel(popup, text="60€", font=('Comic Sans MS', 20, 'bold'), text_color="light green")
-                add_to_cart = customtkinter.CTkButton(popup, text="", image=shopping_cart, fg_color="light green", cursor="hand2", height=70, width=150)
+                add_to_cart = customtkinter.CTkButton(popup, text="", image=shopping_cart, fg_color="light green", cursor="hand2", height=70, width=150, command=lambda:add_prod_to_cart("Purple Polo T-Shirt", 60))
                 prod_label.place(x=50, y=5)
                 product_info.place(x=20, y=370)
                 product_price.place(x=300, y=370)
@@ -404,7 +415,7 @@ class MyShop(customtkinter.CTk):
                 prod_label = customtkinter.CTkLabel(popup, text="", image=huh_shoes, height=350, width=200)
                 product_info = customtkinter.CTkLabel(popup, text="WHAT ARE THOOOSE?", font=('Comic Sans MS', 20, 'bold'), text_color="light green")
                 product_price = customtkinter.CTkLabel(popup, text="300€", font=('Comic Sans MS', 20, 'bold'), text_color="light green")
-                add_to_cart = customtkinter.CTkButton(popup, text="", image=shopping_cart, fg_color="light green", cursor="hand2", height=70, width=150)
+                add_to_cart = customtkinter.CTkButton(popup, text="", image=shopping_cart, fg_color="light green", cursor="hand2", height=70, width=150, command=lambda:add_prod_to_cart("WHAT ARE THOOOSE?", 300))
                 prod_label.place(x=50, y=5)
                 product_info.place(x=20, y=370)
                 product_price.place(x=300, y=370)
@@ -444,7 +455,7 @@ class MyShop(customtkinter.CTk):
                 prod_label = customtkinter.CTkLabel(popup, text="", image=chair_i, height=350, width=200)
                 product_info = customtkinter.CTkLabel(popup, text="Desk Chair", font=('Comic Sans MS', 20, 'bold'), text_color="light green")
                 product_price = customtkinter.CTkLabel(popup, text="65€", font=('Comic Sans MS', 20, 'bold'), text_color="light green")
-                add_to_cart = customtkinter.CTkButton(popup, text="", image=shopping_cart, fg_color="light green", cursor="hand2", height=70, width=150)
+                add_to_cart = customtkinter.CTkButton(popup, text="", image=shopping_cart, fg_color="light green", cursor="hand2", height=70, width=150, command=lambda:add_prod_to_cart("Desk Chair", 65))
                 prod_label.place(x=50, y=5)
                 product_info.place(x=20, y=370)
                 product_price.place(x=300, y=370)
@@ -458,7 +469,7 @@ class MyShop(customtkinter.CTk):
                 prod_label = customtkinter.CTkLabel(popup, text="", image=pots_pack_i, height=350, width=200)
                 product_info = customtkinter.CTkLabel(popup, text="Planting Pots Pack", font=('Comic Sans MS', 20, 'bold'), text_color="light green")
                 product_price = customtkinter.CTkLabel(popup, text="30€", font=('Comic Sans MS', 20, 'bold'), text_color="light green")
-                add_to_cart = customtkinter.CTkButton(popup, text="", image=shopping_cart, fg_color="light green", cursor="hand2", height=70, width=150)
+                add_to_cart = customtkinter.CTkButton(popup, text="", image=shopping_cart, fg_color="light green", cursor="hand2", height=70, width=150, command=lambda:add_prod_to_cart("Planting Pots Pack", 30))
                 prod_label.place(x=50, y=5)
                 product_info.place(x=20, y=370)
                 product_price.place(x=300, y=370)
@@ -472,7 +483,7 @@ class MyShop(customtkinter.CTk):
                 prod_label = customtkinter.CTkLabel(popup, text="", image=plates_i, height=350, width=200)
                 product_info = customtkinter.CTkLabel(popup, text="Set of Plates", font=('Comic Sans MS', 20, 'bold'), text_color="light green")
                 product_price = customtkinter.CTkLabel(popup, text="15€", font=('Comic Sans MS', 20, 'bold'), text_color="light green")
-                add_to_cart = customtkinter.CTkButton(popup, text="", image=shopping_cart, fg_color="light green", cursor="hand2", height=70, width=150)
+                add_to_cart = customtkinter.CTkButton(popup, text="", image=shopping_cart, fg_color="light green", cursor="hand2", height=70, width=150, command=lambda:add_prod_to_cart("Set of Plates", 15))
                 prod_label.place(x=50, y=5)
                 product_info.place(x=20, y=370)
                 product_price.place(x=300, y=370)
@@ -486,7 +497,7 @@ class MyShop(customtkinter.CTk):
                 prod_label = customtkinter.CTkLabel(popup, text="", image=toolcase_i, height=350, width=200)
                 product_info = customtkinter.CTkLabel(popup, text="Toolcase", font=('Comic Sans MS', 20, 'bold'), text_color="light green")
                 product_price = customtkinter.CTkLabel(popup, text="45€", font=('Comic Sans MS', 20, 'bold'), text_color="light green")
-                add_to_cart = customtkinter.CTkButton(popup, text="", image=shopping_cart, fg_color="light green", cursor="hand2", height=70, width=150)
+                add_to_cart = customtkinter.CTkButton(popup, text="", image=shopping_cart, fg_color="light green", cursor="hand2", height=70, width=150, command=lambda:add_prod_to_cart("Toolcase", 45))
                 prod_label.place(x=50, y=5)
                 product_info.place(x=20, y=370)
                 product_price.place(x=300, y=370)
@@ -526,7 +537,7 @@ class MyShop(customtkinter.CTk):
                 prod_label = customtkinter.CTkLabel(popup, text="", image=canvas_i, height=350, width=200)
                 product_info = customtkinter.CTkLabel(popup, text="Canvas", font=('Comic Sans MS', 20, 'bold'), text_color="light green")
                 product_price = customtkinter.CTkLabel(popup, text="15€", font=('Comic Sans MS', 20, 'bold'), text_color="light green")
-                add_to_cart = customtkinter.CTkButton(popup, text="", image=shopping_cart, fg_color="light green", cursor="hand2", height=70, width=150)
+                add_to_cart = customtkinter.CTkButton(popup, text="", image=shopping_cart, fg_color="light green", cursor="hand2", height=70, width=150, command=lambda:add_prod_to_cart("Canvas", 15))
                 prod_label.place(x=50, y=5)
                 product_info.place(x=20, y=370)
                 product_price.place(x=300, y=370)
@@ -540,7 +551,7 @@ class MyShop(customtkinter.CTk):
                 prod_label = customtkinter.CTkLabel(popup, text="", image=climbing_gear_i, height=350, width=200)
                 product_info = customtkinter.CTkLabel(popup, text="Climbing Gear", font=('Comic Sans MS', 20, 'bold'), text_color="light green")
                 product_price = customtkinter.CTkLabel(popup, text="70€", font=('Comic Sans MS', 20, 'bold'), text_color="light green")
-                add_to_cart = customtkinter.CTkButton(popup, text="", image=shopping_cart, fg_color="light green", cursor="hand2", height=70, width=150)
+                add_to_cart = customtkinter.CTkButton(popup, text="", image=shopping_cart, fg_color="light green", cursor="hand2", height=70, width=150, command=lambda:add_prod_to_cart("Climbing Gear", 70))
                 prod_label.place(x=50, y=5)
                 product_info.place(x=20, y=370)
                 product_price.place(x=300, y=370)
@@ -554,7 +565,7 @@ class MyShop(customtkinter.CTk):
                 prod_label = customtkinter.CTkLabel(popup, text="", image=guitar_i, height=350, width=200)
                 product_info = customtkinter.CTkLabel(popup, text="Electronic Guitar", font=('Comic Sans MS', 20, 'bold'), text_color="light green")
                 product_price = customtkinter.CTkLabel(popup, text="550€", font=('Comic Sans MS', 20, 'bold'), text_color="light green")
-                add_to_cart = customtkinter.CTkButton(popup, text="", image=shopping_cart, fg_color="light green", cursor="hand2", height=70, width=150)
+                add_to_cart = customtkinter.CTkButton(popup, text="", image=shopping_cart, fg_color="light green", cursor="hand2", height=70, width=150, command=lambda:add_prod_to_cart("Electronic Guitar", 550))
                 prod_label.place(x=50, y=5)
                 product_info.place(x=20, y=370)
                 product_price.place(x=300, y=370)
@@ -568,7 +579,7 @@ class MyShop(customtkinter.CTk):
                 prod_label = customtkinter.CTkLabel(popup, text="", image=ucl_ball_i, height=350, width=200)
                 product_info = customtkinter.CTkLabel(popup, text="UCL 2023 Ball", font=('Comic Sans MS', 20, 'bold'), text_color="light green")
                 product_price = customtkinter.CTkLabel(popup, text="35€", font=('Comic Sans MS', 20, 'bold'), text_color="light green")
-                add_to_cart = customtkinter.CTkButton(popup, text="", image=shopping_cart, fg_color="light green", cursor="hand2", height=70, width=150)
+                add_to_cart = customtkinter.CTkButton(popup, text="", image=shopping_cart, fg_color="light green", cursor="hand2", height=70, width=150, command=lambda:add_prod_to_cart("UCL 2023 Ball", 35))
                 prod_label.place(x=50, y=5)
                 product_info.place(x=20, y=370)
                 product_price.place(x=300, y=370)
@@ -595,15 +606,46 @@ class MyShop(customtkinter.CTk):
         cat4 = customtkinter.CTkButton(main_panel, text="Sports & Hobbies", font=('Comic Sans MS', 20, 'bold'), fg_color="tomato", cursor="hand2", height=190, width=200, command=hobbies) 
         
         #Orders widgets
+        def complete_order():
+            conn = sqlite3.connect('myShop_prof.db')
+            crs = conn.cursor()
+            crs.executescript('INSERT INTO myShop_orders (status) VALUES ("Pending");')
+            conn.commit()
+            crs.close()
+            open_orders()
+        
         order_label = customtkinter.CTkLabel(main_panel, text="Order", font=('Comic Sans MS', 20, 'bold'), text_color="light green")
         orstatus_label = customtkinter.CTkLabel(main_panel, text="Status", font=('Comic Sans MS', 20, 'bold'), text_color="light green")
         orders_catalog = Listbox(main_panel, font=('Arial',18), background='grey20', width=24, height=20)
         status_catalog = Listbox(main_panel, font=('Arial',18), background='grey20', width=8, height=20)
         
         #Cart widgets
-        
-                
+        cart_list = Listbox(main_panel, font=('Arial',18), background='DarkSeaGreen1', width=34, height=20)
+        conn = sqlite3.connect('myShop_prof.db')
+        crs = conn.cursor()
+        crs.execute('SELECT number, owner, CVV, exp_date FROM myShop_cards;')
+        cards_info = crs.fetchall()
+        card_picker = Listbox(main_panel, font=('Arial',18), background='grey20', width=34, height=5)
+        for each_card in cards_info:
+            card_picker.insert(0,each_card)
+
+        conn.commit()
+        crs.close()
+        total_text = "Your total is:" + str(sum)
+        cost_label = customtkinter.CTkLabel(main_panel, text=total_text, font=('Comic Sans MS', 30, 'bold'), text_color="grey30", bg_color="light green", height=60, width=420)
+        def load_cart():
+            try:
+                with open("cart.txt", "r") as file:
+                    tasks = file.readlines()
+                    for task in tasks:
+                        cart_list.insert(0, task.strip())
+            except FileNotFoundError:
+                pass
+
         # Help widgets
+        def succesfull_submition():
+            messagebox.showinfo(title="Thank you!😊", message="Your ticket has been submited successfully.\nThank you for contacting with us we will do our best to solve the issue(s)!")
+            
         assistance = customtkinter.CTkLabel(main_panel, text="Assistance Center", font=('Comic Sans MS', 30, 'bold'), text_color="grey30", bg_color="light green", height=60, width=450)
         reasonLB = customtkinter.CTkLabel(main_panel, text="What is the issue?", font=('Comic Sans MS', 24, 'bold'), text_color="light green", height=60, width=450)
         reason = customtkinter.CTkComboBox(main_panel, values=["About a product", "Problems with a delivery", "Product destroyed or damaged", "Payment issues and refunds"], font=('Comic Sans MS', 20, 'bold'), width=350)
@@ -646,9 +688,10 @@ class MyShop(customtkinter.CTk):
             orstatus_label.place_forget()
             orders_catalog.place_forget()
             status_catalog.place_forget()
-            
-            createDB()
-            
+            cart_list.place_forget()
+            card_picker.place_forget()
+            cost_label.place_forget()
+
             def save_changes():
                 conn = sqlite3.connect('myShop_prof.db')
                 crs = conn.cursor()
@@ -744,13 +787,30 @@ class MyShop(customtkinter.CTk):
             product14.place_forget()
             product15.place_forget()
             product16.place_forget()
+            cart_list.place_forget()
+            card_picker.place_forget()
+            cost_label.place_forget()
             
+            conn = sqlite3.connect('myShop_prof.db')
+            crs = conn.cursor()   
+            crs.execute('SELECT id FROM myShop_orders;')
+            order_info = crs.fetchall()
+            for each_order in order_info:
+                    orders_catalog.insert(0,each_order)
+
+            crs.execute('SELECT status FROM myShop_orders;')
+            status_info = crs.fetchall()
+            for each_status in status_info:
+                status_catalog.insert(0,each_status)
+                
             order_label.place(x=10, y=10)
             orstatus_label.place(x=350, y=10)
             blackline.configure(height=600, width=2)
             blackline.place(x=340, y=10)
             orders_catalog.place(x=10, y=50)
             status_catalog.place(x=350, y=50)
+            conn.commit()
+            crs.close()
             
         def open_shop():
             submit_button.place_forget()
@@ -792,7 +852,10 @@ class MyShop(customtkinter.CTk):
             order_label.place_forget()
             orstatus_label.place_forget()
             orders_catalog.place_forget()
-            status_catalog.place_forget() 
+            status_catalog.place_forget()
+            cart_list.place_forget() 
+            card_picker.place_forget()
+            cost_label.place_forget()
         
             recomended.place(x=20, y=5)
             rec_prod1.place(x=50, y=35)
@@ -855,21 +918,52 @@ class MyShop(customtkinter.CTk):
             order_label.place_forget()
             orstatus_label.place_forget()
             orders_catalog.place_forget()
-            status_catalog.place_forget() 
+            status_catalog.place_forget()
+            card_picker.place_forget() 
+            cost_label.place_forget()
 
-            main_panel.rowconfigure(0, weight=1)
-            main_panel.rowconfigure(1, weight=1)
-            main_panel.rowconfigure(2, weight=1)
-            main_panel.rowconfigure(3, weight=1)
-            main_panel.rowconfigure(4, weight=1)
-            main_panel.rowconfigure(5, weight=1)
-            main_panel.rowconfigure(6, weight=1)
-            main_panel.rowconfigure(7, weight=1)
-            main_panel.rowconfigure(8, weight=1)
-            main_panel.rowconfigure(9, weight=1)
-            main_panel.rowconfigure(10, weight=1)
-            
-            submit_button.configure(text="Proceed to payment >", font=('Comic Sans MS', 22, 'bold'), text_color="grey30", height=30, width=90)
+            load_cart()
+            def proceed():
+                submit_button.place_forget()
+                cart_list.place_forget()
+                
+                total_text = "Your total is:" + str(sum) + "€"
+                conn = sqlite3.connect('myShop_prof.db')
+                crs = conn.cursor()   
+                crs.execute('SELECT name FROM myShop_prof WHERE id=1;')
+                entry_var = crs.fetchone()
+                nameLB.place(x=35, y=170)
+                name.configure(placeholder_text=entry_var)
+                name.place(x=30, y=195)
+                emailLB.place(x=35, y=230)
+                crs.execute('SELECT email FROM myShop_prof WHERE id=1;')
+                entry_var = crs.fetchone()
+                email.configure(placeholder_text=entry_var)
+                email.place(x=30, y=255)
+                countryLB.place(x=35, y=290)
+                crs.execute('SELECT country FROM myShop_prof WHERE id=1;')
+                entry_var = crs.fetchone()
+                country.configure(placeholder_text=entry_var)
+                country.place(x=30, y=315)
+                adressLb.place(x=35, y=360)
+                crs.execute('SELECT adress FROM myShop_prof WHERE id=1;')
+                entry_var = crs.fetchone()
+                adress.configure(placeholder_text=entry_var)
+                adress.place(x=30, y=375)
+                postalcodeLb.place(x=35, y=410)
+                crs.execute('SELECT postalcode FROM myShop_prof WHERE id=1;')
+                entry_var = crs.fetchone()
+                postalcode.configure(placeholder_text=entry_var)
+                postalcode.place(x=30, y=435)
+                             
+                card_picker.place(x=5, y=20)
+                cost_label.configure(text=total_text)
+                cost_label.place(x=20, y=490)
+                submit_button.configure(text="Complete Payment", font=('Comic Sans MS', 22, 'bold'), text_color="grey30", height=40, width=120, command=complete_order)
+                submit_button.place(x=130, y=580)
+                
+            cart_list.place(x=10, y=10)
+            submit_button.configure(text="Proceed to payment >", font=('Comic Sans MS', 22, 'bold'), text_color="grey30", height=30, width=90, command=proceed)
             submit_button.place(x=200, y=580)
             
             
@@ -919,12 +1013,15 @@ class MyShop(customtkinter.CTk):
             orstatus_label.place_forget()
             orders_catalog.place_forget()
             status_catalog.place_forget()
+            cart_list.place_forget()
+            card_picker.place_forget()
+            cost_label.place_forget()
             
             assistance.place(x=10, y=20)
             reasonLB.place(x=10, y=100)
             reason.place(x=60, y=160)
             explanation.place(x=30, y=220)
-            submit_button.configure(text="Submit help ticket", font=('Comic Sans MS', 20, 'bold'), text_color="grey30", height=40, width=100)
+            submit_button.configure(text="Submit help ticket", font=('Comic Sans MS', 20, 'bold'), text_color="grey30", height=40, width=100, command=succesfull_submition)
             submit_button.place(x=130, y=500)
         
         # Create profile widgets
