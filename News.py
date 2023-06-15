@@ -23,20 +23,31 @@ class NewsWidget(ctk.CTkFrame):
 
     def create_widgets(self):
         # Add Next and Previous buttons
-        self.button_frame = ctk.CTkFrame(self, fg_color='#4c4c4c')
+        self.button_frame = ctk.CTkFrame(self)
         self.button_frame.pack(side="bottom", pady=0, fill="both")
-        prev_button = ctk.CTkButton(self.button_frame, text="Previous",
-                                    command=self.previous_article, width=80)
+        prev_button = ctk.CTkButton(
+            self.button_frame, text="Previous", command=self.previous_article, width=80
+        )
         prev_button.pack(side="left", padx=(0, 0), anchor="s")
-        next_button = ctk.CTkButton(self.button_frame, text="Next",
-                                    command=self.next_article, width=80)
+        next_button = ctk.CTkButton(
+            self.button_frame, text="Next", command=self.next_article, width=80
+        )
         next_button.pack(side="right", padx=(0, 0), anchor="s")
 
         # Add hyperlink to original article
         link_label = ctk.CTkLabel(
-            self.button_frame, text="Read More...", cursor="hand2", font=("Arial bold", 14), text_color="#6da1ca",)
+            self.button_frame,
+            text="Read More...",
+            cursor="hand2",
+            font=("Arial bold", 14),
+            text_color="#6da1ca",
+        )
         link_label.bind(
-            "<Button-1>", lambda e: webbrowser.open_new(self.articles[self.current_article_index]["url"]))
+            "<Button-1>",
+            lambda e: webbrowser.open_new(
+                self.articles[self.current_article_index]["url"]
+            ),
+        )
         link_label.pack(side="bottom", pady=0, anchor="s")
 
         # Display current article.
@@ -47,13 +58,13 @@ class NewsWidget(ctk.CTkFrame):
 
         # Display article image.
         image_url = article["urlToImage"]
-        if image_url:   # Check if the URL is not None or empty.
+        if image_url:  # Check if the URL is not None or empty.
             try:
                 image_data = requests.get(image_url).content
                 image = Image.open(BytesIO(image_data))
                 image = image.resize((500, 400), Image.ANTIALIAS)
                 photo = ImageTk.PhotoImage(image)
-                image_label = ctk.CTkLabel(self, text='', image=photo)
+                image_label = ctk.CTkLabel(self, text="", image=photo)
                 # Keep a reference to the image to prevent garbage collection.
                 image_label.image = photo
                 image_label.pack(side="top", pady=(0, 0))
@@ -63,22 +74,40 @@ class NewsWidget(ctk.CTkFrame):
         else:
             print("No image URL provided")
 
-        # Display article text.
-        text_bg = "#3c3c3c"
-        # Text color.
-        text_cl = '#6da1ca'  # 6da1ca
-        # Text background.
-        text_fg = "#333333"  # 2b2b2b
-        text_font = ("Arial", 18)
-        title = article["title"]
+        # Determine text color based on theme
+        appearance_mode = ctk.get_appearance_mode()
+
+        if appearance_mode == "Dark":
+            # Text color.
+            # text_cl = "#6da1ca"
+            # Text background.
+            # text_fg = "#333333"
+            # Display article text.
+            # text_bg = "#3c3c3c"
+            text_font = ("Arial", 18)
+            title = article["title"]
+        else:  # Light theme
+            text_cl = "#000000"
+            # text_fg = "#999999"
+            # text_bg = "#3c3c3c"
+            text_font = ("Arial", 18)
+            title = article["title"]
+
         # Getting only the first line of code to display, and if the window is fullscreen print the first paragraph.
-        content_lines = article["content"].split(
-            '\n') if title is not None else ['']
-        first_line = '\n'.join(content_lines[:2])
+        content_lines = article["content"].split("\n") if title is not None else [""]
+        first_line = "\n".join(content_lines[:2])
         text = title + "\n\n" + first_line
 
         text_label = ctk.CTkLabel(
-            self, text=text, text_color=text_cl, font=text_font, bg_color=text_bg, fg_color=text_fg, justify="center", wraplength=400)
+            self,
+            text=text,
+            # text_color=text_cl,
+            font=text_font,
+            # text_bg,
+            # fg_color=text_fg,
+            justify="center",
+            wraplength=400,
+        )
         text_label.pack(side="top", padx=0, pady=(20, 0))
 
     def fetch_news(self):
@@ -89,14 +118,16 @@ class NewsWidget(ctk.CTkFrame):
         return articles[:5]  # Display only the top 5 articles
 
     def next_article(self):
-        self.current_article_index = (
-            self.current_article_index + 1) % len(self.articles)
+        self.current_article_index = (self.current_article_index + 1) % len(
+            self.articles
+        )
         self.clear_widgets()
         self.display_article()
 
     def previous_article(self):
-        self.current_article_index = (
-            self.current_article_index - 1) % len(self.articles)
+        self.current_article_index = (self.current_article_index - 1) % len(
+            self.articles
+        )
         self.clear_widgets()
         self.display_article()
 

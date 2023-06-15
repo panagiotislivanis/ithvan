@@ -11,7 +11,8 @@ from customtkinter import *
 
 from Search import search_query
 from News import NewsWidget
-from traffic import traffic_widget
+
+# from traffic import traffic_widget
 from Music import MusicPlayer
 import Alarm
 
@@ -38,7 +39,7 @@ class App(customtkinter.CTk):
         super().__init__()
         # Configure window
         self.title("ITHVAN")
-        self.geometry(f"{1000}x{750}")
+        self.geometry(f"{1100}x{750}")
         self.is_fullscreen = False
         # Create a layout
         self.grid_columnconfigure(0, weight=1)
@@ -70,16 +71,16 @@ class App(customtkinter.CTk):
         )
 
         # Left lower / Weather and traffic
-        self.left_lower = traffic_widget(self.homepage_frame)
-        self.left_lower.grid(
-            row=2, column=0, rowspan=13, columnspan=14, padx=10, pady=10, sticky="nsew"
-        )
+        # self.left_lower = traffic_widget(self.homepage_frame)
+        # self.left_lower.grid(
+        #    row=2, column=0, rowspan=13, columnspan=14, padx=10, pady=10, sticky="nsew"
+        # )
         # Right upper / Google search bar
         self.right_upper = customtkinter.CTkLabel(
             self.homepage_frame, text="Google search bar", fg_color="transparent"
         )
         self.right_upper.grid(
-            row=0, column=14, columnspan=1, padx=10, pady=10, sticky="nsew"
+            row=0, column=14, columnspan=2, padx=10, pady=10, sticky="nsew"
         )
         # Add search bar
         # Load images with light and dark mode
@@ -278,15 +279,17 @@ class App(customtkinter.CTk):
         # -----------------------------------------------------------#
 
         self.appearance_mode_label = customtkinter.CTkLabel(
-            self.tabview, text="Appearance Mode:", anchor="w"
+            self.tabview, text="Appearance Mode:", anchor="w", padx=10
         )
-        self.appearance_mode_label.grid(row=0, column=0, columnspan=2)
-        self.appearance_mode_optionemenu = customtkinter.CTkOptionMenu(
+        self.appearance_mode_label.grid(row=0, column=0, sticky="w")
+        self.appearance_mode_optionmenu = customtkinter.CTkOptionMenu(
             self.tabview,
             values=["Dark", "Light", "System"],
             command=self.change_appearance_mode_event,
+            width=10,
+            padx=(5, 0),
         )
-        self.appearance_mode_optionemenu.grid(row=0, column=0, columnspan=2)
+        self.appearance_mode_optionmenu.grid(row=0, column=0, sticky="nw", padx=10)
 
     def change_appearance_mode_event(self, new_appearance_mode: str):
         customtkinter.set_appearance_mode(new_appearance_mode)

@@ -40,7 +40,7 @@ class MusicPlayer(customtkinter.CTkFrame):
         self.__progress_bar.pack(fill="x", pady=10)
 
         self.__song_title_label = customtkinter.CTkLabel(
-            self, text="", font=("Gotham Circular", 16)
+            self, text="", font=("Gotham Circular", 20)
         )
         self.__song_title_label.pack(side="top", anchor="nw", padx=10, pady=(0, 0))
 
@@ -62,12 +62,12 @@ class MusicPlayer(customtkinter.CTkFrame):
             from_=0,
             to=1,
             orientation="vertical",
-            height=90,
+            height=55,
             command=self.change_volume,
             button_color="#aab0b5",
             progress_color="#aab0b5",
         )
-        self.__volume_slider.pack(side="left", padx=10, pady=(0, 5))
+        self.__volume_slider.pack(side="left", padx=10, pady=(0, 16))
 
         self.__song_image = None
         self.__song_image_label = customtkinter.CTkLabel(self, text="")
