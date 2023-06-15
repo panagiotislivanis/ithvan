@@ -40,15 +40,15 @@ def add_event():
 
 #Function for deleting an event
 def DeleteData():
-    selected_date = cal.get_date()
     event = entry.get()
+    selected_date = cal.get_date()
     start_time = entry_start.get()
     end_time = entry_end.get()
-
+    selected = selection()
     if event and selected_date and start_time and end_time:
         conn = sqlite3.connect("calendar.db")
         cursor = conn.cursor()
-        cursor.execute("DELETE FROM events WHERE date=? AND event=? AND startTime=? AND endTime=?", (selected_date, event, start_time, end_time))
+        cursor.execute("DELETE FROM events WHERE event=? AND date=? AND startTime=? AND endTime=?", (selected_date, event, start_time, end_time))
         conn.commit()
         cursor.close()
         conn.close()
@@ -60,7 +60,7 @@ def display_events():
 
     conn = sqlite3.connect("calendar.db")
     cursor = conn.cursor()
-    cursor.execute("SELECT event, startTime, endTime FROM events WHERE date=? ORDER BY startTime ASC", (selected_date,))
+    cursor.execute("SELECT event, date, startTime, endTime FROM events WHERE date=? ORDER BY date ASC", (selected_date,))
     results = cursor.fetchall()
     cursor.close()
     conn.close()
@@ -86,7 +86,7 @@ def clear_entry(event):
 #Window configuration
 root = tk.Tk()
 root.title('Calendar')
-root.geometry("600x600")
+root.geometry("300x600")
 p1 = PhotoImage(file = 'Resources-img\calendar.png')
 root.iconphoto(False, p1)
 root.config(bg="#242424")
@@ -120,13 +120,16 @@ entry_end.bind("<FocusIn>", clear_entry)
 entry_end.grid(row=2, column=1, padx=5, pady=10)
 
 add_button = tk.Button(root, text="Add Event", command=add_event)
-add_button.grid(row=3, column=0, columnspan=2, pady=20)
+add_button.grid(row=3, column=0, padx=2, pady=20)
 
-delete_button = Button(root, text="Delete Event", bg="red", command=DeleteData)
-delete_button.grid(row=3, column=1, columnspan=2, padx=5, pady=10)
+delete_button = tk.Button(root, text="Delete Event", bg="red", command=DeleteData)
+delete_button.grid(row=3, column=1, padx=2, pady=20)
+
+display_button = tk.Button(root, text="View your events", command=display_events)
+display_button.grid(row=4, column=0, padx=20, pady=10, columnspan=2)
 
 event_listbox = tk.Listbox(root, width=30)
-event_listbox.grid(row=4, column=0, columnspan=2, padx=5, pady=10)
+event_listbox.grid(row=5, column=0, columnspan=2, padx=5, pady=10)
 
 Database() 
 
