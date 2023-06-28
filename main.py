@@ -93,7 +93,10 @@ class App(customtkinter.CTk):
             light_image=Image.open(os.path.join(image_path, "search-light.png")),
         )
         # Create search bar widget
-        entry = customtkinter.CTkEntry(self.right_upper, placeholder_text="Search...")
+        entry = customtkinter.CTkEntry(
+            self.right_upper,
+            placeholder_text="Search... [CHROME BROWSER]",
+        )
         entry.bind("<Return>", lambda event: search_query(entry.get()))
         # Search button
         search_button = customtkinter.CTkButton(
@@ -279,15 +282,14 @@ class App(customtkinter.CTk):
         # -----------------------------------------------------------#
 
         self.appearance_mode_label = customtkinter.CTkLabel(
-            self.tabview, text="Appearance Mode:", anchor="w", padx=10
+            self.tabview, text="", anchor="w", padx=10
         )
         self.appearance_mode_label.grid(row=0, column=0, sticky="w")
         self.appearance_mode_optionmenu = customtkinter.CTkOptionMenu(
             self.tabview,
             values=["Dark", "Light", "System"],
             command=self.change_appearance_mode_event,
-            width=10,
-            padx=(5, 0),
+            width=5,
         )
         self.appearance_mode_optionmenu.grid(row=0, column=0, sticky="nw", padx=10)
 
