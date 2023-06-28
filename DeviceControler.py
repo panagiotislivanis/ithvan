@@ -166,67 +166,67 @@ class DeviceController(customtkinter.CTk):
             speed.place(x=435, y=90)
         
         def open_camera_controler():
-                popup = CTkToplevel()
-                popup.title("ITHVAN SECURITY corp.")
-                popup.geometry('800x600+900+180')
-                popup.resizable(False, False)
+            popup = CTkToplevel()
+            popup.title("ITHVAN SECURITY corp.")
+            popup.geometry('800x600+900+180')
+            popup.resizable(False, False)
                 
-                # Create watch panel
-                watch_panel = customtkinter.CTkFrame(popup, bg_color="grey30", width=780, height=465)
-                watch_panel.pack(side="top", fill="y", padx=10, pady=10)
+            # Create watch panel
+            watch_panel = customtkinter.CTkFrame(popup, bg_color="grey30", width=780, height=465)
+            watch_panel.pack(side="top", fill="y", padx=10, pady=10)
         
-                # Create swap panel
-                swap_panel = customtkinter.CTkFrame(popup, bg_color="grey30", width=780, height=115)
-                swap_panel.pack(side="bottom", fill="both", padx=10, pady=10)
+            # Create swap panel
+            swap_panel = customtkinter.CTkFrame(popup, bg_color="grey30", width=780, height=115)
+            swap_panel.pack(side="bottom", fill="both", padx=10, pady=10)
                 
-                cameraID = ["Entrance", "Garage", "Living Room 1", "Living Room 2", "Kitchen", "Garden 1", "Garden 2"]
+            cameraID = ["Entrance", "Garage", "Living Room 1", "Living Room 2", "Kitchen", "Garden 1", "Garden 2"]
 
-                def next_camera():
-                    global current_camera
-                    current_camera = (current_camera + 1) % len(cameraID)
-                    cameraLabel.configure(text=cameraID[current_camera])
-                    if(cameraID[current_camera] == "Entrance"):
-                        footage.configure(image=entrance)
-                    elif(cameraID[current_camera] == "Garage"):
-                        footage.configure(image=garageCamera)
-                    elif (cameraID[current_camera] == "Living Room 1"):
-                        footage.configure(image=lr1)
-                    elif (cameraID[current_camera] == "Living Room 2"):
-                        footage.configure(image=lr2)
-                    elif (cameraID[current_camera] == "Kitchen"):
-                        footage.configure(image=kitchenCamera)
-                    elif (cameraID[current_camera] == "Garden 1"):
-                        footage.configure(image=g1)
-                    elif (cameraID[current_camera] == "Garden 2"):
-                        footage.configure(image=g2)
+            def next_camera():
+                global current_camera
+                current_camera = (current_camera + 1) % len(cameraID)
+                cameraLabel.configure(text=cameraID[current_camera])
+                if(cameraID[current_camera] == "Entrance"):
+                    footage.configure(image=entrance)
+                elif(cameraID[current_camera] == "Garage"):
+                    footage.configure(image=garageCamera)
+                elif (cameraID[current_camera] == "Living Room 1"):
+                    footage.configure(image=lr1)
+                elif (cameraID[current_camera] == "Living Room 2"):
+                    footage.configure(image=lr2)
+                elif (cameraID[current_camera] == "Kitchen"):
+                    footage.configure(image=kitchenCamera)
+                elif (cameraID[current_camera] == "Garden 1"):
+                    footage.configure(image=g1)
+                elif (cameraID[current_camera] == "Garden 2"):
+                    footage.configure(image=g2)
                 
-                def previous_camera():
-                    global current_camera
-                    current_camera = (current_camera - 1) % len(cameraID)
-                    cameraLabel.configure(text=cameraID[current_camera])
-                    if(cameraID[current_camera] == "Entrance"):
-                        footage.configure(image=entrance)
-                    elif (cameraID[current_camera] == "Garage"):
-                        footage.configure(image=garageCamera)
-                    elif (cameraID[current_camera] == "Living Room 1"):
-                        footage.configure(image=lr1)
-                    elif (cameraID[current_camera] == "Living Room 2"):
-                        footage.configure(image=lr2)
-                    elif (cameraID[current_camera] == "Kitchen"):
-                        footage.configure(image=kitchenCamera)
-                    elif (cameraID[current_camera] == "Garden 1"):
-                        footage.configure(image=g1)
-                    elif (cameraID[current_camera] == "Garden 2"):
-                        footage.configure(image=g2)
+            def previous_camera():
+                global current_camera
+                current_camera = (current_camera - 1) % len(cameraID)
+                cameraLabel.configure(text=cameraID[current_camera])
+                if(cameraID[current_camera] == "Entrance"):
+                    footage.configure(image=entrance)
+                elif (cameraID[current_camera] == "Garage"):
+                    footage.configure(image=garageCamera)
+                elif (cameraID[current_camera] == "Living Room 1"):
+                    footage.configure(image=lr1)
+                elif (cameraID[current_camera] == "Living Room 2"):
+                    footage.configure(image=lr2)
+                elif (cameraID[current_camera] == "Kitchen"):
+                    footage.configure(image=kitchenCamera)
+                elif (cameraID[current_camera] == "Garden 1"):
+                    footage.configure(image=g1)
+                elif (cameraID[current_camera] == "Garden 2"):
+                    footage.configure(image=g2)
                 
-                footage = customtkinter.CTkLabel(watch_panel, image=entrance, text="")
-                footage.place(x=0, y=0)
-                forward = customtkinter.CTkButton(swap_panel, image=forward_arrow, text="", fg_color="turquoise4", cursor="hand2", height=80, width=80, command=next_camera)
-                forward.place(x=678, y=5)
-                previous = customtkinter.CTkButton(swap_panel, image=previous_arrow, text="", fg_color="turquoise4", cursor="hand2", height=80, width=80, command=previous_camera)
-                previous.place(x=24, y=5)
-                cameraLabel = customtkinter.CTkLabel(swap_panel, text=cameraID[current_camera], font=('Comic Sans MS', 27, 'bold'), text_color="black", fg_color="turquoise4", height=80, width=550)
-                cameraLabel.place(x=115, y=5)
+            footage = customtkinter.CTkLabel(watch_panel, image=entrance, text="")
+            footage.place(x=0, y=0)
+            forward = customtkinter.CTkButton(swap_panel, image=forward_arrow, text="", fg_color="turquoise4", cursor="hand2", height=80, width=80, command=next_camera)
+            forward.place(x=678, y=5)
+            previous = customtkinter.CTkButton(swap_panel, image=previous_arrow, text="", fg_color="turquoise4", cursor="hand2", height=80, width=80, command=previous_camera)
+            previous.place(x=24, y=5)
+            cameraLabel = customtkinter.CTkLabel(swap_panel, text=cameraID[current_camera], font=('Comic Sans MS', 27, 'bold'), text_color="black", fg_color="turquoise4", height=80, width=550)
+            cameraLabel.place(x=115, y=5)
         
         #2nd row 2nd column widgets
         def closing_shutters():

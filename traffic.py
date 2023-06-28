@@ -27,9 +27,7 @@ class TrafficWidget(ctk.CTkFrame):
         image_label.pack(side="top", pady=(0, 0))
 
 
-  # ftp.retrbinary(filename_ftp, open(filename_local, "wb").write)
- # ftp.quit()
-
+  
 
     
 if __name__ == "__main__":
