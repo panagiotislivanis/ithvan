@@ -8,13 +8,14 @@ from customtkinter import *
 
 # from Widgets.Search_bar import SearchBar
 # Importing the news widget we made.
-
+from Music import MusicPlayer
 from Search import search_query
 from News import NewsWidget
 from traffic import TrafficWidget
 import Alarm
 from mail import EmailApp
 from maps import App
+
 # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_appearance_mode("dark")
 # Themes: "blue" (standard), "green", "dark-blue"
@@ -71,8 +72,9 @@ class App(customtkinter.CTk):
 
         # Left lower / Weather and traffic
         self.left_lower = TrafficWidget(self.homepage_frame)
-        self.left_lower.grid(row=2, column=0, rowspan=13, columnspan=14,
-                             padx=10, pady=10, sticky="nsew")
+        self.left_lower.grid(
+            row=2, column=0, rowspan=13, columnspan=14, padx=10, pady=10, sticky="nsew"
+        )
         # Right upper / Google search bar
         self.right_upper = customtkinter.CTkLabel(
             self.homepage_frame, text="Google search bar", fg_color="transparent"
@@ -144,11 +146,17 @@ class App(customtkinter.CTk):
         )
 
         self.left_upper = customtkinter.CTkButton(
-            self.Timetable_frame, text="Scheduling and management of meetings", fg_color='#4F02FF', cursor="hand2", image=Calendar_image)
-        self.left_upper.grid(row=0, column=0, rowspan=3, columnspan=3,
-                             padx=10, pady=10, sticky="nsew")
-        #email
-        
+            self.Timetable_frame,
+            text="Scheduling and management of meetings",
+            fg_color="#4F02FF",
+            cursor="hand2",
+            image=Calendar_image,
+        )
+        self.left_upper.grid(
+            row=0, column=0, rowspan=3, columnspan=3, padx=10, pady=10, sticky="nsew"
+        )
+        # email
+
         def open_email_app():
             app = customtkinter.CTk()
             app.title("Email App")
@@ -156,25 +164,43 @@ class App(customtkinter.CTk):
             email_app = EmailApp(app)
             email_app.pack(fill="both", expand=True)
             app.mainloop()
-        mail_image = ImageTk.PhotoImage(Image.open(
-            "Resources-img\Mail.png").resize((25, 25), Image.ANTIALIAS))
+
+        mail_image = ImageTk.PhotoImage(
+            Image.open("Resources-img\Mail.png").resize((25, 25), Image.ANTIALIAS)
+        )
 
         self.right_upper = customtkinter.CTkButton(
-            self.Timetable_frame, text="Email", fg_color='#4F02FF', cursor="hand2", image=mail_image,command=open_email_app)
-        self.right_upper.grid(row=0, column=3, rowspan=3, columnspan=3,
-                             padx=10, pady=10, sticky="nsew")
-        #maps
-        def open_maps_app():
-              app = App()
-              app.start()
+            self.Timetable_frame,
+            text="Email",
+            fg_color="#4F02FF",
+            cursor="hand2",
+            image=mail_image,
+            command=open_email_app,
+        )
+        self.right_upper.grid(
+            row=0, column=3, rowspan=3, columnspan=3, padx=10, pady=10, sticky="nsew"
+        )
 
-        maps_image = ImageTk.PhotoImage(Image.open(
-            "Resources-img\maps.png").resize((25, 25), Image.ANTIALIAS))
+        # maps
+        def open_maps_app():
+            app = App()
+            app.start()
+
+        maps_image = ImageTk.PhotoImage(
+            Image.open("Resources-img\maps.png").resize((25, 25), Image.ANTIALIAS)
+        )
 
         self.center_center = customtkinter.CTkButton(
-            self.Timetable_frame, text="Maps", fg_color='#4F02FF', cursor="hand2", image=maps_image,command=open_maps_app)
-        self.center_center.grid(row=3, column=0, rowspan=7, columnspan=18,
-                             padx=10, pady=10, sticky="nsew")
+            self.Timetable_frame,
+            text="Maps",
+            fg_color="#4F02FF",
+            cursor="hand2",
+            image=maps_image,
+            command=open_maps_app,
+        )
+        self.center_center.grid(
+            row=3, column=0, rowspan=7, columnspan=18, padx=10, pady=10, sticky="nsew"
+        )
         # Bottom
         # Calls
         Calls_image = ImageTk.PhotoImage(
