@@ -39,7 +39,7 @@ class App(customtkinter.CTk):
         super().__init__()
         # Configure window
         self.title("ITHVAN")
-        self.geometry(f"{1100}x{750}")
+        self.geometry(f"{1100}x{950}")
         self.is_fullscreen = False
         # Create a layout
         self.grid_columnconfigure(0, weight=1)

@@ -67,7 +67,7 @@ class MusicPlayer(customtkinter.CTkFrame):
             button_color="#aab0b5",
             progress_color="#aab0b5",
         )
-        self.__volume_slider.pack(side="left", padx=10, pady=(0, 16))
+        self.__volume_slider.pack(side="left", padx=10, pady=(0, 0))
 
         self.__song_image = None
         self.__song_image_label = customtkinter.CTkLabel(self, text="")
