@@ -71,8 +71,8 @@ class NewsWidget(ctk.CTkFrame):
             except requests.exceptions.RequestException as e:
                 print(f"Could not download image from URL: {image_url}")
                 print(e)
-        else:
-            print("No image URL provided")
+            except IOError:
+                print(f"Cannot open image from URL: {image_url}")
 
         # Determine text color based on theme
         appearance_mode = ctk.get_appearance_mode()
