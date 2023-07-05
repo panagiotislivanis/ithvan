@@ -92,7 +92,7 @@ root.iconphoto(False, p1)
 root.config(bg="#242424")
 
 
-cal = Calendar(root, selectmode="day", year=2023, month=5, day=26)
+cal = Calendar(root, selectmode="day", year=2023, month=7, day=14)
 cal.grid(row=0, column=0, padx=20, pady=10, columnspan=2)
 
 #Event name field
