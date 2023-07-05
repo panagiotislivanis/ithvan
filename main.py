@@ -2,6 +2,7 @@ import sqlite3
 from PIL import Image, ImageTk
 import os
 import tkinter
+import subprocess
 import tkinter.messagebox
 import customtkinter
 from customtkinter import *
@@ -202,7 +203,12 @@ class App(customtkinter.CTk):
             row=3, column=0, rowspan=7, columnspan=18, padx=10, pady=10, sticky="nsew"
         )
         # Bottom
+
         # Calls
+
+        def open_calls():
+            subprocess.Popen(["python", "Call.py"])
+        
         Calls_image = ImageTk.PhotoImage(
             Image.open("Resources-img\Calls.png").resize((25, 25), Image.ANTIALIAS)
         )
@@ -212,6 +218,7 @@ class App(customtkinter.CTk):
             fg_color="#49393B",
             cursor="hand2",
             image=Calls_image,
+            command=open_calls,
         )
         self.left_center.grid(
             row=10, column=0, rowspan=2, columnspan=2, padx=10, pady=10, sticky="nsew"
@@ -235,7 +242,7 @@ class App(customtkinter.CTk):
 
         # Organise and manage contacts
         def open_contacts():
-            os.system("Contacts.py")
+            subprocess.Popen(["python", "Contacts.py"])
 
         Contacts_image = ImageTk.PhotoImage(
             Image.open("Resources-img\contacts.png").resize((25, 25), Image.ANTIALIAS)
