@@ -224,6 +224,10 @@ class App(customtkinter.CTk):
         )
 
         # SMS
+        def open_sms():
+            subprocess.Popen(["python", "SMS.py"])
+
+
         SMS_image = ImageTk.PhotoImage(
             Image.open("Resources-img\Messages.png").resize((25, 25), Image.ANTIALIAS)
         )
@@ -234,6 +238,7 @@ class App(customtkinter.CTk):
             fg_color="#996888",
             cursor="hand2",
             image=SMS_image,
+            command=open_sms,
         )
         self.right_center.grid(
             row=10, column=2, rowspan=2, columnspan=2, padx=10, pady=10, sticky="nsew"
