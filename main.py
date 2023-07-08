@@ -13,8 +13,8 @@ from News import NewsWidget
 from traffic import TrafficWidget
 from MyShop import MyShop
 from mail import EmailApp
-from maps import App
-
+from maps import Maps
+from Music import MusicPlayer
 # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_appearance_mode("dark")
 # Themes: "blue" (standard), "green", "dark-blue"
@@ -184,34 +184,12 @@ class App(customtkinter.CTk):
         )
 
         self.right_upper = customtkinter.CTkButton(
-            self.Timetable_frame,
-            text="Email",
-            fg_color="#4F02FF",
-            cursor="hand2",
-            image=mail_image,
-            command=open_email_app,
-        )
-        self.right_upper.grid(
-            row=0, column=1, rowspan=3, columnspan=5, padx=10, pady=10, sticky="nsew"
-        )
+            self.Timetable_frame, text="Email", fg_color='#4F02FF', cursor="hand2", image=mail_image,command=open_email_app)
+        self.right_upper.grid(row=0, column=1, rowspan=3, columnspan=5,
+                             padx=10, pady=10, sticky="nsew")
+        #maps
 
-        # maps
-        def open_maps_app():
-            app = App()
-            app.start()
-
-        maps_image = ImageTk.PhotoImage(
-            Image.open("Resources-img\maps.png").resize((25, 25), Image.ANTIALIAS)
-        )
-
-        self.center_center = customtkinter.CTkButton(
-            self.Timetable_frame,
-            text="Maps",
-            fg_color="#4F02FF",
-            cursor="hand2",
-            image=maps_image,
-            command=open_maps_app,
-        )
+        self.center_center = Maps(self.Timetable_frame)
         self.center_center.grid(
             row=3, column=1, rowspan=7, columnspan=5, padx=10, pady=10, sticky="nsew"
         )
@@ -373,8 +351,10 @@ class App(customtkinter.CTk):
             self.tabview,
             values=["Dark", "Light", "System"],
             command=self.change_appearance_mode_event,
-            width=5,
-        )
+            width=10
+)
+
+        
         self.appearance_mode_optionmenu.grid(row=0, column=0, sticky="nw", padx=10)
 
     def change_appearance_mode_event(self, new_appearance_mode: str):
