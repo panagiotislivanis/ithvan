@@ -285,11 +285,15 @@ class App(customtkinter.CTk):
 
         # Widgets for Daily Manager tab
         # Left upper / Task Manager
+        def open_task_manager():
+            subprocess.Popen(["python", "TaskManager.py"])
+            
         self.left_upper = customtkinter.CTkButton(
             self.dManager_frame,
             text="Task Manager",
             fg_color="dark red",
             cursor="hand2",
+            command=open_task_manager
         )
         self.left_upper.grid(
             row=0, column=0, rowspan=3, columnspan=3, padx=10, pady=10, sticky="nsew"
@@ -304,33 +308,45 @@ class App(customtkinter.CTk):
         )
 
         # Left lower / Device controler
+        def open_device_controller():
+            subprocess.Popen(["python", "DeviceControler.py"]) 
+        
         self.left_lower = customtkinter.CTkButton(
             self.dManager_frame,
             text="Device Controler",
             fg_color="blue",
             cursor="hand2",
+            command=open_device_controller
         )
         self.left_lower.grid(
             row=6, column=0, rowspan=5, columnspan=2, padx=10, pady=10, sticky="nsew"
         )
 
         # Right upper / Reminder
+        def open_alarm():
+            subprocess.Popen(["python", "Alarm.py"])
+            
         self.right_upper = customtkinter.CTkButton(
             self.dManager_frame,
             text="Reminders & Alarms",
             fg_color="coral",
             cursor="hand2",
+            command=open_alarm
         )
         self.right_upper.grid(
             row=0, column=3, rowspan=3, columnspan=2, padx=10, pady=10, sticky="nsew"
         )
 
         # Right lower / E-shop
+        def open_shop():
+            subprocess.Popen(["python", "MyShop.py"])
+            
         self.right_lower = customtkinter.CTkButton(
             self.dManager_frame,
             text="Your shop",
             fg_color="light green",
             cursor="hand2",
+            command=open_shop
         )
         self.right_lower.grid(
             row=3, column=2, rowspan=8, columnspan=3, padx=10, pady=10, sticky="nsew"
