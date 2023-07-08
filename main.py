@@ -11,7 +11,7 @@ from Music import MusicPlayer
 from Search import search_query
 from News import NewsWidget
 from traffic import TrafficWidget
-import Alarm
+from MyShop import MyShop
 from mail import EmailApp
 from maps import App
 
@@ -38,7 +38,7 @@ class App(customtkinter.CTk):
         super().__init__()
         # Configure window
         self.title("ITHVAN")
-        self.geometry(f"{1100}x{950}")
+        self.geometry(f"{1570}x{950}")
         self.is_fullscreen = False
         # Create a layout
         self.grid_columnconfigure(0, weight=1)
@@ -54,11 +54,11 @@ class App(customtkinter.CTk):
 
         # -----------------------------------------------------------#
         # Create custom grid for homepage tab
-        # For loop to make 11 columns.
+        # For loop to make 15 columns.
         self.homepage_frame = self.tabview.tab("Homepage")
         for i in range(1, 15):
             self.homepage_frame.columnconfigure(i, weight=1)
-        # For loop to make 11 rows.
+        # For loop to make 15 rows.
         for i in range(1, 15):
             self.homepage_frame.rowconfigure(i, weight=1)
 
@@ -66,14 +66,33 @@ class App(customtkinter.CTk):
         # Left upper / Music
         self.left_upper = MusicPlayer(self.homepage_frame)
         self.left_upper.grid(
-            row=0, column=0, rowspan=2, columnspan=14, padx=10, pady=10, sticky="nsew"
+            row=0, column=0, rowspan=3, columnspan=13, padx=10, pady=10, sticky="nsew"
         )
 
         # Left lower / Weather and traffic
         self.left_lower = TrafficWidget(self.homepage_frame)
         self.left_lower.grid(
-            row=2, column=0, rowspan=13, columnspan=14, padx=10, pady=10, sticky="nsew"
+            row=3, column=0, rowspan=11, columnspan=5, padx=10, pady=10, sticky="nsew"
         )
+        # Widgets for homepage tab
+        self.middle_lower = customtkinter.CTkFrame(self.homepage_frame)
+        self.middle_lower.grid(
+            row=3, column=5, rowspan=11, columnspan=8, padx=10, pady=10, sticky="nsew"
+        )
+        # Load the image
+        image = Image.open("Resources-img/weather.png")
+
+        # Resize the image to the desired dimensions
+        desired_width = 140  # Adjust the width as needed
+        desired_height = 740  # Adjust the height as needed
+        resized_image = image.resize((desired_width, desired_height), Image.ANTIALIAS)
+
+        # Create a Tkinter-compatible photo image
+        photo = ImageTk.PhotoImage(resized_image)
+
+        # Create a label and display the image
+        image_label = customtkinter.CTkLabel(self.middle_lower, image=photo, text="")
+        image_label.pack()
         # Right upper / Google search bar
         self.right_upper = customtkinter.CTkLabel(
             self.homepage_frame, text="Google search bar", fg_color="transparent"
@@ -337,7 +356,7 @@ class App(customtkinter.CTk):
         self.right_lower = customtkinter.CTkButton(
             self.dManager_frame,
             text="Your shop",
-            fg_color="light green",
+            fg_color="light blue",
             cursor="hand2",
             command=open_shop,
         )
