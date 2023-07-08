@@ -149,7 +149,6 @@ class App(customtkinter.CTk):
             row=0, column=0, rowspan=10, columnspan=1, padx=10, pady=10, sticky="nsew"
         )
         self.calendar_app = CalendarApp(self.left_upper)
-
         # email
 
         def open_email_app():

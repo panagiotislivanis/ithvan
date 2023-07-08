@@ -18,8 +18,3 @@ def make_map():
     print("Image saved as whether.PNG")
 
 
-# schedule.every(1).second.do(repeat)
-# while True:
-
-#   schedule.run_pending()
-#   time.sleep(1)
