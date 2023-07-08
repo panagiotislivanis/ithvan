@@ -15,6 +15,7 @@ from traffic import TrafficWidget
 import Alarm
 from mail import EmailApp
 from maps import App
+from Music import MusicPlayer
 # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_appearance_mode("dark")
 # Themes: "blue" (standard), "green", "dark-blue"
@@ -162,8 +163,12 @@ class App(customtkinter.CTk):
                              padx=10, pady=10, sticky="nsew")
         #maps
         def open_maps_app():
-              app = App()
-              app.start()
+          app = customtkinter.CTk()
+          app.title("maps App")
+          app.geometry("500x650")
+          Maps_App = App(app)
+          Maps_App.pack(fill="both", expand=True)
+          app.mainloop()
 
         maps_image = ImageTk.PhotoImage(Image.open(
             "Resources-img\maps.png").resize((25, 25), Image.ANTIALIAS))
@@ -305,9 +310,10 @@ class App(customtkinter.CTk):
             self.tabview,
             values=["Dark", "Light", "System"],
             command=self.change_appearance_mode_event,
-            width=10,
-            padx=(5, 0),
-        )
+            width=10
+)
+
+        
         self.appearance_mode_optionmenu.grid(row=0, column=0, sticky="nw", padx=10)
 
     def change_appearance_mode_event(self, new_appearance_mode: str):

@@ -2,7 +2,7 @@ from PIL import Image
 from whether import create_whether
 def make_map():
     
-    create_whether()
+    #create_whether()
     # Φορτώνουμε την πρώτη εικόνα
     image1 = Image.open("images/Screenshot_2.png")
 
