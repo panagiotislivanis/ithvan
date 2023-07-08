@@ -154,7 +154,7 @@ class App(customtkinter.CTk):
             image=Calendar_image,
         )
         self.left_upper.grid(
-            row=0, column=0, rowspan=3, columnspan=3, padx=10, pady=10, sticky="nsew"
+            row=0, column=0, rowspan=10, columnspan=1, padx=10, pady=10, sticky="nsew"
         )
         # email
 
@@ -179,7 +179,7 @@ class App(customtkinter.CTk):
             command=open_email_app,
         )
         self.right_upper.grid(
-            row=0, column=3, rowspan=3, columnspan=3, padx=10, pady=10, sticky="nsew"
+            row=0, column=1, rowspan=3, columnspan=5, padx=10, pady=10, sticky="nsew"
         )
 
         # maps
@@ -200,15 +200,14 @@ class App(customtkinter.CTk):
             command=open_maps_app,
         )
         self.center_center.grid(
-            row=3, column=0, rowspan=7, columnspan=18, padx=10, pady=10, sticky="nsew"
+            row=3, column=1, rowspan=7, columnspan=5, padx=10, pady=10, sticky="nsew"
         )
         # Bottom
 
         # Calls
-
         def open_calls():
             subprocess.Popen(["python", "Call.py"])
-        
+
         Calls_image = ImageTk.PhotoImage(
             Image.open("Resources-img\Calls.png").resize((25, 25), Image.ANTIALIAS)
         )
