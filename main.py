@@ -6,9 +6,7 @@ import subprocess
 import tkinter.messagebox
 import customtkinter
 from customtkinter import *
-
-# from Widgets.Search_bar import SearchBar
-# Importing the news widget we made.
+from Calendar import CalendarApp
 from Music import MusicPlayer
 from Search import search_query
 from News import NewsWidget
@@ -146,16 +144,12 @@ class App(customtkinter.CTk):
             Image.open("Resources-img\calendar.png").resize((25, 25), Image.ANTIALIAS)
         )
 
-        self.left_upper = customtkinter.CTkButton(
-            self.Timetable_frame,
-            text="Scheduling and management of meetings",
-            fg_color="#4F02FF",
-            cursor="hand2",
-            image=Calendar_image,
-        )
+        self.left_upper = CTkFrame(self.Timetable_frame)
         self.left_upper.grid(
             row=0, column=0, rowspan=10, columnspan=1, padx=10, pady=10, sticky="nsew"
         )
+        self.calendar_app = CalendarApp(self.left_upper)
+
         # email
 
         def open_email_app():
@@ -227,7 +221,6 @@ class App(customtkinter.CTk):
         def open_sms():
             subprocess.Popen(["python", "SMS.py"])
 
-
         SMS_image = ImageTk.PhotoImage(
             Image.open("Resources-img\Messages.png").resize((25, 25), Image.ANTIALIAS)
         )
@@ -287,13 +280,13 @@ class App(customtkinter.CTk):
         # Left upper / Task Manager
         def open_task_manager():
             subprocess.Popen(["python", "TaskManager.py"])
-            
+
         self.left_upper = customtkinter.CTkButton(
             self.dManager_frame,
             text="Task Manager",
             fg_color="dark red",
             cursor="hand2",
-            command=open_task_manager
+            command=open_task_manager,
         )
         self.left_upper.grid(
             row=0, column=0, rowspan=3, columnspan=3, padx=10, pady=10, sticky="nsew"
@@ -309,14 +302,14 @@ class App(customtkinter.CTk):
 
         # Left lower / Device controler
         def open_device_controller():
-            subprocess.Popen(["python", "DeviceControler.py"]) 
-        
+            subprocess.Popen(["python", "DeviceControler.py"])
+
         self.left_lower = customtkinter.CTkButton(
             self.dManager_frame,
             text="Device Controler",
             fg_color="blue",
             cursor="hand2",
-            command=open_device_controller
+            command=open_device_controller,
         )
         self.left_lower.grid(
             row=6, column=0, rowspan=5, columnspan=2, padx=10, pady=10, sticky="nsew"
@@ -325,13 +318,13 @@ class App(customtkinter.CTk):
         # Right upper / Reminder
         def open_alarm():
             subprocess.Popen(["python", "Alarm.py"])
-            
+
         self.right_upper = customtkinter.CTkButton(
             self.dManager_frame,
             text="Reminders & Alarms",
             fg_color="coral",
             cursor="hand2",
-            command=open_alarm
+            command=open_alarm,
         )
         self.right_upper.grid(
             row=0, column=3, rowspan=3, columnspan=2, padx=10, pady=10, sticky="nsew"
@@ -340,13 +333,13 @@ class App(customtkinter.CTk):
         # Right lower / E-shop
         def open_shop():
             subprocess.Popen(["python", "MyShop.py"])
-            
+
         self.right_lower = customtkinter.CTkButton(
             self.dManager_frame,
             text="Your shop",
             fg_color="light green",
             cursor="hand2",
-            command=open_shop
+            command=open_shop,
         )
         self.right_lower.grid(
             row=3, column=2, rowspan=8, columnspan=3, padx=10, pady=10, sticky="nsew"
