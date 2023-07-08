@@ -289,12 +289,12 @@ class App(customtkinter.CTk):
         )
 
         # Left center / Navigator
-        self.left_center = customtkinter.CTkButton(
-            self.dManager_frame, text="Navigator", fg_color="green", cursor="hand2"
-        )
-        self.left_center.grid(
-            row=3, column=0, rowspan=3, columnspan=2, padx=10, pady=10, sticky="nsew"
-        )
+        #self.left_center = customtkinter.CTkButton(
+        #    self.dManager_frame, text="Navigator", fg_color="green", cursor="hand2"
+        #)
+        #self.left_center.grid(
+        #    row=3, column=0, rowspan=3, columnspan=2, padx=10, pady=10, sticky="nsew"
+        #)
 
         # Left lower / Device controler
         def open_device_controller():
@@ -308,7 +308,7 @@ class App(customtkinter.CTk):
             command=open_device_controller,
         )
         self.left_lower.grid(
-            row=6, column=0, rowspan=5, columnspan=2, padx=10, pady=10, sticky="nsew"
+            row=3, column=0, rowspan=8, columnspan=2, padx=10, pady=10, sticky="nsew"
         )
 
         # Right upper / Reminder

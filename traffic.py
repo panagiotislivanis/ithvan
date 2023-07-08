@@ -10,7 +10,7 @@ ctk.set_default_color_theme("blue")
 
 
 class TrafficWidget(ctk.CTkFrame):
-    make_map()
+    #make_map()
 
     def __init__(self, parent, bg_color="transparent"):
         super().__init__(parent, bg_color=bg_color)
