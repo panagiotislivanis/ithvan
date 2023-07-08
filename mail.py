@@ -3,26 +3,26 @@ import yagmail
 import smtplib
 import ssl
 from email.message import EmailMessage
-from CTkMessagebox import CTkMessagebox
+import CTkMessagebox
 
 # Modes: "System" (standard), "Dark", "Light"
 ctk.set_appearance_mode("dark")
 # Themes: "blue" (standard), "green", "dark-blue"
 ctk.set_default_color_theme("blue")
 
-SCOPES = ['https://www.googleapis.com/auth/gmail.send']
-SERVICE_ACCOUNT_FILE = 'key.json'
+SCOPES = ["https://www.googleapis.com/auth/gmail.send"]
+SERVICE_ACCOUNT_FILE = "key.json"
+
 
 class EmailApp(ctk.CTkFrame):
     def show_checkmark(self):
         # Show some positive message with the checkmark icon
-        CTkMessagebox(message="success",
-                      icon="check", option_1="Thanks")
+        CTkMessagebox(message="success", icon="check", option_1="Thanks")
 
     def show_error(self, error_message):
         # Show some error message
-        CTkMessagebox(title="Error", message='Error', icon="cancel")
-    
+        CTkMessagebox(title="Error", message="Error", icon="cancel")
+
     def __init__(self, parent):
         super().__init__(parent, bg_color="white")
         self.parent = parent
@@ -47,8 +47,7 @@ class EmailApp(ctk.CTkFrame):
         self.entry_message = ctk.CTkEntry(self, width=450, height=450)
         self.entry_message.pack()
 
-        self.button_send = ctk.CTkButton(
-            self, text="Send", command=self.send_email)
+        self.button_send = ctk.CTkButton(self, text="Send", command=self.send_email)
         self.button_send.pack()
 
     def send_email(self):
@@ -62,9 +61,9 @@ class EmailApp(ctk.CTkFrame):
 
         msg = EmailMessage()
         msg.set_content(message)
-        msg['Subject'] = subject
-        msg['From'] = sender_email
-        msg['To'] = receiver
+        msg["Subject"] = subject
+        msg["From"] = sender_email
+        msg["To"] = receiver
         context = ssl.create_default_context()
 
         try:
@@ -74,7 +73,8 @@ class EmailApp(ctk.CTkFrame):
                 self.show_checkmark()
         except Exception as e:
             self.show_error(str(e))
-            
+
+
 if __name__ == "__main__":
     app = ctk.CTk()
     app.title("Email App")

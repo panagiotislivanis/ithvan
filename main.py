@@ -2,13 +2,12 @@ import sqlite3
 from PIL import Image, ImageTk
 import os
 import tkinter
+import subprocess
 import tkinter.messagebox
 import customtkinter
 from customtkinter import *
-
-# from Widgets.Search_bar import SearchBar
-# Importing the news widget we made.
-
+from Calendar import CalendarApp
+from Music import MusicPlayer
 from Search import search_query
 from News import NewsWidget
 from traffic import TrafficWidget
@@ -39,7 +38,7 @@ class App(customtkinter.CTk):
         super().__init__()
         # Configure window
         self.title("ITHVAN")
-        self.geometry(f"{1100}x{750}")
+        self.geometry(f"{1100}x{950}")
         self.is_fullscreen = False
         # Create a layout
         self.grid_columnconfigure(0, weight=1)
@@ -72,8 +71,9 @@ class App(customtkinter.CTk):
 
         # Left lower / Weather and traffic
         self.left_lower = TrafficWidget(self.homepage_frame)
-        self.left_lower.grid(row=2, column=0, rowspan=13, columnspan=14,
-                             padx=10, pady=10, sticky="nsew")
+        self.left_lower.grid(
+            row=2, column=0, rowspan=13, columnspan=14, padx=10, pady=10, sticky="nsew"
+        )
         # Right upper / Google search bar
         self.right_upper = customtkinter.CTkLabel(
             self.homepage_frame, text="Google search bar", fg_color="transparent"
@@ -92,7 +92,10 @@ class App(customtkinter.CTk):
             light_image=Image.open(os.path.join(image_path, "search-light.png")),
         )
         # Create search bar widget
-        entry = customtkinter.CTkEntry(self.right_upper, placeholder_text="Search...")
+        entry = customtkinter.CTkEntry(
+            self.right_upper,
+            placeholder_text="Search... [CHROME BROWSER]",
+        )
         entry.bind("<Return>", lambda event: search_query(entry.get()))
         # Search button
         search_button = customtkinter.CTkButton(
@@ -141,12 +144,14 @@ class App(customtkinter.CTk):
             Image.open("Resources-img\calendar.png").resize((25, 25), Image.ANTIALIAS)
         )
 
-        self.left_upper = customtkinter.CTkButton(
-            self.Timetable_frame, text="Scheduling and management of meetings", fg_color='#4F02FF', cursor="hand2", image=Calendar_image)
-        self.left_upper.grid(row=0, column=0, rowspan=3, columnspan=3,
-                             padx=10, pady=10, sticky="nsew")
-        #email
-        
+        self.left_upper = CTkFrame(self.Timetable_frame)
+        self.left_upper.grid(
+            row=0, column=0, rowspan=10, columnspan=1, padx=10, pady=10, sticky="nsew"
+        )
+        self.calendar_app = CalendarApp(self.left_upper)
+
+        # email
+
         def open_email_app():
             app = customtkinter.CTk()
             app.title("Email App")
@@ -154,8 +159,10 @@ class App(customtkinter.CTk):
             email_app = EmailApp(app)
             email_app.pack(fill="both", expand=True)
             app.mainloop()
-        mail_image = ImageTk.PhotoImage(Image.open(
-            "Resources-img\Mail.png").resize((25, 25), Image.ANTIALIAS))
+
+        mail_image = ImageTk.PhotoImage(
+            Image.open("Resources-img\Mail.png").resize((25, 25), Image.ANTIALIAS)
+        )
 
         self.right_upper = customtkinter.CTkButton(
             self.Timetable_frame, text="Email", fg_color='#4F02FF', cursor="hand2", image=mail_image,command=open_email_app)
@@ -170,15 +177,32 @@ class App(customtkinter.CTk):
           Maps_App.pack(fill="both", expand=True)
           app.mainloop()
 
-        maps_image = ImageTk.PhotoImage(Image.open(
-            "Resources-img\maps.png").resize((25, 25), Image.ANTIALIAS))
+        # maps
+        def open_maps_app():
+            app = App()
+            app.start()
+
+        maps_image = ImageTk.PhotoImage(
+            Image.open("Resources-img\maps.png").resize((25, 25), Image.ANTIALIAS)
+        )
 
         self.center_center = customtkinter.CTkButton(
-            self.Timetable_frame, text="Maps", fg_color='#4F02FF', cursor="hand2", image=maps_image,command=open_maps_app)
-        self.center_center.grid(row=3, column=0, rowspan=7, columnspan=18,
-                             padx=10, pady=10, sticky="nsew")
+            self.Timetable_frame,
+            text="Maps",
+            fg_color="#4F02FF",
+            cursor="hand2",
+            image=maps_image,
+            command=open_maps_app,
+        )
+        self.center_center.grid(
+            row=3, column=1, rowspan=7, columnspan=5, padx=10, pady=10, sticky="nsew"
+        )
         # Bottom
+
         # Calls
+        def open_calls():
+            subprocess.Popen(["python", "Call.py"])
+
         Calls_image = ImageTk.PhotoImage(
             Image.open("Resources-img\Calls.png").resize((25, 25), Image.ANTIALIAS)
         )
@@ -188,12 +212,16 @@ class App(customtkinter.CTk):
             fg_color="#49393B",
             cursor="hand2",
             image=Calls_image,
+            command=open_calls,
         )
         self.left_center.grid(
             row=10, column=0, rowspan=2, columnspan=2, padx=10, pady=10, sticky="nsew"
         )
 
         # SMS
+        def open_sms():
+            subprocess.Popen(["python", "SMS.py"])
+
         SMS_image = ImageTk.PhotoImage(
             Image.open("Resources-img\Messages.png").resize((25, 25), Image.ANTIALIAS)
         )
@@ -204,6 +232,7 @@ class App(customtkinter.CTk):
             fg_color="#996888",
             cursor="hand2",
             image=SMS_image,
+            command=open_sms,
         )
         self.right_center.grid(
             row=10, column=2, rowspan=2, columnspan=2, padx=10, pady=10, sticky="nsew"
@@ -211,7 +240,7 @@ class App(customtkinter.CTk):
 
         # Organise and manage contacts
         def open_contacts():
-            os.system("Contacts.py")
+            subprocess.Popen(["python", "Contacts.py"])
 
         Contacts_image = ImageTk.PhotoImage(
             Image.open("Resources-img\contacts.png").resize((25, 25), Image.ANTIALIAS)
@@ -250,11 +279,15 @@ class App(customtkinter.CTk):
 
         # Widgets for Daily Manager tab
         # Left upper / Task Manager
+        def open_task_manager():
+            subprocess.Popen(["python", "TaskManager.py"])
+
         self.left_upper = customtkinter.CTkButton(
             self.dManager_frame,
             text="Task Manager",
             fg_color="dark red",
             cursor="hand2",
+            command=open_task_manager,
         )
         self.left_upper.grid(
             row=0, column=0, rowspan=3, columnspan=3, padx=10, pady=10, sticky="nsew"
@@ -269,33 +302,45 @@ class App(customtkinter.CTk):
         )
 
         # Left lower / Device controler
+        def open_device_controller():
+            subprocess.Popen(["python", "DeviceControler.py"])
+
         self.left_lower = customtkinter.CTkButton(
             self.dManager_frame,
             text="Device Controler",
             fg_color="blue",
             cursor="hand2",
+            command=open_device_controller,
         )
         self.left_lower.grid(
             row=6, column=0, rowspan=5, columnspan=2, padx=10, pady=10, sticky="nsew"
         )
 
         # Right upper / Reminder
+        def open_alarm():
+            subprocess.Popen(["python", "Alarm.py"])
+
         self.right_upper = customtkinter.CTkButton(
             self.dManager_frame,
             text="Reminders & Alarms",
             fg_color="coral",
             cursor="hand2",
+            command=open_alarm,
         )
         self.right_upper.grid(
             row=0, column=3, rowspan=3, columnspan=2, padx=10, pady=10, sticky="nsew"
         )
 
         # Right lower / E-shop
+        def open_shop():
+            subprocess.Popen(["python", "MyShop.py"])
+
         self.right_lower = customtkinter.CTkButton(
             self.dManager_frame,
             text="Your shop",
             fg_color="light green",
             cursor="hand2",
+            command=open_shop,
         )
         self.right_lower.grid(
             row=3, column=2, rowspan=8, columnspan=3, padx=10, pady=10, sticky="nsew"
@@ -303,7 +348,7 @@ class App(customtkinter.CTk):
         # -----------------------------------------------------------#
 
         self.appearance_mode_label = customtkinter.CTkLabel(
-            self.tabview, text="Appearance Mode:", anchor="w", padx=10
+            self.tabview, text="", anchor="w", padx=10
         )
         self.appearance_mode_label.grid(row=0, column=0, sticky="w")
         self.appearance_mode_optionmenu = customtkinter.CTkOptionMenu(
