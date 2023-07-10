@@ -1,5 +1,4 @@
 import customtkinter as ctk
-import yagmail
 import smtplib
 import ssl
 from email.message import EmailMessage
